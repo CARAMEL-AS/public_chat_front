@@ -5,9 +5,47 @@ export const getWelcome = async () => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const getAuth = async () => {
-    return await fetch(`${process.env.REACT_APP_API}`)
+export const getAuth = async (email, password) => {
+    return await fetch(`${process.env.REACT_APP_API}user?email=${email}&password_digest=${password}`)
     .then(res => { return res.json() })
     .then(data => { return data })
+    .catch(err => console.log('Error: ',err))
+}
+
+export const signup = async (email, password) => {
+    return await fetch(`${process.env.REACT_APP_API}user`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email,
+            password_digest: password
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        console.warn('Sign Up Data: ',data)
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
+export const sendMessage = async (user_id, message) => {
+    return await fetch(`${process.env.REACT_APP_API}message`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id,
+            message
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        console.warn('Message: ',data)
+        return data
+    })
     .catch(err => console.log('Error: ',err))
 }

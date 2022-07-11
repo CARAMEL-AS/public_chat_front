@@ -3,11 +3,13 @@ import { getDatabase, ref, onValue} from "firebase/database";
 import { getWelcome } from '../../helper/api';
 import Auth from '../auth';
 import Chat from '../chat';
+import { handleUsersList } from '../../helper/dataHandler';
 
 const Home = () => {
 
     const [user, setUser] = useState(null);
     const [chat, setChat] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
 
     const apiWelcome = async () => {
         console.log('API: ',await getWelcome())
@@ -21,8 +23,17 @@ const Home = () => {
         });
     }
 
+    const getUsers = async () => {
+        const db = getDatabase();
+        const starCountRef = ref(db, 'users/');
+        onValue(starCountRef, (snapshot) => {
+            setAllUsers(handleUsersList(snapshot.val()))
+        });
+    }
+
     useEffect(() => {
         getChat();
+        getUsers();
         apiWelcome()
     },[])
 
@@ -31,8 +42,8 @@ const Home = () => {
     },[chat])
 
     return (
-        <div>
-            <Chat user={user}/>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Chat user={user} allUsers={allUsers} chat={chat}/>
             {!user && <Auth setUser={setUser} />}
         </div>
     )
