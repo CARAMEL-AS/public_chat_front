@@ -10,14 +10,14 @@ const Sidetab = (props) => {
     const closeTab = () => {
         setTimeout(() => {
             setTabWidth(50)
-        },500)
+        },100)
         setTitleOpacity(0)
     }
 
     const openTab = () => {
         setTimeout(() => {
             setTitleOpacity(1)
-        },500)
+        },100)
         setTabWidth(100)
     }
 
@@ -45,10 +45,12 @@ const Sidetab = (props) => {
             alignItems: 'center',
             marginTop: '8%',
             paddingRight: '5%',
-            backgroundColor: 'red',
-            transition: "all 0.7s ease",
-            WebkitTransition: "all 0.7s ease",
-            MozTransition: "all 0.7s ease",
+            borderRadius: 7,
+            cursor: 'pointer',
+            backgroundColor: 'rgba(0,0,0,0.3)',
+            transition: "all 0.3s ease",
+            WebkitTransition: "all 0.3s ease",
+            MozTransition: "all 0.3s ease",
         }}>
             <img style={{
                 height: 30,
@@ -60,9 +62,10 @@ const Sidetab = (props) => {
                 fontSize: 15,
                 fontWeight: 'bold',
                 opacity: titleOpacity,
-                transition: "all 0.7s ease",
-                WebkitTransition: "all 0.7s ease",
-                MozTransition: "all 0.7s ease",
+                color: 'white',
+                transition: "all 0.3s ease",
+                WebkitTransition: "all 0.3s ease",
+                MozTransition: "all 0.3s ease",
             }}>{title}</p>
         </div>
     )

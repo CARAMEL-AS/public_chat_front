@@ -7,6 +7,7 @@ export const handleUsersList = (obj) => {
 }
 
 export const findUser = (arr, id) => {
-    const user = arr.filter(user => user?.id === id)
-    return user.length > 0 ? user.username : 'Anonymous'
+    console.log('Arr: ',arr[0])
+    const user = arr.filter(user => user?.id === id )
+    return user.length > 0 ? user[0].username : 'Anonymous'
 }

@@ -6,14 +6,14 @@ export const getWelcome = async () => {
 }
 
 export const getAuth = async (email, password) => {
-    return await fetch(`${process.env.REACT_APP_API}user?email=${email}&password_digest=${password}`)
+    return await fetch(`${process.env.REACT_APP_TEST_URL}user?email=${email}&password_digest=${password}`)
     .then(res => { return res.json() })
     .then(data => { return data })
     .catch(err => console.log('Error: ',err))
 }
 
 export const signup = async (email, password) => {
-    return await fetch(`${process.env.REACT_APP_API}user`, {
+    return await fetch(`${process.env.REACT_APP_TEST_URL}user`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ export const signup = async (email, password) => {
 }
 
 export const sendMessage = async (user_id, message) => {
-    return await fetch(`${process.env.REACT_APP_API}message`, {
+    return await fetch(`${process.env.REACT_APP_TEST_URL}message`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
