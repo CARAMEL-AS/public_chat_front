@@ -64,7 +64,7 @@ const Chat = (props) => {
                 </div>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <div style={{position: 'absolute', top: '8%', width: dimensions.width/5, height: dimensions.height/1.25, borderRadius: 8, border: '1px solid rgba(255,255,255,0.6)', alignSelf: 'center'}}>
-                        {tabSelected === 'Friends' ? <Friends /> : null}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : null}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
