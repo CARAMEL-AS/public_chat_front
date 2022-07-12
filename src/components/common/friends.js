@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 const Friends = (props) => {
 
     const { all } = props;
-    const [allFriends, setAllFriends] = useState([])
     const [friendOpacity, setFriendOpacity] = useState(0);
     const [friendNameSize, setFriendNameSize] = useState(14);
     const [dimentions, setDimensions] = useState({
@@ -30,18 +29,6 @@ const Friends = (props) => {
     const animateFriend = () => {
         setFriendOpacity(1);
     }
-
-    const testFunc = () => {
-        let allFrien = []
-        for(let i = 0; i < 20; i++) {
-            allFrien.push(all[0])
-        }
-        setAllFriends(allFrien)
-    }
-
-    useEffect(() => {
-        testFunc()
-    },[])
 
     const renderFriend = (friend, index) => {
         console.log('Friend Info: ',friend)
