@@ -7,7 +7,16 @@ export const handleUsersList = (obj) => {
 }
 
 export const findUser = (arr, id) => {
-    console.log('Arr: ',arr[0])
     const user = arr.filter(user => user?.id === id )
     return user.length > 0 ? user[0].username : 'Anonymous'
+}
+
+export const myMessages = (messages, id) => {
+    let myMessages = []
+    for(let mess in messages) {
+        if(messages[mess].user_id === id) {
+            myMessages.push(messages[mess])
+        }
+    }
+    return myMessages;
 }

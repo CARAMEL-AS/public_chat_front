@@ -40,7 +40,7 @@ const Sidetab = (props) => {
             paddingRight: '5%',
             borderRadius: 7,
             cursor: 'pointer',
-            backgroundColor: tab === title ? 'red' : 'rgba(0,0,0,0.3)',
+            background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)",
             transition: "all 0.3s ease",
             WebkitTransition: "all 0.3s ease",
             MozTransition: "all 0.3s ease",

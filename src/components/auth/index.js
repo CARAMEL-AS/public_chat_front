@@ -21,7 +21,7 @@ const Auth = (props) => {
 
     return (
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <div style={{height: dimentions.height/1.5, width: dimentions.width/2, backgroundColor: 'white', borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column', border: '2px solid red'}}>
+            <div style={{height: dimentions.height/1.5, width: dimentions.width/2, backgroundColor: 'rgba(0,0,0,0)', borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column', border: '2px solid red'}}>
                 <div>
                     <p style={{fontSize: 25, fontWeight: 'bold', color: 'rgba(0,0,0,0.8)'}}>Welcome to Chat App</p>
                 </div>

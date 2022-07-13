@@ -23,7 +23,7 @@ const App = () => {
   },[])
 
   return (
-    <div>
+    <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))"}}>
       <Home />
     </div>
   )
