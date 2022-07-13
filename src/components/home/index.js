@@ -77,8 +77,8 @@ const Home = () => {
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
-            <Chat user={user} allUsers={allUsers} chat={chat}/>
-            {!user && <Auth setUser={setUser} />}
+            <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt}/>
+            {/* {!user && <Auth setUser={setUser} />} */}
         </div>
     )
 }

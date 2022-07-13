@@ -8,10 +8,11 @@ import { findUser} from '../../helper/dataHandler';
 import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
+import Settings from '../common/settings';
 
 const Chat = (props) => {
 
-    const { user, allUsers, chat } = props;
+    const { user, allUsers, chat, logout } = props;
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
     const [dimensions, setDimensions] = useState({
@@ -57,7 +58,7 @@ const Chat = (props) => {
                 </div>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <div style={{position: 'absolute', top: '8%', width: dimensions.width/5, height: dimensions.height/1.25, borderRadius: 8, border: '1px solid rgba(255,255,255,0.6)', alignSelf: 'center'}}>
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'My Messages' ? <History messages={chat} /> : null}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'My Messages' ? <History messages={chat} /> : <Settings user={user} logout={logout} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
