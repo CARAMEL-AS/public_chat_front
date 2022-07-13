@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue} from "firebase/database";
-import { getWelcome } from '../../helper/api';
+import { getWelcome, uSignout } from '../../helper/api';
 import Auth from '../auth';
 import Chat from '../chat';
 import { handleUsersList } from '../../helper/dataHandler';
@@ -13,6 +13,11 @@ const Home = () => {
 
     const apiWelcome = async () => {
         console.log('API: ',await getWelcome())
+    }
+
+    const userLogoutAttempt = async () => {
+        const resp = await uSignout(1)
+        console.log('Respp: ',resp)
     }
 
     const getChat = async () => {
@@ -30,6 +35,13 @@ const Home = () => {
             setAllUsers(handleUsersList(snapshot.val()))
         });
     }
+
+    useEffect(() => {
+        window.addEventListener("beforeunload", (ev) => {  
+            ev.preventDefault();
+            return userLogoutAttempt()
+        });
+    },[])
 
     useEffect(() => {
         getChat();
