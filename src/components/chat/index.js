@@ -19,15 +19,15 @@ const Chat = (props) => {
     });
 
     const messageSendAttempt = async () => {
-        const resp = await sendMessage(user.id, message);
+        const resp = await sendMessage(1, message);
         if(!resp?.error || !resp?.errors) {
             setMessage('')
         }
     }
 
-    const renderOthersMessage = (content, index) => {
+    const renderMessage = (content, index) => {
         return (
-            <li key={index} style={{minWidth: dimensions.width/4, maxWidth: dimensions.width/2, minHeight: dimensions.height/9, marginBottom: '4%', listStyleType: 'none'}}>
+            <li key={index} style={{width: dimensions.width/4, height: dimensions.height/8, marginBottom: '1%'}}>
                 <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%'}}>
                     <p style={{fontWeight: 'bold', color: 'rgba(0,0,0,0.6)'}}>{findUser(allUsers, content.user_id)}</p>
                     <p style={{marginLeft: '1%', color: 'rgba(0,0,0,0.3)', fontWeight: 'bold'}}> - {dateToTime(content.created_at)}</p>
@@ -35,14 +35,6 @@ const Chat = (props) => {
                 <div style={{width: '100%', minHeight: dimensions.height/15, backgroundColor: 'red', borderRadius: 7, display: 'flex', alignItems: 'center', paddingLeft: '3%'}}>
                     <p style={{color: 'white', fontWeight: '700'}}>{content.message}</p>
                 </div>
-            </li>
-        )
-    }
-
-    const renderMyMessage = (content, index) => {
-        return (
-            <li>
-
             </li>
         )
     }
@@ -73,14 +65,16 @@ const Chat = (props) => {
                 </div>
             </div>
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'white'}}>
-                <div style={{position: 'absolute', bottom: '10%', backgroundColor: 'white', height: dimensions.height/1.2, width: dimensions.width/1.285, alignItems: 'flex-end', display: 'flex'}}>
-                    <ul>
+                <ul>
+                    <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
                         {Object.keys(chat).map((message, index) => {
                             const msg = chat[message];
-                            return msg.user_id === user?.id ? renderMyMessage(msg, index)  : renderOthersMessage(msg, index)
+                            return <div style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
+                                {renderMessage(msg, index)}
+                            </div>
                         })}
-                    </ul>
-                </div>
+                    </div>
+                </ul>
                 <div style={{height: dimensions.height/10, width: dimensions.width/1.5, backgroundColor: 'rgba(0,0,0,0.3)', position: 'absolute', bottom: '1%', marginLeft: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 7}}>
                     <div style={{height: '76%', width: '80%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <input value={message} onChange={(e) => setMessage(e.target.value)} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 7, paddingLeft: '2%', fontSize: 18}} placeholder={'Message'}/>
@@ -91,9 +85,9 @@ const Chat = (props) => {
                 </div>
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
-                <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} />
-                <Sidetab title='My Messages' icon={HistoryIcon} selection={setTabSelected} />
-                <Sidetab title='Settings' icon={SettingsIcon} selection={setTabSelected} />
+                <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
+                <Sidetab title='My Messages' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />
+                <Sidetab title='Settings' icon={SettingsIcon} selection={setTabSelected} tab={tabSelected} />
             </div>
         </div>
     )

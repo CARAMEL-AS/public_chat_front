@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 
 const Sidetab = (props) => {
 
-    const { title, icon, selection } = props;
+    const { title, icon, selection, tab } = props;
     const [selected, setSelected] = useState(null);
     const [tabWidth, setTabWidth] = useState(50);
     const [titleOpacity, setTitleOpacity] = useState(0);
@@ -29,13 +29,6 @@ const Sidetab = (props) => {
         }
     },[selected])
 
-    /**
-     * background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))",
-        transition: "all 0.7s ease",
-        WebkitTransition: "all 0.7s ease",
-        MozTransition: "all 0.7s ease",
-     */
-
     return(
         <div onClick={() => selection(title)} onMouseEnter={() => setSelected(title)} onMouseLeave={() => setSelected(null)} style={{
             width: tabWidth,
@@ -47,7 +40,7 @@ const Sidetab = (props) => {
             paddingRight: '5%',
             borderRadius: 7,
             cursor: 'pointer',
-            backgroundColor: 'rgba(0,0,0,0.3)',
+            backgroundColor: tab === title ? 'red' : 'rgba(0,0,0,0.3)',
             transition: "all 0.3s ease",
             WebkitTransition: "all 0.3s ease",
             MozTransition: "all 0.3s ease",

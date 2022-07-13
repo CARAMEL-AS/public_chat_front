@@ -44,7 +44,7 @@ const Home = () => {
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'}}>
             <Chat user={user} allUsers={allUsers} chat={chat}/>
-            {!user && <Auth setUser={setUser} />}
+            {/* {!user && <Auth setUser={setUser} />} */}
         </div>
     )
 }

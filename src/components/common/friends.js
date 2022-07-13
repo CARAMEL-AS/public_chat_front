@@ -34,10 +34,10 @@ const Friends = (props) => {
         console.log('Friend Info: ',friend)
         return (
             <div onMouseEnter={mouseEnter} onMouseLeave={mouseLeave}>
-                <li key={index} style={{height: dimentions.height, width: dimentions.width, marginLeft: '-10%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, transition: "all 0.7s ease", WebkitTransition: "all 0.7s ease", MozTransition: "all 0.7s ease",}}>
+                <li key={index} style={{height: dimentions.height, width: dimentions.width, marginLeft: '-10%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>
                     <div style={{flexDirection: 'row', display: 'flex'}}>
                         <div style={{width: '78%', marginLeft: '3%', marginTop: '-3%'}}>
-                            <p style={{fontWeight: 'bold', color: 'white', fontSize: friendNameSize, transition: "all 0.7s ease", WebkitTransition: "all 0.7s ease", MozTransition: "all 0.7s ease",}}>{friend.username}</p>
+                            <p style={{fontWeight: 'bold', color: 'white', fontSize: friendNameSize, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>{friend.username}</p>
                         </div>
                         <div style={{marginTop: '-3%'}}>
                             <p style={{fontWeight: 'bold', color: 'white', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
@@ -60,7 +60,7 @@ const Friends = (props) => {
     },[])
 
     return (
-        <ul style={{height: dimentions.height/1.29, width: dimentions.width/5.82, marginTop: '5%', paddingBottom:'5%', display: 'flex', flexDirection: 'row'}}>
+        <ul style={{height: dimentions.height/1.29, width: dimentions.width/5.82, marginTop: '5%', paddingBottom:'5%', display: 'flex', flexDirection: 'row', overflowY: 'scroll'}}>
             {all.map((friend, index) => {
                 return renderFriend(friend, index);
             })}
