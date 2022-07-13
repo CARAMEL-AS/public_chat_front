@@ -78,7 +78,7 @@ const Chat = (props) => {
                 </ul>
                 <div style={{height: dimensions.height/10, width: dimensions.width/1.5, backgroundColor: 'rgba(0,0,0,0.3)', position: 'absolute', bottom: '1%', marginLeft: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 7}}>
                     <div style={{height: '76%', width: '80%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <input value={message} onChange={(e) => setMessage(e.target.value)} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 7, paddingLeft: '2%', fontSize: 18}} placeholder={'Message'}/>
+                        <input value={message} onChange={(e) => setMessage(e.target.value)} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 7, paddingLeft: '2%', fontSize: 18, backgroundColor: '#434343', color: 'white'}} placeholder={'Message'}/>
                     </div>
                     <div onClick={messageSendAttempt} style={{height: '73%', width: '10%', backgroundColor: '#32cd32', marginLeft: '2%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
                         <p style={{fontSize: 15, fontWeight: 'bold', color: 'white'}}>Send</p>
