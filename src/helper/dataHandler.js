@@ -20,3 +20,14 @@ export const myMessages = (messages, id) => {
     }
     return myMessages;
 }
+
+export const getFbId = (myId, allUsers) => {
+    let fbId = '';
+    for(let userId in allUsers) {
+        if(allUsers[userId].id === myId) {
+            fbId = userId;
+            break;
+        }
+    }
+    return fbId;
+}

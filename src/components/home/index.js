@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getDatabase, ref, onValue, update } from "firebase/database";
 import { getWelcome, uSignout } from '../../helper/api';
 import Auth from '../auth';
 import Chat from '../chat';
 import { handleUsersList } from '../../helper/dataHandler';
+import { getFbId } from '../../helper/dataHandler';
 
 const Home = () => {
 
@@ -16,8 +17,23 @@ const Home = () => {
     }
 
     const userLogoutAttempt = async () => {
+        fbLogout()
         const resp = await uSignout(1)
         console.log('Respp: ',resp)
+    }
+
+    const fbLogin = () => {
+        let uLogin = {};
+        const db = getDatabase();
+        uLogin['/users/' + getFbId(1, allUsers)] = { ...user, online: true };
+        update(ref(db), uLogin);
+    }
+
+    const fbLogout = async () => {
+        let uLogout = {};
+        const db = getDatabase();
+        uLogout['/users/' + getFbId(user.id, allUsers)] = { ...user, online: false };
+        update(ref(db), uLogout);
     }
 
     const getChat = async () => {
@@ -39,7 +55,7 @@ const Home = () => {
     useEffect(() => {
         window.addEventListener("beforeunload", (ev) => {  
             ev.preventDefault();
-            return userLogoutAttempt()
+            return userLogoutAttempt();
         });
     },[])
 
@@ -53,10 +69,16 @@ const Home = () => {
         console.log('Chat: ',chat)
     },[chat])
 
+    useEffect(() => {
+        if(user) {
+            fbLogin()
+        }
+    },[user])
+
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
             <Chat user={user} allUsers={allUsers} chat={chat}/>
-            {/* {!user && <Auth setUser={setUser} />} */}
+            {!user && <Auth setUser={setUser} />}
         </div>
     )
 }
