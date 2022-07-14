@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const FriendCell = (props) => {
 
-    const { friend, index } = props;
+    const { friend, index, user } = props;
     const [friendOpacity, setFriendOpacity] = useState(0);
     const [friendNameSize, setFriendNameSize] = useState(14);
     const [dimentions, setDimensions] = useState({
@@ -39,6 +39,8 @@ const FriendCell = (props) => {
             })
         })
     },[])
+
+    console.log('Typing: ',user?.typing)
 
     return (
         <li onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>

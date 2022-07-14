@@ -5,15 +5,21 @@ import Auth from '../auth';
 import Chat from '../chat';
 import { handleUsersList } from '../../helper/dataHandler';
 import { getFbId } from '../../helper/dataHandler';
+import Punishment from '../common/punishment';
 
 const Home = () => {
 
     const [user, setUser] = useState(null);
     const [chat, setChat] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
+    const [punishment, setPunishment] = useState(false);
 
     const apiWelcome = async () => {
         console.log('API: ',await getWelcome())
+    }
+
+    const checkIfUserHasPunishment = () => {
+        setPunishment(user.appwarnings.length > 0)
     }
 
     const userLogoutAttempt = async () => {
@@ -71,14 +77,18 @@ const Home = () => {
 
     useEffect(() => {
         if(user) {
-            fbLogin()
+            fbLogin();
+            checkIfUserHasPunishment();
         }
     },[user])
+
+    console.log('User is here: ',user)
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
             <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt}/>
             {!user && <Auth setUser={setUser} />}
+            {punishment && <Punishment user={user} />}
         </div>
     )
 }

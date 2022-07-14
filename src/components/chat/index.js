@@ -10,6 +10,8 @@ import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
 import { sortMessages } from '../../helper/dataHandler';
+import { getDatabase, ref, onValue, update } from "firebase/database";
+import { getFbId } from '../../helper/dataHandler';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const Chat = (props) => {
@@ -17,11 +19,19 @@ const Chat = (props) => {
     const { user, allUsers, chat, logout } = props;
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
-    const ref = useRef(null);
+    const scrollRef = useRef(null);
     const [dimensions, setDimensions] = useState({
         height: window.innerHeight,
         width: window.innerWidth
     });
+
+    const typingMessageHandler = (e) => {
+        setMessage(e.target.value);
+        let newMessage = {};
+        const db = getDatabase();
+        newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.target.value.length > 0 ? true : false };
+        update(ref(db), newMessage);
+    }
 
     const messageSendAttempt = async () => {
         const resp = await sendMessage(user.id, message);
@@ -45,7 +55,9 @@ const Chat = (props) => {
     }
 
     useEffect(() => {
-        ref.current.scrollIntoView({ behavior: "smooth" })
+        if(scrollRef) {
+            scrollRef.current.scrollIntoView({ behavior: "smooth" })
+        }
     },[chat])
 
     useEffect(() => {
@@ -72,7 +84,7 @@ const Chat = (props) => {
                                 <Route path="settings" element={<Settings user={user} logout={logout} />}/>
                             </Routes>
                         </Router> */}
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'History' ? <History messages={chat} /> : <Settings user={user} logout={logout} allUsers={allUsers} />}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} /> : <Settings user={user} logout={logout} allUsers={allUsers} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
@@ -82,7 +94,7 @@ const Chat = (props) => {
             </div>
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul>
-                    <div ref={ref} style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
+                    <div ref={scrollRef} style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
                         {sortMessages(chat).map((msg, index) => {
                             return <div style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}
@@ -92,7 +104,7 @@ const Chat = (props) => {
                 </ul>
                 <div style={{height: dimensions.height/10, width: dimensions.width/1.5, backgroundColor: 'rgba(0,0,0,0.3)', position: 'absolute', bottom: '1%', marginLeft: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 7}}>
                     <div style={{height: '76%', width: '80%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <input value={message} onChange={(e) => setMessage(e.target.value)} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 7, paddingLeft: '2%', fontSize: 18, backgroundColor: '#434343', color: 'white'}} placeholder={'Message'}/>
+                        <input value={message} onChange={typingMessageHandler} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 7, paddingLeft: '2%', fontSize: 18, backgroundColor: '#434343', color: 'white'}} placeholder={'Message'}/>
                     </div>
                     <div onClick={messageSendAttempt} style={{height: '73%', width: '10%', backgroundColor: '#32cd32', marginLeft: '2%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
                         <p style={{fontSize: 15, fontWeight: 'bold', color: 'white'}}>Send</p>
