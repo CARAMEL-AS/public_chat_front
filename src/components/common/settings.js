@@ -29,10 +29,10 @@ const Settings = (props) => {
                 <p style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>UPDATE</p>
             </div>
             <div style={{position: 'absolute', bottom: '0%', width: '100%', height: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
-                <div style={{width: '86%', height: '40%', backgroundColor: 'green', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <div style={{width: '86%', height: '40%', backgroundColor: 'green', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>LOG OUT</p>
                 </div>
-                <div>
+                <div style={{cursor: 'pointer'}}>
                     <p style={{color: '#ff0628', fontWeight: 'bold', fontSize: 14}}>DELETE ACCOUNT</p>
                 </div>
             </div>

@@ -9,6 +9,7 @@ import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const Chat = (props) => {
 
@@ -58,7 +59,14 @@ const Chat = (props) => {
                 </div>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <div style={{position: 'absolute', top: '8%', width: dimensions.width/5, height: dimensions.height/1.25, borderRadius: 8, border: '1px solid rgba(255,255,255,0.6)', alignSelf: 'center'}}>
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'My Messages' ? <History messages={chat} /> : <Settings user={user} logout={logout} />}
+                        {/* <Router>
+                            <Routes>
+                                <Route index path={'friends' || '*'} element={<Friends all={allUsers} />}/>
+                                <Route path="history" element={<History messages={chat} />}/>
+                                <Route path="settings" element={<Settings user={user} logout={logout} />}/>
+                            </Routes>
+                        </Router> */}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'History' ? <History messages={chat} /> : <Settings user={user} logout={logout} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
@@ -87,9 +95,17 @@ const Chat = (props) => {
                 </div>
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
-                <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
-                <Sidetab title='My Messages' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />
-                <Sidetab title='Settings' icon={SettingsIcon} selection={setTabSelected} tab={tabSelected} />
+                <Router>
+                    <Link to={'/friends'}>
+                        <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
+                    </Link>
+                    <Link to={'/history'}>
+                        <Sidetab title='History' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />
+                    </Link>
+                    <Link to={'/settings'}>
+                        <Sidetab title='Settings' icon={SettingsIcon} selection={setTabSelected} tab={tabSelected} />
+                    </Link>
+                </Router>
             </div>
         </div>
     )
