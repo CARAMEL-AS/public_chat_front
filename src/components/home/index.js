@@ -22,18 +22,18 @@ const Home = () => {
         console.log('Respp: ',resp)
     }
 
-    const fbLogin = () => {
+    const fbLogin = async () => {
         let uLogin = {};
         const db = getDatabase();
-        uLogin['/users/' + getFbId(1, allUsers)] = { ...user, online: true };
-        update(ref(db), uLogin);
+        uLogin['/users/' + getFbId(user.id, allUsers)] = { ...user, online: true };
+        await update(ref(db), uLogin);
     }
 
     const fbLogout = async () => {
         let uLogout = {};
         const db = getDatabase();
         uLogout['/users/' + getFbId(user.id, allUsers)] = { ...user, online: false };
-        update(ref(db), uLogout);
+        await update(ref(db), uLogout);
     }
 
     const getChat = async () => {
@@ -78,7 +78,7 @@ const Home = () => {
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
             <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt}/>
-            {/* {!user && <Auth setUser={setUser} />} */}
+            {!user && <Auth setUser={setUser} />}
         </div>
     )
 }

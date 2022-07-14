@@ -50,6 +50,25 @@ export const sendMessage = async (user_id, message) => {
     .catch(err => console.log('Error: ',err))
 }
 
+export const updateUserName = async (user_id, username) => {
+    return await fetch(`${process.env.REACT_APP_TEST_URL}/user/${user_id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id,
+            username
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        console.warn('Logout Resp: ',data)
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
 export const uSignout = async (user_id) => {
     return await fetch(`${process.env.REACT_APP_TEST_URL}user/${user_id}/signout`, {
         method: 'POST',
@@ -69,3 +88,4 @@ export const uSignout = async (user_id) => {
 }
 
 
+//PATCH

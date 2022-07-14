@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Sidetab from '../common/sidetab';
 import FriendIcon from '../../assets/friends.png';
 import HistoryIcon from '../../assets/history.png';
@@ -9,6 +9,7 @@ import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
+import { sortMessages } from '../../helper/dataHandler';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const Chat = (props) => {
@@ -16,13 +17,14 @@ const Chat = (props) => {
     const { user, allUsers, chat, logout } = props;
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
+    const ref = useRef(null);
     const [dimensions, setDimensions] = useState({
         height: window.innerHeight,
         width: window.innerWidth
     });
 
     const messageSendAttempt = async () => {
-        const resp = await sendMessage(1, message);
+        const resp = await sendMessage(user.id, message);
         if(!resp?.error || !resp?.errors) {
             setMessage('')
         }
@@ -41,6 +43,10 @@ const Chat = (props) => {
             </li>
         )
     }
+
+    useEffect(() => {
+        ref.current.scrollIntoView({ behavior: "smooth" })
+    },[chat])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -66,7 +72,7 @@ const Chat = (props) => {
                                 <Route path="settings" element={<Settings user={user} logout={logout} />}/>
                             </Routes>
                         </Router> */}
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'History' ? <History messages={chat} /> : <Settings user={user} logout={logout} />}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} /> : tabSelected === 'History' ? <History messages={chat} /> : <Settings user={user} logout={logout} allUsers={allUsers} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
@@ -76,9 +82,8 @@ const Chat = (props) => {
             </div>
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul>
-                    <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
-                        {Object.keys(chat).map((message, index) => {
-                            const msg = chat[message];
+                    <div ref={ref} style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
+                        {sortMessages(chat).map((msg, index) => {
                             return <div style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}
                             </div>
