@@ -12,20 +12,33 @@ const Home = () => {
     const [user, setUser] = useState(null);
     const [chat, setChat] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
-    const [punishment, setPunishment] = useState(false);
+    const [punishment, setPunishment] = useState({
+        visible: false,
+        count: 0
+    });
 
     const apiWelcome = async () => {
-        console.log('API: ',await getWelcome())
+        
+    }
+
+    const inAppropriateMessage = (count) => {
+        console.log('Inappropriate message: ',count)
+        setPunishment({
+            visible: true,
+            count
+        });
     }
 
     const checkIfUserHasPunishment = () => {
-        setPunishment(user.appwarnings.length > 0)
+        setPunishment({
+            visible: user.appwarnings.length > 0,
+            count: user.appwarnings[0].count
+        })
     }
 
     const userLogoutAttempt = async () => {
         fbLogout()
-        const resp = await uSignout(1)
-        console.log('Respp: ',resp)
+        const resp = await uSignout(user.id)
     }
 
     const fbLogin = async () => {
@@ -72,23 +85,17 @@ const Home = () => {
     },[])
 
     useEffect(() => {
-        console.log('Chat: ',chat)
-    },[chat])
-
-    useEffect(() => {
         if(user) {
             fbLogin();
             checkIfUserHasPunishment();
         }
     },[user])
 
-    console.log('User is here: ',user)
-
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
-            <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt}/>
+            <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt} inAppropriate={inAppropriateMessage}/>
             {!user && <Auth setUser={setUser} />}
-            {punishment && <Punishment user={user} />}
+            {user && punishment.visible && punishment.count > 0 && <Punishment uId={user.id} count={punishment.count} close={setPunishment} />}
         </div>
     )
 }

@@ -16,7 +16,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const Chat = (props) => {
 
-    const { user, allUsers, chat, logout } = props;
+    const { user, allUsers, chat, logout, inAppropriate } = props;
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
@@ -36,6 +36,8 @@ const Chat = (props) => {
     const messageSendAttempt = async () => {
         const resp = await sendMessage(user.id, message);
         if(!resp?.error || !resp?.errors) {
+            console.log('Found Error in Message: ',resp)
+            inAppropriate(resp.warningCount)
             setMessage('')
         }
     }
@@ -94,12 +96,13 @@ const Chat = (props) => {
             </div>
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul>
-                    <div ref={scrollRef} style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
+                    <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
                         {sortMessages(chat).map((msg, index) => {
                             return <div style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}
                             </div>
                         })}
+                        <div ref={scrollRef} />
                     </div>
                 </ul>
                 <div style={{height: dimensions.height/10, width: dimensions.width/1.5, backgroundColor: 'rgba(0,0,0,0.3)', position: 'absolute', bottom: '1%', marginLeft: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 7}}>

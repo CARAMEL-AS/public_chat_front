@@ -26,7 +26,6 @@ const History = (props) => {
 
     useEffect(() => {
         getMyMessages();
-        console.log('Messages: ',messages)
         window.addEventListener('resize', () => {
             setDimensions({
                 height: window.innerHeight,

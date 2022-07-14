@@ -44,7 +44,6 @@ export const sendMessage = async (user_id, message) => {
     })
     .then(res => { return res.json() })
     .then(data => {
-        console.warn('Message: ',data)
         return data
     })
     .catch(err => console.log('Error: ',err))
@@ -69,6 +68,24 @@ export const updateUserName = async (user_id, username) => {
     .catch(err => console.log('Error: ',err))
 }
 
+export const apologies = async (user_id) => {
+    return await fetch(`${process.env.REACT_APP_TEST_URL}clear/warning`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        console.warn('Apologies Resp: ',data)
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
 export const uSignout = async (user_id) => {
     return await fetch(`${process.env.REACT_APP_TEST_URL}user/${user_id}/signout`, {
         method: 'POST',
@@ -88,4 +105,4 @@ export const uSignout = async (user_id) => {
 }
 
 
-//PATCH
+// /clear/warning
