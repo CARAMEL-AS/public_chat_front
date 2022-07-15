@@ -54,7 +54,7 @@ const Chat = (props) => {
 
     const renderMessage = (content, index, myMessage) => {
         return (
-            <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
+            <li style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
                 <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%'}}>
                     <p style={{fontWeight: '400', color: 'white', fontSize: 15}}>{findUser(allUsers, content.user_id)}</p>
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
@@ -108,7 +108,7 @@ const Chat = (props) => {
                 <ul>
                     <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
                         {sortMessages(chat).map((msg, index) => {
-                            return <div style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
+                            return <div key={index} style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}
                             </div>
                         })}

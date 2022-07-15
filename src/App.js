@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
-import { initializeApp } from "firebase/app";
+import React, { useEffect, useState } from 'react';
+import { initializeApp, getApps } from "firebase/app";
 import Home from './components/home';
 
 const App = () => {
+
+  const [loading, setLoading] = useState(true);
 
   const initializeFirebase = () => {
     const firebaseConfig = {
@@ -22,9 +24,15 @@ const App = () => {
     initializeFirebase();
   },[])
 
+  useEffect(() => {
+    if(getApps().length > 0) {
+      setLoading(false)
+    }
+  },[getApps()])
+
   return (
     <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))"}}>
-      <Home />
+      { !loading && <Home />}
     </div>
   )
 }
