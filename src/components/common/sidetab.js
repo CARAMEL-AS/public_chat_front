@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 
 const Sidetab = (props) => {
 
-    const { title, icon, selection, tab } = props;
+    const { title, icon, selection } = props;
     const [selected, setSelected] = useState(null);
     const [tabWidth, setTabWidth] = useState(50);
     const [titleOpacity, setTitleOpacity] = useState(0);

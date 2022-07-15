@@ -10,9 +10,14 @@ import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
 import { sortMessages } from '../../helper/dataHandler';
-import { getDatabase, ref, onValue, update } from "firebase/database";
+import { getDatabase, ref, update } from "firebase/database";
 import { getFbId } from '../../helper/dataHandler';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    // Routes,
+    // Route,
+    Link
+} from 'react-router-dom';
 
 const Chat = (props) => {
 

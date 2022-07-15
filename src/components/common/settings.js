@@ -7,27 +7,14 @@ const Settings = (props) => {
 
     const { user, logout, allUsers } = props;
     const [userNameInput, setUserNameInput] = useState(user?.username ? user.username : 'Jatt Coder')
-    const [dimentions, setDimentions] = useState({
-        height: window.innerHeight,
-        width: window.innerWidth
-    })
 
     const updateNameHandler = async () => {
-        const resp = await updateUserName(user.id, userNameInput);
+        await updateUserName(user.id, userNameInput);
         let userName = {};
         const db = getDatabase();
         userName['/users/' + getFbId(user.id, allUsers)] = { ...user, username: userNameInput };
         await update(ref(db), userName);
     }
-
-    useEffect(() => {
-        window.addEventListener('resize', () => {
-            setDimentions({
-                height: window.innerHeight,
-                width: window.innerWidth,
-            })
-        })
-    },[])
 
     return (
         <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>

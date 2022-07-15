@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, onValue, update } from "firebase/database";
-import { getWelcome, uSignout } from '../../helper/api';
+import { uSignout } from '../../helper/api';
 import Auth from '../auth';
 import Chat from '../chat';
 import { handleUsersList } from '../../helper/dataHandler';
@@ -37,7 +37,7 @@ const Home = () => {
 
     const userLogoutAttempt = async () => {
         fbLogout()
-        const resp = await uSignout(user.id)
+        await uSignout(user.id)
         setUser(null)
     }
 
