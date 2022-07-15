@@ -22,7 +22,7 @@ const Login = (props) => {
         if(userInfo?.error) {
             setError(userInfo.error)
         } else {
-            setUser(userInfo)
+            setUser({...userInfo, online: true})
         }
     }
 

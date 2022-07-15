@@ -45,7 +45,6 @@ const Home = () => {
         let uLogin = {};
         const db = getDatabase();
         uLogin['/users/' + getFbId(user.id, allUsers)] = { ...user, online: true };
-        console.log('ULogin: ',uLogin)
         await update(ref(db), uLogin);
     }
 
@@ -53,7 +52,6 @@ const Home = () => {
         let uLogout = {};
         const db = getDatabase();
         uLogout['/users/' + getFbId(user.id, allUsers)] = { ...user, online: false };
-        console.log('Ulogout: ',uLogout)
         await update(ref(db), uLogout);
     }
 
@@ -95,7 +93,7 @@ const Home = () => {
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
-            <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt} inAppropriate={inAppropriateMessage}/>
+            <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt} inAppropriate={inAppropriateMessage} del={setUser}/>
             {!user && <Auth setUser={setUser} />}
             {user && punishment.visible && punishment.count > 0 && <Punishment uId={user.id} count={punishment.count} close={setPunishment} />}
         </div>

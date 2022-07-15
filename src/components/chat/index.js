@@ -21,7 +21,7 @@ import {
 
 const Chat = (props) => {
 
-    const { user, allUsers, chat, logout, inAppropriate } = props;
+    const { user, allUsers, chat, logout, inAppropriate, del } = props;
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
@@ -102,7 +102,7 @@ const Chat = (props) => {
                                 <Route path="settings" element={<Settings user={user} logout={logout} />}/>
                             </Routes>
                         </Router> */}
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} /> : <Settings user={user} logout={logout} allUsers={allUsers} />}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : <Settings user={user} logout={logout} allUsers={allUsers} del={del} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>

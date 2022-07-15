@@ -5,7 +5,7 @@ import typeAnim from '../../assets/type.json';
 
 const History = (props) => {
 
-    const { messages } = props;
+    const { messages, myId } = props;
     const [myMess, setMyMess] = useState([]);
     const [dimensions, setDimensions] = useState({
         height: window.innerHeight,
@@ -13,7 +13,7 @@ const History = (props) => {
     })
 
     const getMyMessages = () => {
-        setMyMess(myMessages(messages, 1));
+        setMyMess(myMessages(messages, myId));
     }
 
     const renderMessage = (content, index) => {
@@ -25,7 +25,6 @@ const History = (props) => {
     }
 
     useEffect(() => {
-        getMyMessages();
         window.addEventListener('resize', () => {
             setDimensions({
                 height: window.innerHeight,
@@ -33,6 +32,10 @@ const History = (props) => {
             })
         })
     },[])
+
+    useEffect(() => {
+        getMyMessages();
+    },[messages])
 
     return (
         <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', overflowY: 'scroll', flexDirection: 'column'}}>
