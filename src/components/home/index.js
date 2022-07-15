@@ -22,7 +22,6 @@ const Home = () => {
     }
 
     const inAppropriateMessage = (count) => {
-        console.log('Inappropriate message: ',count)
         setPunishment({
             visible: true,
             count
@@ -39,12 +38,14 @@ const Home = () => {
     const userLogoutAttempt = async () => {
         fbLogout()
         const resp = await uSignout(user.id)
+        setUser(null)
     }
 
     const fbLogin = async () => {
         let uLogin = {};
         const db = getDatabase();
         uLogin['/users/' + getFbId(user.id, allUsers)] = { ...user, online: true };
+        console.log('ULogin: ',uLogin)
         await update(ref(db), uLogin);
     }
 
@@ -52,6 +53,7 @@ const Home = () => {
         let uLogout = {};
         const db = getDatabase();
         uLogout['/users/' + getFbId(user.id, allUsers)] = { ...user, online: false };
+        console.log('Ulogout: ',uLogout)
         await update(ref(db), uLogout);
     }
 
