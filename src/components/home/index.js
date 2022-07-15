@@ -69,6 +69,7 @@ const Home = () => {
         const db = getDatabase();
         const starCountRef = ref(db, 'users/');
         onValue(starCountRef, (snapshot) => {
+            console.log('Users: ',snapshot);
             setAllUsers(handleUsersList(snapshot.val()))
         });
     }
