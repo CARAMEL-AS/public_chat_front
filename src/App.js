@@ -6,14 +6,14 @@ const App = () => {
 
   const initializeFirebase = () => {
     const firebaseConfig = {
-      apiKey: process.env.REACT_APP_apiKey,
-      authDomain: process.env.REACT_APP_authDomain,
-      databaseURL: process.env.REACT_APP_databaseURL,
-      projectId: process.env.REACT_APP_projectId,
-      storageBucket: process.env.REACT_APP_storageBucket,
-      messagingSenderId: process.env.REACT_APP_messagingSenderId,
-      appId: process.env.REACT_APP_appId,
-      measurementId: process.env.REACT_APP_measurementId,
+      apiKey: 'AIzaSyDy1y6hnBp05fkUE6IJMwEMjyJsTMBmBdI',
+      authDomain: 'invite-me-9a07f.firebaseapp.com',
+      databaseURL: 'https://invite-me-9a07f-default-rtdb.firebaseio.com',
+      projectId: 'invite-me-9a07f',
+      storageBucket: 'invite-me-9a07f.appspot.com',
+      messagingSenderId: '499646330100',
+      appId: '1:499646330100:web:9775b5fa3fb98c01a75aa1',
+      measurementId: 'G-QWFRK8LQC',
     };
     initializeApp(firebaseConfig);
   }

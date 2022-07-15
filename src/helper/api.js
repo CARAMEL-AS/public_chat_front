@@ -6,14 +6,14 @@ export const getWelcome = async () => {
 }
 
 export const getAuth = async (email, password) => {
-    return await fetch(`${process.env.REACT_APP_TEST_URL}user?email=${email}&password_digest=${password}`)
+    return await fetch(`${process.env.REACT_APP_API}user?email=${email}&password_digest=${password}`)
     .then(res => { return res.json() })
     .then(data => { return data })
     .catch(err => console.log('Error: ',err))
 }
 
 export const signup = async (email, password) => {
-    return await fetch(`${process.env.REACT_APP_TEST_URL}user`, {
+    return await fetch(`${process.env.REACT_APP_API}user`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -32,7 +32,7 @@ export const signup = async (email, password) => {
 }
 
 export const sendMessage = async (user_id, message) => {
-    return await fetch(`${process.env.REACT_APP_TEST_URL}message`, {
+    return await fetch(`${process.env.REACT_APP_API}message`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ export const sendMessage = async (user_id, message) => {
 }
 
 export const updateUserName = async (user_id, username) => {
-    return await fetch(`${process.env.REACT_APP_TEST_URL}/user/${user_id}`, {
+    return await fetch(`${process.env.REACT_APP_API}/user/${user_id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export const updateUserName = async (user_id, username) => {
 }
 
 export const apologies = async (user_id) => {
-    return await fetch(`${process.env.REACT_APP_TEST_URL}clear/warning`, {
+    return await fetch(`${process.env.REACT_APP_API}clear/warning`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -87,7 +87,7 @@ export const apologies = async (user_id) => {
 }
 
 export const uSignout = async (user_id) => {
-    return await fetch(`${process.env.REACT_APP_TEST_URL}user/${user_id}/signout`, {
+    return await fetch(`${process.env.REACT_APP_API}user/${user_id}/signout`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -103,6 +103,3 @@ export const uSignout = async (user_id) => {
     })
     .catch(err => console.log('Error: ',err))
 }
-
-
-// /clear/warning
