@@ -25,15 +25,16 @@ const Chat = (props) => {
         width: window.innerWidth
     });
 
-    const updateTypingFB = () => {
+    const updateTypingFB = (e) => {
         let newMessage = {};
         const db = getDatabase();
-        newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: message.length > 0 ? true : false };
+        newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.length > 0 ? true : false };
         update(ref(db), newMessage);
     }
 
     const typingMessageHandler = (e) => {
         setMessage(e.target.value);
+        updateTypingFB(e.target.value)
     }
 
     const messageSendAttempt = async () => {
@@ -42,6 +43,7 @@ const Chat = (props) => {
             console.log('Found Error in Message: ',resp)
             inAppropriate(resp.warningCount)
             setMessage('')
+            updateTypingFB('');
         }
     }
 
@@ -64,10 +66,6 @@ const Chat = (props) => {
             scrollRef.current.scrollIntoView({ behavior: "smooth" })
         }
     },[chat])
-
-    useEffect(() => {
-        updateTypingFB();
-    },[message])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
