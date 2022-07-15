@@ -30,8 +30,8 @@ const Home = () => {
 
     const checkIfUserHasPunishment = () => {
         setPunishment({
-            visible: user.appwarnings.length > 0,
-            count: user.appwarnings.length > 0 ? user.appwarnings[0].count : 0
+            visible: user.appwarnings && user.appwarnings.length > 0,
+            count: user.appwarnings && user.appwarnings.length > 0 ? user.appwarnings[0].count : 0
         })
     }
 

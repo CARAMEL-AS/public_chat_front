@@ -81,6 +81,12 @@ const Chat = (props) => {
         })
     },[chat, allUsers])
 
+    useEffect(() => {
+        if(!user) {
+            setTabSelected('Friends')
+        }
+    },[user])
+
     return (
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>
             <div style={{height: dimensions.height, width: dimensions.width/4.6, backgroundColor: 'rgba(0,0,0,0.5)'}}>

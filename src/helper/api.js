@@ -62,7 +62,6 @@ export const updateUserName = async (user_id, username) => {
     })
     .then(res => { return res.json() })
     .then(data => {
-        console.warn('Logout Resp: ',data)
         return data
     })
     .catch(err => console.log('Error: ',err))
@@ -93,12 +92,30 @@ export const uSignout = async (user_id) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            user_id
+            id: user_id
         })
     })
     .then(res => { return res.json() })
     .then(data => {
         console.warn('Logout Resp: ',data)
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
+export const deleteAccount = async (user_id) => {
+    return await fetch(`${process.env.REACT_APP_API}user/${user_id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: user_id
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        console.warn('delete account: ',data)
         return data
     })
     .catch(err => console.log('Error: ',err))

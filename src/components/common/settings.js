@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { updateUserName } from '../../helper/api';
+import { updateUserName, deleteAccount } from '../../helper/api';
 import { getDatabase, ref, update } from "firebase/database";
 import { getFbId } from '../../helper/dataHandler';
 
@@ -13,7 +13,16 @@ const Settings = (props) => {
         let userName = {};
         const db = getDatabase();
         userName['/users/' + getFbId(user.id, allUsers)] = { ...user, username: userNameInput };
+        console.log('Path: ',userName)
         await update(ref(db), userName);
+    }
+
+    const deleteAccountHandler = async () => {
+        await deleteAccount(user.id)
+        let deleteAcc = {};
+        const db = getDatabase();
+        deleteAcc['/users/' + getFbId(user.id, allUsers)] = null;
+        await update(ref(db), deleteAcc);
     }
 
     return (
@@ -29,7 +38,7 @@ const Settings = (props) => {
                 <div onClick={logout} style={{width: '86%', height: '40%', backgroundColor: 'green', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>LOG OUT</p>
                 </div>
-                <div style={{cursor: 'pointer'}}>
+                <div onClick={deleteAccountHandler} style={{cursor: 'pointer'}}>
                     <p style={{color: '#ff0628', fontWeight: 'bold', fontSize: 14}}>DELETE ACCOUNT</p>
                 </div>
             </div>

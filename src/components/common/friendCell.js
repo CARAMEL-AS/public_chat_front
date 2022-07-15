@@ -49,7 +49,7 @@ const FriendCell = (props) => {
                     <p style={{fontWeight: 'bold', color: 'white', fontSize: friendNameSize, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>{friend.username}</p>
                 </div>
                 <div style={{marginTop: '-3%'}}>
-                    <p style={{fontWeight: 'bold', color: 'white', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
+                    <p style={{fontWeight: 'bold', color: friend.online ? '#32cd32' : '#d1001c', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
                 </div>
             </div>
             <div style={{width: '100%', flexDirection: 'row', display: 'flex'}}>
