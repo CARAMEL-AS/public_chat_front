@@ -41,20 +41,21 @@ const FriendCell = (props) => {
             })
         })
     },[])
+    // fontSize: friendNameSize
 
     return (
-        <li onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>
+        <li onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: dimentions.height/0.8, width: dimentions.width/1, backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>
             <div style={{flexDirection: 'row', display: 'flex'}}>
                 <div style={{width: '78%', marginLeft: '3%', marginTop: '-3%'}}>
-                    <p style={{fontWeight: 'bold', color: 'white', fontSize: friendNameSize, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>{friend.username}</p>
+                    <p style={{fontWeight: 'bold', color: 'white', fontSize: dimentions.width/17, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>{friend.username}</p>
                 </div>
                 <div style={{marginTop: '-3%'}}>
-                    <p style={{fontWeight: 'bold', color: friend.online ? '#32cd32' : '#d1001c', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
+                    <p style={{fontWeight: 'bold', color: friend.online ? '#32cd32' : '#d1001c', fontSize: dimentions.width/25}}>{friend.online ? 'Online' : 'Offline'}</p>
                 </div>
             </div>
             <div style={{width: '100%', flexDirection: 'row', display: 'flex'}}>
                 <div style={{width: '80%'}}>
-                    <p style={{marginTop: '-4%', marginLeft: '3%', fontSize: 12, color: 'white'}}>{friend.email}</p>
+                    <p style={{fontSize: dimentions.width/18, marginTop: '-4%', marginLeft: '3%', color: 'white'}}>{friend.email}</p>
                 </div>
                 {friend.typing && (
                     <Lottie 
