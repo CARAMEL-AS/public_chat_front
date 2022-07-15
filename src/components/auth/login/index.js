@@ -19,7 +19,7 @@ const Login = (props) => {
 
     const loginAttempt = async () => {
         const userInfo = await getAuth(inputs.email, inputs.password);
-        if(!userInfo?.error) {
+        if(userInfo?.error) {
             setUser(userInfo)
         } else {
             setError(userInfo.error)

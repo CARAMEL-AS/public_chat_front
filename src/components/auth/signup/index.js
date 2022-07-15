@@ -20,7 +20,7 @@ const Signup = (props) => {
     const signupAttempt = async () => {
         if(inputs.password === inputs.repassword) {
             const userInfo = await signup(inputs.email, inputs.password)
-            if(!userInfo?.error) {
+            if(userInfo?.error) {
                 setUser(userInfo)
             }
         } else {
