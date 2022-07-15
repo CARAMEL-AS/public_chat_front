@@ -31,7 +31,7 @@ const Home = () => {
     const checkIfUserHasPunishment = () => {
         setPunishment({
             visible: user.appwarnings.length > 0,
-            count: user.appwarnings[0].count
+            count: user.appwarnings.length > 0 ? user.appwarnings[0].count : 0
         })
     }
 
@@ -69,7 +69,6 @@ const Home = () => {
         const db = getDatabase();
         const starCountRef = ref(db, 'users/');
         onValue(starCountRef, (snapshot) => {
-            console.log('Users: ',snapshot);
             setAllUsers(handleUsersList(snapshot.val()))
         });
     }
