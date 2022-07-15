@@ -4,7 +4,7 @@ import badWord from '../../assets/bad_word.json';
 import { apologies } from '../../helper/api';
 
 const Punishment = (props) => {
-
+    
     const { uId, count, close } = props;
     const [dimentions, setDimentions] = useState({
         height: window.innerHeight,

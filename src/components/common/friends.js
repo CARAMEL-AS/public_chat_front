@@ -5,6 +5,10 @@ const Friends = (props) => {
 
     const { all, user } = props;
 
+    useEffect(() => {
+        console.log('user updates: ',all)
+    },[all])
+
     return (
         <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', overflowY: 'scroll', flexDirection: 'column'}}>
             {all.map((friend, index) => {

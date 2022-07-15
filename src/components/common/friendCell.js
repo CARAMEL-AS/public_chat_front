@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Lottie from 'react-lottie';
+import typeAnim from '../../assets/type2.json';
 
 const FriendCell = (props) => {
 
@@ -40,8 +42,6 @@ const FriendCell = (props) => {
         })
     },[])
 
-    console.log('Typing: ',user?.typing)
-
     return (
         <li onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>
             <div style={{flexDirection: 'row', display: 'flex'}}>
@@ -52,7 +52,26 @@ const FriendCell = (props) => {
                     <p style={{fontWeight: 'bold', color: 'white', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
                 </div>
             </div>
-            <p style={{marginTop: '-4%', marginLeft: '3%', fontSize: 12, color: 'white'}}>{friend.email}</p>
+            <div style={{width: '100%', flexDirection: 'row', display: 'flex'}}>
+                <div style={{width: '80%'}}>
+                    <p style={{marginTop: '-4%', marginLeft: '3%', fontSize: 12, color: 'white'}}>{friend.email}</p>
+                </div>
+                {friend.typing && (
+                    <Lottie 
+                        options={{
+                            loop: true,
+                            autoplay: true,
+                            animationData: typeAnim,
+                            rendererSettings: {
+                            preserveAspectRatio: "xMidYMid slice"
+                            }}
+                        }
+                        height={30}
+                        width={30}
+                        style={{marginTop: '-6%'}}
+                    />
+                )}
+            </div>
         </li>
     )
 }

@@ -25,12 +25,15 @@ const Chat = (props) => {
         width: window.innerWidth
     });
 
-    const typingMessageHandler = (e) => {
-        setMessage(e.target.value);
+    const updateTypingFB = () => {
         let newMessage = {};
         const db = getDatabase();
-        newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.target.value.length > 0 ? true : false };
+        newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: message.length > 0 ? true : false };
         update(ref(db), newMessage);
+    }
+
+    const typingMessageHandler = (e) => {
+        setMessage(e.target.value);
     }
 
     const messageSendAttempt = async () => {
@@ -61,6 +64,10 @@ const Chat = (props) => {
             scrollRef.current.scrollIntoView({ behavior: "smooth" })
         }
     },[chat])
+
+    useEffect(() => {
+        updateTypingFB();
+    },[message])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
