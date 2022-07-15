@@ -27,7 +27,7 @@ const Signup = (props) => {
                 setUser({...userInfo, online: true})
             }
         } else {
-            console.log('Password do not match')
+            setError('Password do not match')
         }
     }
 

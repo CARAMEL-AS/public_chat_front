@@ -13,7 +13,6 @@ const Settings = (props) => {
         let userName = {};
         const db = getDatabase();
         userName['/users/' + getFbId(user.id, allUsers)] = { ...user, username: userNameInput };
-        console.log('Path: ',userName)
         await update(ref(db), userName);
     }
 

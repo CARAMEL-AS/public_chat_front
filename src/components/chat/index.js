@@ -45,7 +45,6 @@ const Chat = (props) => {
     const messageSendAttempt = async () => {
         const resp = await sendMessage(user.id, message);
         if(resp?.error || resp?.errors) {
-            console.log('Found Error in Message: ',resp)
             inAppropriate(resp.warningCount)
         }
         setMessage('')

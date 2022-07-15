@@ -21,7 +21,6 @@ const Punishment = (props) => {
     const apologiesHandler = async () => {
         if(count >= 3) {
             const resp = await apologies(uId);
-            console.log('Punishment Rest: ',resp)
             closePunishmentDialog();
         } else {
             closePunishmentDialog();

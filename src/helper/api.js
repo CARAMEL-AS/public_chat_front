@@ -104,7 +104,6 @@ export const uSignout = async (user_id) => {
 }
 
 export const deleteAccount = async (user_id) => {
-    console.log('id to delete: ',user_id)
     return await fetch(`${process.env.REACT_APP_API}user/${user_id}`, {
         method: 'DELETE',
         headers: {
