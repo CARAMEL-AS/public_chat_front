@@ -22,6 +22,8 @@ const Signup = (props) => {
             const userInfo = await signup(inputs.email, inputs.password)
             if(userInfo?.error) {
                 setUser(userInfo)
+            } else {
+                setUser(userInfo)
             }
         } else {
             console.log('Password do not match')
