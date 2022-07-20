@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { initializeApp, getApps } from "firebase/app";
 import Home from './components/home';
+import { selectApi } from './actions/api';
 
 const App = () => {
 
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   const initializeFirebase = () => {
@@ -21,6 +24,7 @@ const App = () => {
   }
 
   useEffect(() => {
+    dispatch(selectApi());
     initializeFirebase();
   },[])
 

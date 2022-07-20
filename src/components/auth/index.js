@@ -22,10 +22,6 @@ const Auth = (props) => {
         })
     },[])
 
-    useSelector(state => {
-        console.log('State: ',state)
-    })
-
     return (
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end', position: 'absolute', bottom: 0}}>

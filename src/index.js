@@ -5,11 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
+import api from './reducers/api';
 import user from './reducers/user';
+import friends from './reducers/friends';
 
 const store = configureStore({
   reducer: combineReducers({
-    user
+    api, user, friends
   })
 })
 

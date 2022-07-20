@@ -6,12 +6,15 @@ import Chat from '../chat';
 import { handleUsersList } from '../../helper/dataHandler';
 import { getFbId } from '../../helper/dataHandler';
 import Punishment from '../common/punishment';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFriends } from '../../actions/friends';
 
 const Home = () => {
 
+    const dispatch = useDispatch();
     const [user, setUser] = useState(null);
     const [chat, setChat] = useState([]);
-    const [allUsers, setAllUsers] = useState([]);
+    const allFriends = useSelector(state => state.friends)
     const [punishment, setPunishment] = useState({
         visible: false,
         count: 0
@@ -44,14 +47,14 @@ const Home = () => {
     const fbLogin = async () => {
         let uLogin = {};
         const db = getDatabase();
-        uLogin['/users/' + getFbId(user.id, allUsers)] = { ...user, online: true };
+        uLogin['/users/' + getFbId(user.id, allFriends)] = { ...user, online: true };
         await update(ref(db), uLogin);
     }
 
     const fbLogout = async () => {
         let uLogout = {};
         const db = getDatabase();
-        uLogout['/users/' + getFbId(user.id, allUsers)] = { ...user, online: false };
+        uLogout['/users/' + getFbId(user.id, allFriends)] = { ...user, online: false };
         await update(ref(db), uLogout);
     }
 
@@ -64,11 +67,7 @@ const Home = () => {
     }
 
     const getUsers = async () => {
-        const db = getDatabase();
-        const starCountRef = ref(db, 'users/');
-        onValue(starCountRef, (snapshot) => {
-            setAllUsers(handleUsersList(snapshot.val()))
-        });
+        dispatch(setFriends())
     }
 
     useEffect(() => {
@@ -93,7 +92,7 @@ const Home = () => {
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
-            <Chat user={user} allUsers={allUsers} chat={chat} logout={userLogoutAttempt} inAppropriate={inAppropriateMessage} del={setUser}/>
+            <Chat user={user} allUsers={allFriends} chat={chat} logout={userLogoutAttempt} inAppropriate={inAppropriateMessage} del={setUser}/>
             {!user && <Auth setUser={setUser} />}
             {user && punishment.visible && punishment.count > 0 && <Punishment uId={user.id} count={punishment.count} close={setPunishment} />}
         </div>

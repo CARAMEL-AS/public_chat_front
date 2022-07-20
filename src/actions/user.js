@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 export const USER_SIGN_IN = 'USER_SIGN_IN';
 export const USER_ERROR = 'USER_ERROR';
 export const USER_SIGN_OUT = 'USER_SIGN_IN';
@@ -6,7 +8,7 @@ export const USER_SIGN_UP = 'USER_SIGN_UP';
 export const signup = (user_id) => {
     return async (dispatch) => {
         try {
-            return await fetch(`${process.env.REACT_APP_API}user`, {
+            return await fetch(`${useSelector(state => state.api)}user`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -31,15 +33,18 @@ export const signup = (user_id) => {
 export const signIn = (email, password) => {
     return async (dispatch) => {
         try {
-            return await fetch(`${process.env.REACT_APP_API}user?email=${email}&password_digest=${password}`)
+            console.log(`${useSelector(state => state.api)}user?email=${email}&password_digest=${password}`)
+            return await fetch(`${useSelector(state => state.api)}user?email=${email}&password_digest=${password}`)
             .then(res => res.json())
             .then(data => {
+
                 dispatch({type: USER_SIGN_IN, payload: data})
             })
             .catch(err => {
-                dispatch({type: USER_ERROR, payload: err})
+                throw err
             })
         } catch (err) {
+            console.log('Error: ',err)
             dispatch({type: USER_ERROR, payload: err})
         }
     }
@@ -48,7 +53,7 @@ export const signIn = (email, password) => {
 export const signOut = (user_id) => {
     return async (dispatch) => {
         try {
-            return await fetch(`${process.env.REACT_APP_API}user/${user_id}/signout`, {
+            return await fetch(`${useSelector(state => state.api)}user/${user_id}/signout`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
