@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import InputField from '../../common/inputField';
 import Button from '../../common/button';
-import { getAuth } from '../../../helper/api';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../../actions/user';
+//import { getAuth } from '../../../helper/api';
 
 const Login = (props) => {
 
@@ -15,15 +17,11 @@ const Login = (props) => {
     const [dimentions, setDimentions] = useState({
         height: window.innerHeight,
         width: window.innerWidth
-    })
+    });
+    const dispatch = useDispatch();
 
     const loginAttempt = async () => {
-        const userInfo = await getAuth(inputs.email, inputs.password);
-        if(userInfo?.error) {
-            setError(userInfo.error)
-        } else {
-            setUser({...userInfo, online: true})
-        }
+        await dispatch(signIn(inputs.email, inputs.password))
     }
 
     useEffect(() => {

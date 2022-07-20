@@ -31,10 +31,14 @@ const Chat = (props) => {
     });
 
     const updateTypingFB = (e) => {
-        let newMessage = {};
-        const db = getDatabase();
-        newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.length > 0 ? true : false };
-        update(ref(db), newMessage);
+        try {
+            let newMessage = {};
+            const db = getDatabase();
+            newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.length > 0 ? true : false };
+            update(ref(db), newMessage);
+        } catch (e) {
+            
+        }
     }
 
     const typingMessageHandler = (e) => {

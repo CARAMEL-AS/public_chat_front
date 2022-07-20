@@ -3,6 +3,7 @@ import Login from './login';
 import Signup from './signup';
 import Lottie from 'react-lottie';
 import helloAnim from '../../assets/hello.json';
+import { useSelector } from 'react-redux';
 
 const Auth = (props) => {
 
@@ -20,6 +21,10 @@ const Auth = (props) => {
                 width: window.innerWidth});
         })
     },[])
+
+    useSelector(state => {
+        console.log('State: ',state)
+    })
 
     return (
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
