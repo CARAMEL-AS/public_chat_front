@@ -3,7 +3,6 @@ import Login from './login';
 import Signup from './signup';
 import Lottie from 'react-lottie';
 import helloAnim from '../../assets/hello.json';
-import { useSelector } from 'react-redux';
 
 const Auth = (props) => {
 

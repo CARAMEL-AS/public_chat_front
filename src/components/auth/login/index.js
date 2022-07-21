@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import InputField from '../../common/inputField';
 import Button from '../../common/button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../../../actions/user';
-//import { getAuth } from '../../../helper/api';
 
 const Login = (props) => {
 
-    const { setUser } = props;
+    const allFriends = useSelector(state => state.friends)
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [error, setError] = useState('')
     const [inputs, setInputs] = useState({
@@ -21,7 +20,11 @@ const Login = (props) => {
     const dispatch = useDispatch();
 
     const loginAttempt = async () => {
-        await dispatch(signIn(inputs.email, inputs.password))
+        try {
+            await dispatch(signIn(inputs.email, inputs.password, allFriends))
+        } catch (e) {
+            setError(e)
+        }
     }
 
     useEffect(() => {
