@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Sidetab from '../common/sidetab';
+import ChatIcon from '../../assets/chat.png'
 import FriendIcon from '../../assets/friends.png';
 import HistoryIcon from '../../assets/history.png';
 import SettingsIcon from '../../assets/settings.png';
@@ -135,6 +136,9 @@ const Chat = (props) => {
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>
+                    <Link to={'/chats'}>
+                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
+                    </Link>
                     <Link to={'/friends'}>
                         <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
                     </Link>

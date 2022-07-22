@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import InputField from '../../common/inputField';
 import Button from '../../common/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn } from '../../../actions/user';
+import { getAuth } from '../../../helper/api';
 
-const Login = (props) => {
+const Login = () => {
 
-    const allFriends = useSelector(state => state.friends)
+    const api = useSelector(state => state.api);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const [error, setError] = useState('')
     const [inputs, setInputs] = useState({
         email: '',
         password: ''
@@ -21,9 +20,14 @@ const Login = (props) => {
 
     const loginAttempt = async () => {
         try {
-            await dispatch(signIn(inputs.email, inputs.password, allFriends))
+            const resp = await getAuth(inputs.email, inputs.password, api);
+            if (!resp?.error) {
+                await dispatch({type: 'USER_SIGN_IN', payload: resp})
+            } else {
+                // HANDLE ERROR
+            }
         } catch (e) {
-            setError(e)
+            // HANDLE ERROR
         }
     }
 
@@ -41,19 +45,11 @@ const Login = (props) => {
         else setIsButtonDisabled(true)
     },[inputs])
 
-    useEffect(() => {
-        if(error.length > 0) {
-            setTimeout(() => {
-                setError('')
-            },5000)
-        }
-    },[error])
-
     return (
         <div style={{height: dimentions.height/2.5, width: dimentions.width/3, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', flexDirection: 'column'}}>
             <InputField type="text" placeholder={'Email'} onChangeText={(e) => setInputs({...inputs, email: e})} />
             <InputField type="password" placeholder={'Password'} onChangeText={(e) => setInputs({...inputs, password: e})} />
-            <Button onClick={loginAttempt} disabled={isButtonDisabled} action={error.length > 0 ? error : 'LOGIN'} />
+            <Button onClick={loginAttempt} disabled={isButtonDisabled} action={'LOGIN'} />
         </div>
     )
 }

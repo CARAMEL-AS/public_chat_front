@@ -5,15 +5,15 @@ export const getWelcome = async () => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const getAuth = async (email, password) => {
-    return await fetch(`${process.env.REACT_APP_API}user?email=${email}&password_digest=${password}`)
+export const getAuth = async (email, password, api) => {
+    return await fetch(`${api}user?email=${email}&password_digest=${password}`)
     .then(res => { return res.json() })
     .then(data => { return data })
     .catch(err => console.log('Error: ',err))
 }
 
-export const signup = async (email, password) => {
-    return await fetch(`${process.env.REACT_APP_API}user`, {
+export const signup = async (email, password, api) => {
+    return await fetch(`${api}user`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -24,15 +24,12 @@ export const signup = async (email, password) => {
         })
     })
     .then(res => { return res.json() })
-    .then(data => {
-        console.warn('Sign Up Data: ',data)
-        return data
-    })
+    .then(data => { return data })
     .catch(err => console.log('Error: ',err))
 }
 
-export const sendMessage = async (user_id, message) => {
-    return await fetch(`${process.env.REACT_APP_API}message`, {
+export const sendMessage = async (user_id, message, api) => {
+    return await fetch(`${api}message`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -49,8 +46,8 @@ export const sendMessage = async (user_id, message) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const updateUserName = async (user_id, username) => {
-    return await fetch(`${process.env.REACT_APP_API}/user/${user_id}`, {
+export const updateUserName = async (user_id, username, api) => {
+    return await fetch(`${api}/user/${user_id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -67,8 +64,8 @@ export const updateUserName = async (user_id, username) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const apologies = async (user_id) => {
-    return await fetch(`${process.env.REACT_APP_API}clear/warning`, {
+export const apologies = async (user_id, api) => {
+    return await fetch(`${api}clear/warning`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -85,8 +82,8 @@ export const apologies = async (user_id) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const uSignout = async (user_id) => {
-    return await fetch(`${process.env.REACT_APP_API}user/${user_id}/signout`, {
+export const uSignout = async (user_id, api) => {
+    return await fetch(`${api}user/${user_id}/signout`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -103,8 +100,8 @@ export const uSignout = async (user_id) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const deleteAccount = async (user_id) => {
-    return await fetch(`${process.env.REACT_APP_API}user/${user_id}`, {
+export const deleteAccount = async (user_id, api) => {
+    return await fetch(`${api}user/${user_id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -120,3 +117,23 @@ export const deleteAccount = async (user_id) => {
     })
     .catch(err => console.log('Error: ',err))
 }
+
+export const verifyAcc = async (user_id, code, api) => {
+    return await fetch(`${api}/user/${user_id}/verify`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id,
+            code
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        console.warn('delete account: ',data)
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+

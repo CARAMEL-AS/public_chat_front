@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 const InputField = (props) => {
 
-    const { placeholder, type, onChangeText} = props;
+    const { placeholder, type, onChangeText } = props;
     const [dimensions, setDimentions] = useState({
         height: window.innerHeight,
         width: window.innerWidth
