@@ -7,11 +7,10 @@ import newAnim from '../../assets/new.json';
 
 const ChatCell = (props) => {
 
-    const { chat, index } = props;
+    const { chat, index, select } = props;
     const dispatch = useDispatch();
     const allFriends = useSelector(state => state.friends);
     const selectedChat = useSelector(state => state.chatId);
-    const [randomImage, setRandomImage] = useState('');
     const [members, setMembers] = useState([])
     const [status, setStatus] = useState({
         lastSeenCount: Object.keys(chat.messages).length,
@@ -40,7 +39,6 @@ const ChatCell = (props) => {
     }
 
     useEffect(() => {
-        setRandomImage(toonavatar.generate_avatar())
         window.addEventListener('resize', () =>{
             setDimensions({
                 height: window.innerHeight/14,
@@ -75,8 +73,7 @@ const ChatCell = (props) => {
     return (
         <li key={index} onClick={onSelectChat} style={{height: '10%', width: '95%', display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: 1, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", cursor: 'pointer'}}>
             <div style={{width: '100%', height: '45%', display: 'flex', alignItems: 'center'}}>
-                <p style={{fontSize: 15, fontWeight: 'bold', color: 'rgba(0,0,0,0.9)', paddingLeft: '4%', width: '70%'}}>{chat?.name ? chat.name : designGroupName()}</p>
-
+                <p style={{fontSize: 15, fontWeight: 'bold', color: 'rgba(0,0,0,0.9)', paddingLeft: '4%', width: '70%'}}>{chat?.name ? chat?.name : designGroupName()}</p>
                 {status.lastSeenCount !== status.totalMessages && (
                     <div style={{width: '30%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3%'}}>
                         <Lottie 
