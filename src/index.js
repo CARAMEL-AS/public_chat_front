@@ -9,10 +9,11 @@ import api from './reducers/api';
 import user from './reducers/user';
 import friends from './reducers/friends';
 import chat from './reducers/chat';
+import chatId from './reducers/chat_id';
 
 const store = configureStore({
   reducer: combineReducers({
-    api, user, friends, chat
+    api, user, friends, chat, chatId
   })
 })
 

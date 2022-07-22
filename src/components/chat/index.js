@@ -6,18 +6,19 @@ import FriendIcon from '../../assets/friends.png';
 import HistoryIcon from '../../assets/history.png';
 import SettingsIcon from '../../assets/settings.png';
 import { dateToTime } from '../../helper/dateHandler';
-import { findUser} from '../../helper/dataHandler';
+import { findUser, getUserImage } from '../../helper/dataHandler';
 import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
 import { sortMessages } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
+import Groups from "../common/groups";
 import {
     BrowserRouter as Router,
     // Routes,
     // Route,
-    Link
+    Link,
 } from 'react-router-dom';
 
 const Chat = (props) => {
@@ -67,7 +68,8 @@ const Chat = (props) => {
     const renderMessage = (content, index, myMessage) => {
         return (
             <li style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
-                <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%'}}>
+                <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%', marginTop: '1%'}}>
+                    <img style={{height: 32, width: 32, borderRadius: 50, marginRight: '1.8%'}} src={getUserImage(allUsers, content.user_id)} />
                     <p style={{fontWeight: '400', color: 'white', fontSize: 15}}>{findUser(allUsers, content.user_id)}</p>
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
                 </div>
@@ -123,7 +125,7 @@ const Chat = (props) => {
                                 <Route path="settings" element={<Settings user={user} logout={logout} />}/>
                             </Routes>
                         </Router> */}
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : <Settings user={user} logout={logout} allUsers={allUsers} />}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : tabSelected === 'Settings' ? <Settings user={user} logout={logout} allUsers={allUsers} /> : <Groups />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
@@ -153,11 +155,11 @@ const Chat = (props) => {
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>
-                    <Link to={'/chats'}>
-                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
-                    </Link>
                     <Link to={'/friends'}>
                         <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
+                    </Link>
+                    <Link to={'/chats'}>
+                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
                     </Link>
                     <Link to={'/history'}>
                         <Sidetab title='History' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />

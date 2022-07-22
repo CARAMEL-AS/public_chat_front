@@ -45,15 +45,26 @@ const FriendCell = (props) => {
 
     return (
         <li onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>
-            <div style={{flexDirection: 'row', display: 'flex'}}>
-                <div style={{width: '78%', marginLeft: '3%', marginTop: '-3%'}}>
-                    <p style={{fontWeight: 'bold', color: 'white', fontSize: friendNameSize, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>{friend.username}</p>
-                </div>
-                <div style={{marginTop: '-3%'}}>
-                    <p style={{fontWeight: 'bold', color: friend.online ? '#32cd32' : '#d1001c', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
+            <div style={{flexDirection: 'row', display: 'flex', height: '100%'}}>
+                <div style={{width: '100%', height: '100%', flexDirection: 'row', display: 'flex', alignItems: 'center'}}>
+                    <div style={{marginLeft: '2%'}}>
+                        <img style={{height: 40, width: 40, borderRadius: 50}} src={friend.image} />
+                    </div>
+                    <div style={{width: '100%', height: '100%', marginLeft: '2%', overflowX: 'hidden'}}>
+                        <p style={{ width: '100%', fontSize: 14, fontWeight: '700', color: 'rgba(255,255,255,0.8)', marginTop: '4%'}}>{friend.username}</p>
+                        <p style={{ width: '95%', fontSize: 12, fontWeight: '400', color: 'rgba(255,255,255,0.5)', marginTop: '-6%'}}>{friend.email}</p>
+                    </div>
+                    {/* <div>
+                        <div>
+                            <p style={{fontWeight: 'bold', color: 'white', fontSize: friendNameSize, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>{friend.username}</p>
+                        </div>
+                        <div>
+                            <p style={{fontWeight: 'bold', color: friend.online ? '#32cd32' : '#d1001c', fontSize: 11}}>{friend.online ? 'Online' : 'Offline'}</p>
+                        </div>
+                    </div> */}
                 </div>
             </div>
-            <div style={{width: '100%', flexDirection: 'row', display: 'flex'}}>
+            {/* <div style={{width: '100%', flexDirection: 'row', display: 'flex'}}>
                 <div style={{width: '80%'}}>
                 <p style={{marginTop: '-4%', marginLeft: '3%', fontSize: 12, color: 'white'}}>{friend.email}</p>
                 </div>
@@ -72,7 +83,7 @@ const FriendCell = (props) => {
                         style={{marginTop: '-6%'}}
                     />
                 )}
-            </div>
+            </div> */}
         </li>
     )
 }
