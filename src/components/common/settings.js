@@ -5,7 +5,7 @@ import { getFbId } from '../../helper/dataHandler';
 
 const Settings = (props) => {
 
-    const { user, logout, allUsers, del } = props;
+    const { user, logout, allUsers } = props;
     const [userNameInput, setUserNameInput] = useState(user?.username ? user.username : 'Jatt Coder')
 
     const updateNameHandler = async () => {
@@ -22,7 +22,6 @@ const Settings = (props) => {
         const db = getDatabase();
         deleteAcc['/users/' + getFbId(user.id, allUsers)] = {...user, email: 'deleted', online: false};
         await update(ref(db), deleteAcc);
-        del(null);
     }
 
     return (

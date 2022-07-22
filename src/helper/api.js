@@ -28,7 +28,7 @@ export const signup = async (email, password, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const sendMessage = async (user_id, message, api) => {
+export const sendMessage = async (user_id, message, group_id, api) => {
     return await fetch(`${api}message`, {
         method: 'POST',
         headers: {
@@ -36,6 +36,7 @@ export const sendMessage = async (user_id, message, api) => {
         },
         body: JSON.stringify({
             user_id,
+            group_id,
             message
         })
     })

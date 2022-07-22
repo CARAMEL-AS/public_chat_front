@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import Sidetab from '../common/sidetab';
 import ChatIcon from '../../assets/chat.png'
 import FriendIcon from '../../assets/friends.png';
@@ -12,7 +13,6 @@ import History from '../common/history';
 import Settings from '../common/settings';
 import { sortMessages } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
-import { getFbId } from '../../helper/dataHandler';
 import {
     BrowserRouter as Router,
     // Routes,
@@ -22,7 +22,15 @@ import {
 
 const Chat = (props) => {
 
-    const { user, allUsers, chat, logout, inAppropriate, del } = props;
+    const { logout, inAppropriate } = props;
+    const api = useSelector(state => state.api);
+    const user = useSelector(state => state.user);
+    const allUsers = useSelector(state => state.friends);
+    const chat = useSelector(state => state.chat)
+    const [selectedChat, setSelectedChat] = useState({
+        id: null,
+        messages: null
+    })
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
@@ -35,7 +43,7 @@ const Chat = (props) => {
         try {
             let newMessage = {};
             const db = getDatabase();
-            newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.length > 0 ? true : false };
+            newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e.length > 0 ? true : false };
             update(ref(db), newMessage);
         } catch (e) {
             
@@ -48,7 +56,7 @@ const Chat = (props) => {
     }
 
     const messageSendAttempt = async () => {
-        const resp = await sendMessage(user.id, message);
+        const resp = await sendMessage(user.id, message, selectedChat.id, api);
         if(resp?.error || resp?.errors) {
             inAppropriate(resp.warningCount)
         }
@@ -74,7 +82,7 @@ const Chat = (props) => {
         if(scrollRef) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" })
         }
-    },[chat])
+    },[selectedChat])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -83,13 +91,22 @@ const Chat = (props) => {
                 width: window.innerWidth
             })
         })
-    },[chat, allUsers])
+    },[allUsers])
 
     useEffect(() => {
         if(!user) {
             setTabSelected('Friends')
         }
     },[user])
+
+    useEffect(() => {
+        if(chat.length > 0) {
+            setSelectedChat({
+                id: chat[0].id,
+                messages: chat[0].messages
+            })
+        }
+    },[chat])
 
     return (
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>
@@ -106,7 +123,7 @@ const Chat = (props) => {
                                 <Route path="settings" element={<Settings user={user} logout={logout} />}/>
                             </Routes>
                         </Router> */}
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : <Settings user={user} logout={logout} allUsers={allUsers} del={del} />}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : <Settings user={user} logout={logout} allUsers={allUsers} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
@@ -117,7 +134,7 @@ const Chat = (props) => {
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul>
                     <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
-                        {sortMessages(chat).map((msg, index) => {
+                        {sortMessages(selectedChat.messages).map((msg, index) => {
                             return <div key={index} style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}
                             </div>
