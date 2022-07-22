@@ -6,7 +6,6 @@ import Auth from '../auth';
 import Chat from '../chat';
 import Verify from '../common/verify';
 import { handleUsersList } from '../../helper/dataHandler';
-import { getFbId } from '../../helper/dataHandler';
 import Punishment from '../common/punishment';
 
 const Home = () => {
