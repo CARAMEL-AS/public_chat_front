@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InputField from '../../common/inputField';
 import Button from '../../common/button';
 import { signup } from '../../../helper/api';
+import toonavatar from 'cartoon-avatar';
 
 const Signup = () => {
 
@@ -21,7 +22,7 @@ const Signup = () => {
 
     const signupAttempt = async () => {
         if(inputs.password === inputs.repassword) {
-            const userInfo = await signup(inputs.email, inputs.password, api)
+            const userInfo = await signup(inputs.email, inputs.password, toonavatar.generate_avatar(), api)
             if(!userInfo?.errors || !userInfo?.error) {
                 await dispatch({type: 'USER_SIGN_UP', payload: userInfo})
             } else {

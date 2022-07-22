@@ -6,6 +6,10 @@ export const handleUsersList = (obj) => {
     return newArr
 }
 
+export const getUserImage = (friends, id) => {
+    return friends.filter(friend => friend.id === id)[0].image
+}
+
 export const findUser = (arr, id) => {
     const user = arr.filter(user => user?.id === id )
     return user.length > 0 ? user[0].username : 'Anonymous'
@@ -59,4 +63,8 @@ export const sortMessages = (messages) => {
         }
     }
     return mess;
+}
+
+export const collectMembers = (id, allFriends) => {
+    return allFriends.filter(friend => friend.id === id);
 }

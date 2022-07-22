@@ -3473,6 +3473,11 @@ caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001335, caniuse-lite@^1.0.30001359:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001363.tgz"
   integrity sha512-HpQhpzTGGPVMnCjIomjt+jvyUu8vNFo3TaDiZ/RcoTrlOq/5+tC8zHdsbgFB6MxmaY+jCpsH09aD80Bb4Ow3Sg==
 
+cartoon-avatar@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/cartoon-avatar/-/cartoon-avatar-1.0.2.tgz#4684e7a4d8438f79f6e62cd168b0a38492c009e6"
+  integrity sha512-K7vLsvU790PhY8Y8MQcBV6W4voOKh1FDgN4CBIsJyF/XHSIcaoN/P5n1JoZ0JhFF+L6W7Q6hMGqAN7SoVfa8eA==
+
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
   resolved "https://registry.npmjs.org/case-sensitive-paths-webpack-plugin/-/case-sensitive-paths-webpack-plugin-2.4.0.tgz"

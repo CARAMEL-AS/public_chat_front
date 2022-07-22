@@ -12,7 +12,7 @@ export const getAuth = async (email, password, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const signup = async (email, password, api) => {
+export const signup = async (email, password, image, api) => {
     return await fetch(`${api}user`, {
         method: 'POST',
         headers: {
@@ -20,7 +20,8 @@ export const signup = async (email, password, api) => {
         },
         body: JSON.stringify({
             email,
-            password_digest: password
+            password_digest: password,
+            image
         })
     })
     .then(res => { return res.json() })
@@ -28,7 +29,7 @@ export const signup = async (email, password, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const sendMessage = async (user_id, message, api) => {
+export const sendMessage = async (user_id, message, group_id, api) => {
     return await fetch(`${api}message`, {
         method: 'POST',
         headers: {
@@ -36,6 +37,7 @@ export const sendMessage = async (user_id, message, api) => {
         },
         body: JSON.stringify({
             user_id,
+            group_id,
             message
         })
     })

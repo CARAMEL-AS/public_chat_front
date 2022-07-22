@@ -8,10 +8,12 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import api from './reducers/api';
 import user from './reducers/user';
 import friends from './reducers/friends';
+import chat from './reducers/chat';
+import chatId from './reducers/chat_id';
 
 const store = configureStore({
   reducer: combineReducers({
-    api, user, friends
+    api, user, friends, chat, chatId
   })
 })
 

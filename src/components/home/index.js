@@ -15,12 +15,21 @@ const Home = () => {
     const user = useSelector(state => state.user);
     const [displayAuth, setDisplayAuth] = useState(true);
     const [displayVerify, setDisplayVerify] = useState(false);
-    const [chat, setChat] = useState([]);
-    const allFriends = useSelector(state => state.friends)
     const [punishment, setPunishment] = useState({
         visible: false,
         count: 0
     });
+
+    const filterMyChats = (allChats) => {
+        let chatList = [];
+        for(let key in allChats) {
+            const chat = allChats[key];
+            if(chat.members === user.id || chat.admin === user.id) {
+                chatList.push(allChats[key]);
+            }
+        }
+        return chatList;
+    }
 
     const inAppropriateMessage = (count) => {
         setPunishment({
@@ -66,9 +75,11 @@ const Home = () => {
     const getChat = async () => {
         try {
             const db = getDatabase();
-            const starCountRef = ref(db, 'messages/');
-            onValue(starCountRef, (snapshot) => {
-                setChat(snapshot.val())
+            const starCountRef = ref(db, 'chats/');
+            onValue(starCountRef, async (snapshot) => {
+                if(snapshot.val()) {
+                    await dispatch({type: 'ALL_CHATS', payload: filterMyChats(snapshot.val())})
+                }
             });
         } catch (err) {
             // HANDLE ERROR
@@ -97,7 +108,6 @@ const Home = () => {
     },[])
 
     useEffect(() => {
-        getChat();
         getUsers();
     },[])
 
@@ -111,6 +121,7 @@ const Home = () => {
                     setDisplayVerify(false);
                 }
             }, 600)
+            getChat();
             fbLogin();
             checkIfUserHasPunishment();
         } else setTimeout(() => {
@@ -120,7 +131,7 @@ const Home = () => {
 
     return (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
-            <Chat user={user} allUsers={allFriends} chat={chat} logout={userLogoutAttempt} inAppropriate={inAppropriateMessage} />
+            <Chat logout={userLogoutAttempt} inAppropriate={inAppropriateMessage} />
             {displayAuth && <Auth />}
             {displayVerify && <Verify ulogout={userLogoutAttempt}/>}
             {user && punishment.visible && punishment.count > 0 && <Punishment uId={user.id} count={punishment.count} close={setPunishment} />}

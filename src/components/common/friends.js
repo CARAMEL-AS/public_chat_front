@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import FriendCell from '../common/friendCell';
 
 const Friends = (props) => {

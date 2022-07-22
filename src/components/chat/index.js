@@ -1,28 +1,41 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Sidetab from '../common/sidetab';
 import ChatIcon from '../../assets/chat.png'
 import FriendIcon from '../../assets/friends.png';
 import HistoryIcon from '../../assets/history.png';
 import SettingsIcon from '../../assets/settings.png';
 import { dateToTime } from '../../helper/dateHandler';
-import { findUser} from '../../helper/dataHandler';
+import { findUser, getUserImage } from '../../helper/dataHandler';
 import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
 import { sortMessages } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
-import { getFbId } from '../../helper/dataHandler';
+import Groups from "../common/groups";
 import {
     BrowserRouter as Router,
     // Routes,
     // Route,
-    Link
+    Link,
 } from 'react-router-dom';
 
 const Chat = (props) => {
 
-    const { user, allUsers, chat, logout, inAppropriate, del } = props;
+    const dispatch = useDispatch();
+    const { logout, inAppropriate } = props;
+    const api = useSelector(state => state.api);
+    const user = useSelector(state => state.user);
+    const allUsers = useSelector(state => state.friends);
+    const chat = useSelector(state => state.chat)
+    const selChat = useSelector(state => state.chatId);
+    const [selectedChat, setSelectedChat] = useState({
+        id: null,
+        title: '',
+        messages: null
+    })
     const [tabSelected, setTabSelected] = useState('Friends');
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
@@ -31,14 +44,26 @@ const Chat = (props) => {
         width: window.innerWidth
     });
 
+    const defaultChat = async () => {
+        await dispatch({type: 'SELECT_CHAT', payload: chat[0].id})
+    }
+    const refreshChat = () => {
+        const item = chat.filter(item => item.id === selChat)[0]
+        setSelectedChat({
+            id: selChat,
+            title: item?.name ? item.name : 'New Chat',
+            messages: item.messages
+        })
+    }
+
     const updateTypingFB = (e) => {
         try {
             let newMessage = {};
             const db = getDatabase();
-            newMessage['/users/' + getFbId(user.id, allUsers)] = { ...user, typing: e.length > 0 ? true : false };
+            newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e.length > 0 ? true : false };
             update(ref(db), newMessage);
         } catch (e) {
-            
+            // HANDLE ERROR
         }
     }
 
@@ -48,7 +73,7 @@ const Chat = (props) => {
     }
 
     const messageSendAttempt = async () => {
-        const resp = await sendMessage(user.id, message);
+        const resp = await sendMessage(user.id, message, selectedChat.id, api);
         if(resp?.error || resp?.errors) {
             inAppropriate(resp.warningCount)
         }
@@ -59,7 +84,8 @@ const Chat = (props) => {
     const renderMessage = (content, index, myMessage) => {
         return (
             <li style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
-                <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%'}}>
+                <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%', marginTop: '1%'}}>
+                    <img style={{height: 32, width: 32, borderRadius: 50, marginRight: '1.8%'}} src={getUserImage(allUsers, content.user_id)} />
                     <p style={{fontWeight: '400', color: 'white', fontSize: 15}}>{findUser(allUsers, content.user_id)}</p>
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
                 </div>
@@ -74,7 +100,7 @@ const Chat = (props) => {
         if(scrollRef) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" })
         }
-    },[chat])
+    },[selectedChat])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -83,13 +109,25 @@ const Chat = (props) => {
                 width: window.innerWidth
             })
         })
-    },[chat, allUsers])
+    },[allUsers])
 
     useEffect(() => {
         if(!user) {
             setTabSelected('Friends')
         }
     },[user])
+
+    useEffect(() => {
+        if(selChat) {
+            refreshChat();
+        }
+    },[selChat, chat])
+
+    useEffect(() => {
+        if(user && chat.length > 0) {
+            defaultChat();
+        }
+    },[user, chat])
 
     return (
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>
@@ -106,7 +144,7 @@ const Chat = (props) => {
                                 <Route path="settings" element={<Settings user={user} logout={logout} />}/>
                             </Routes>
                         </Router> */}
-                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : <Settings user={user} logout={logout} allUsers={allUsers} del={del} />}
+                        {tabSelected === 'Friends' ? <Friends all={allUsers} user={user} /> : tabSelected === 'History' ? <History messages={chat} myId={user.id} /> : tabSelected === 'Settings' ? <Settings user={user} logout={logout} allUsers={allUsers} /> : <Groups select={setSelectedChat} />}
                     </div>
                 </div>
                 <div style={{position: 'absolute', bottom: 0, marginLeft: '1%'}}>
@@ -117,7 +155,8 @@ const Chat = (props) => {
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul>
                     <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
-                        {sortMessages(chat).map((msg, index) => {
+                        <p>{}</p>
+                        {sortMessages(selectedChat.messages).map((msg, index) => {
                             return <div key={index} style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}
                             </div>
@@ -136,11 +175,11 @@ const Chat = (props) => {
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>
-                    <Link to={'/chats'}>
-                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
-                    </Link>
                     <Link to={'/friends'}>
                         <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
+                    </Link>
+                    <Link to={'/chats'}>
+                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
                     </Link>
                     <Link to={'/history'}>
                         <Sidetab title='History' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />
