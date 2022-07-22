@@ -121,7 +121,7 @@ const Chat = (props) => {
         if(selChat) {
             refreshChat();
         }
-    },[selChat])
+    },[selChat, chat])
 
     useEffect(() => {
         if(user && chat.length > 0) {
