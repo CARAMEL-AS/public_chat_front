@@ -73,12 +73,16 @@ const Chat = (props) => {
     }
 
     const messageSendAttempt = async () => {
-        const resp = await sendMessage(user.id, message, selectedChat.id, api);
-        if(resp?.error || resp?.errors) {
-            inAppropriate(resp.warningCount)
+        if(selectedChat.id) {
+            const resp = await sendMessage(user.id, message, selectedChat.id, api);
+            if(resp?.error || resp?.errors) {
+                inAppropriate(resp.warningCount)
+            }
+            setMessage('')
+            updateTypingFB('');
+        } else {
+            // HANDLE ERROR
         }
-        setMessage('')
-        updateTypingFB('');
     }
 
     const renderMessage = (content, index, myMessage) => {
