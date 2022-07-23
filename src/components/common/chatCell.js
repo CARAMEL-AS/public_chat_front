@@ -7,7 +7,7 @@ import newAnim from '../../assets/new.json';
 
 const ChatCell = (props) => {
 
-    const { chat, index, select } = props;
+    const { chat, index } = props;
     const dispatch = useDispatch();
     const allFriends = useSelector(state => state.friends);
     const selectedChat = useSelector(state => state.chatId);
@@ -35,7 +35,8 @@ const ChatCell = (props) => {
     }
 
     const onSelectChat = async () => {
-        await dispatch({type: 'SELECT_CHAT', payload: chat.id})
+        await dispatch({type: 'SELECT_CHAT', payload: chat.id});
+        await dispatch({type: 'SELECT_FRIEND', payload: null});
     }
 
     useEffect(() => {

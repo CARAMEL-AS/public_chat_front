@@ -26,6 +26,7 @@ const Signup = () => {
             if(!userInfo?.errors || !userInfo?.error) {
                 await dispatch({type: 'USER_SIGN_UP', payload: userInfo})
             } else {
+                console.log('Error: ',userInfo)
                 // HANDLE ERROR
             }
         } else {

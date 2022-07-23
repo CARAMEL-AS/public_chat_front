@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Sidetab from '../common/sidetab';
 import ChatIcon from '../../assets/chat.png'
 import FriendIcon from '../../assets/friends.png';
@@ -12,7 +11,7 @@ import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
-import { sortMessages } from '../../helper/dataHandler';
+import { sortMessages, checkIfChatExists } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
 import Groups from "../common/groups";
 import {
@@ -31,12 +30,13 @@ const Chat = (props) => {
     const allUsers = useSelector(state => state.friends);
     const chat = useSelector(state => state.chat)
     const selChat = useSelector(state => state.chatId);
+    const friendSelected = useSelector(state => state.selectFriend);
     const [selectedChat, setSelectedChat] = useState({
         id: null,
         title: '',
         messages: null
     })
-    const [tabSelected, setTabSelected] = useState('Friends');
+    const tabSelected = useSelector(state => state.selectTab);
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
     const [dimensions, setDimensions] = useState({
@@ -73,6 +73,7 @@ const Chat = (props) => {
     }
 
     const messageSendAttempt = async () => {
+        console.log('New Chat with ', friendSelected)
         if(selectedChat.id) {
             const resp = await sendMessage(user.id, message, selectedChat.id, api);
             if(resp?.error || resp?.errors) {
@@ -116,12 +117,6 @@ const Chat = (props) => {
     },[allUsers])
 
     useEffect(() => {
-        if(!user) {
-            setTabSelected('Friends')
-        }
-    },[user])
-
-    useEffect(() => {
         if(selChat) {
             refreshChat();
         }
@@ -132,6 +127,23 @@ const Chat = (props) => {
             defaultChat();
         }
     },[user, chat])
+
+    const handleNewChat = () => {
+        if(friendSelected) {
+            checkIfChatExists(friendSelected, chat)
+            setSelectedChat({
+                id: -1,
+                title: 'New Chat',
+                messages: []
+            })
+        } else if(user) {
+            refreshChat();
+        }
+    }
+
+    useEffect(() => {
+        handleNewChat();
+    },[friendSelected])
 
     return (
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>
@@ -180,16 +192,16 @@ const Chat = (props) => {
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>
                     <Link to={'/friends'}>
-                        <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='Friends' icon={FriendIcon} />
                     </Link>
                     <Link to={'/chats'}>
-                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='Chats' icon={ChatIcon} />
                     </Link>
                     <Link to={'/history'}>
-                        <Sidetab title='History' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='History' icon={HistoryIcon} />
                     </Link>
                     <Link to={'/settings'}>
-                        <Sidetab title='Settings' icon={SettingsIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='Settings' icon={SettingsIcon} />
                     </Link>
                 </Router>
             </div>

@@ -24,10 +24,10 @@ const Login = () => {
             if (!resp?.error) {
                 await dispatch({type: 'USER_SIGN_IN', payload: resp})
             } else {
-                // HANDLE ERROR
+                await dispatch({type: 'ERROR', payload: resp?.error})
             }
         } catch (e) {
-            // HANDLE ERROR
+            await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'})
         }
     }
 

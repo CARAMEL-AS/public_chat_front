@@ -125,6 +125,7 @@ const Home = () => {
             fbLogin();
             checkIfUserHasPunishment();
         } else setTimeout(() => {
+            
             setDisplayAuth(true)
         }, 600)
     },[user])

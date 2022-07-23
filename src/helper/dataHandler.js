@@ -68,3 +68,7 @@ export const sortMessages = (messages) => {
 export const collectMembers = (id, allFriends) => {
     return allFriends.filter(friend => friend.id === id);
 }
+
+export const checkIfChatExists = (friendId, chats) => {
+    return chats.filter(chat => chat.admin === friendId || chat.members === friendId)
+}
