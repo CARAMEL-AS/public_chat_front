@@ -57,7 +57,7 @@ const Home = () => {
             uLogin[`/users/${user.id}/`] = { ...user, online: true };
             await update(ref(db), uLogin);
         } catch (err) {
-            // HANDLE ERROR
+            // SKIP ERROR
         }
     }
 
@@ -68,7 +68,7 @@ const Home = () => {
             uLogout[`/users/${user.id}/`] = { ...user, online: false };
             await update(ref(db), uLogout);
         } catch (err) {
-            // HANDLE ERROR
+            // SKIP ERROR
         }
     }
 
@@ -82,7 +82,7 @@ const Home = () => {
                 }
             });
         } catch (err) {
-            // HANDLE ERROR
+            // SKIP ERROR
         }
     }
 
@@ -96,7 +96,7 @@ const Home = () => {
                 }
             });
         } catch (err) {
-            // HANDLE ERROR
+            // SKIP ERROR
         }
     }
 

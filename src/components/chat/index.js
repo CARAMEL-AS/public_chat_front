@@ -63,7 +63,7 @@ const Chat = (props) => {
             newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e.length > 0 ? true : false };
             update(ref(db), newMessage);
         } catch (e) {
-            // HANDLE ERROR
+            // SKIP ERROR
         }
     }
 
@@ -73,16 +73,21 @@ const Chat = (props) => {
     }
 
     const messageSendAttempt = async () => {
-        console.log('New Chat with ', friendSelected)
         if(selectedChat.id) {
-            const resp = await sendMessage(user.id, message, selectedChat.id, api);
-            if(resp?.error || resp?.errors) {
-                inAppropriate(resp.warningCount)
+            try {
+                const resp = await sendMessage(user.id, message, selectedChat.id, api);
+                if(resp?.errors) {
+                    inAppropriate(resp.warningCount)
+                } else {
+                    await dispatch({type: 'ERROR', payload: resp?.errors[0]});
+                }
+                setMessage('')
+                updateTypingFB('');
+            } catch (err) {
+                await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
             }
-            setMessage('')
-            updateTypingFB('');
         } else {
-            // HANDLE ERROR
+            // SKIP ERROR
         }
     }
 

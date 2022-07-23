@@ -55,7 +55,6 @@ const ChatCell = (props) => {
             ids.forEach(id => {
                 const member = collectMembers(id, allFriends)
                 membersData.push(member.length > 0 && member[0])
-                // HANDLE ERROR
             })
             setMembers(membersData);
         }
