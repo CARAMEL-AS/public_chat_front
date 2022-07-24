@@ -9,6 +9,7 @@ import { handleUsersList } from '../../helper/dataHandler';
 import Punishment from '../common/punishment';
 import AddChat from '../common/addChat';
 import ImagePicker from '../common/imagePicker';
+import Language  from '../common/language';
 
 const Home = () => {
 
@@ -16,7 +17,8 @@ const Home = () => {
     const api = useSelector(state => state.api);
     const user = useSelector(state => state.user);
     const newChat = useSelector(state => state.newChat);
-    const imagePicker = useSelector(state => state.imagePicker)
+    const imagePicker = useSelector(state => state.imagePicker);
+    const languagePicker = useSelector(state => state.languagePicker)
     const [displayAuth, setDisplayAuth] = useState(true);
     const [displayVerify, setDisplayVerify] = useState(false);
     const [punishment, setPunishment] = useState({
@@ -149,6 +151,7 @@ const Home = () => {
             {user && punishment.visible && punishment.count > 0 && <Punishment uId={user.id} count={punishment.count} close={setPunishment} />}
             {newChat && <AddChat />}
             {imagePicker && <ImagePicker />}
+            {languagePicker && <Language />}
         </div>
     )
 }

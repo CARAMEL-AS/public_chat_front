@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateUserName, deleteAccount } from '../../helper/api';
 import { getDatabase, ref, update } from "firebase/database";
 import { getFbId } from '../../helper/dataHandler';
+import Language from './language';
 
 const Settings = (props) => {
 
@@ -14,6 +15,10 @@ const Settings = (props) => {
 
     const openImagePicker = async () => {
         await dispatch({type: 'OPEN_IMAGE_PICKER'})
+    }
+
+    const openLanguagePicker = async () => {
+        await dispatch({type: 'OPEN_LANGUAGE_PICKER'})
     }
 
     const updateNameHandler = async () => {
@@ -48,12 +53,17 @@ const Settings = (props) => {
             <div onClick={updateNameHandler} disabled={user?.username !== userNameInput && userNameInput.length > 0} style={{width: '86%', height: '10%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: user?.username !== userNameInput && userNameInput.length > 0 ? '#3E629F' : 'rgba(0,0,0,0.2)', borderRadius: 8, marginTop: '5%', cursor: 'pointer'}}>
                 <p style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>UPDATE</p>
             </div>
-            <div style={{position: 'absolute', bottom: '0%', width: '100%', height: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+            <div style={{width: '75%', height: 0.5, backgroundColor: 'rgba(255,255,255,0.3)', marginTop: '10%'}} />
+            <div onClick={openLanguagePicker} style={{width: '70%', height: '8%', backgroundColor: 'white', borderRadius: 8, fontWeight: 'bold', marginTop: '10%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', cursor: 'pointer'}}>
+                <p style={{color: 'rgba(0,0,0,0.3)', fontWeight: '400', fontSize: 12, marginBottom: 0, marginTop: 0}}>Language</p>
+                <p style={{color: 'rgba(0,0,0,0.7)', fontSize: 15, marginBottom: 0, marginTop: '1%'}}>{user.setting.language}</p>
+            </div>
+            <div style={{position: 'absolute', bottom: '-3%', width: '100%', height: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                 <div onClick={logout} style={{width: '86%', height: '40%', backgroundColor: 'green', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
                     <p style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>LOG OUT</p>
                 </div>
                 <div onClick={deleteAccountHandler} style={{cursor: 'pointer'}}>
-                    <p style={{color: '#ff0628', fontWeight: 'bold', fontSize: 14}}>DELETE ACCOUNT</p>
+                    <p style={{color: '#ff0628', fontWeight: '800', fontSize: 10}}>DELETE ACCOUNT</p>
                 </div>
             </div>
         </div>
