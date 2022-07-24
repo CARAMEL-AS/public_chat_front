@@ -7,12 +7,13 @@ import HistoryIcon from '../../assets/history.png';
 import SettingsIcon from '../../assets/settings.png';
 import { dateToTime } from '../../helper/dateHandler';
 import { findUser, getUserImage } from '../../helper/dataHandler';
-import { sendMessage } from '../../helper/api';
+import { sendMessage, createGroup } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
 import { sortMessages, checkIfChatExists } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
+import newIcon from '../../assets/add.png';
 import Groups from "../common/groups";
 import {
     BrowserRouter as Router,
@@ -30,7 +31,6 @@ const Chat = (props) => {
     const allUsers = useSelector(state => state.friends);
     const chat = useSelector(state => state.chat)
     const selChat = useSelector(state => state.chatId);
-    const friendSelected = useSelector(state => state.selectFriend);
     const [selectedChat, setSelectedChat] = useState({
         id: null,
         title: '',
@@ -44,9 +44,14 @@ const Chat = (props) => {
         width: window.innerWidth
     });
 
+    const newChatHandler = async () => {
+        await dispatch({type: 'OPEN_NEW_FORM', payload: true})
+    }
+
     const defaultChat = async () => {
         await dispatch({type: 'SELECT_CHAT', payload: chat[0].id})
     }
+
     const refreshChat = () => {
         const item = chat.filter(item => item.id === selChat)[0]
         setSelectedChat({
@@ -56,14 +61,14 @@ const Chat = (props) => {
         })
     }
 
-    const updateTypingFB = (e) => {
+    const updateTypingFB = async (e) => {
         try {
             let newMessage = {};
             const db = getDatabase();
             newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e.length > 0 ? true : false };
             update(ref(db), newMessage);
         } catch (e) {
-            // SKIP ERROR
+            await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
         }
     }
 
@@ -77,9 +82,9 @@ const Chat = (props) => {
             try {
                 const resp = await sendMessage(user.id, message, selectedChat.id, api);
                 if(resp?.errors) {
-                    inAppropriate(resp.warningCount)
-                } else {
                     await dispatch({type: 'ERROR', payload: resp?.errors[0]});
+                } else if(resp?.error) {
+                    inAppropriate(resp.warningCount)
                 }
                 setMessage('')
                 updateTypingFB('');
@@ -87,7 +92,12 @@ const Chat = (props) => {
                 await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
             }
         } else {
-            // SKIP ERROR
+            setSelectedChat({
+                id: chat[0].id,
+                title: chat[0]?.name ? chat[0].name : 'New Chat',
+                messages: chat[0].messages
+            });
+            await dispatch({type: 'ERROR', payload: 'Opps! Please try again.'});
         }
     }
 
@@ -119,7 +129,7 @@ const Chat = (props) => {
                 width: window.innerWidth
             })
         })
-    },[allUsers])
+    },[])
 
     useEffect(() => {
         if(selChat) {
@@ -133,28 +143,16 @@ const Chat = (props) => {
         }
     },[user, chat])
 
-    const handleNewChat = () => {
-        if(friendSelected) {
-            checkIfChatExists(friendSelected, chat)
-            setSelectedChat({
-                id: -1,
-                title: 'New Chat',
-                messages: []
-            })
-        } else if(user) {
-            refreshChat();
-        }
-    }
-
-    useEffect(() => {
-        handleNewChat();
-    },[friendSelected])
-
     return (
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>
             <div style={{height: dimensions.height, width: dimensions.width/4.6, backgroundColor: 'rgba(0,0,0,0.5)'}}>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <p style={{fontWeight: 'bold', fontSize: 20, color: 'white'}}>{tabSelected}</p>
+                    <div style={{width: '75%'}}>
+                        <p style={{fontWeight: 'bold', fontSize: 20, color: 'white', marginLeft: '8%'}}>{tabSelected}</p>
+                    </div>
+                    <div style={{width: '15%'}}>
+                        {tabSelected === 'Chats' && <img onClick={newChatHandler} style={{height: 30, width: 30, cursor: 'pointer'}} src={newIcon} />}
+                    </div>
                 </div>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <div style={{position: 'absolute', top: '8%', width: dimensions.width/5, height: dimensions.height/1.25, borderRadius: 8, border: '1px solid rgba(255,255,255,0.6)', alignSelf: 'center'}}>

@@ -7,7 +7,7 @@ export const handleUsersList = (obj) => {
 }
 
 export const getUserImage = (friends, id) => {
-    return friends.filter(friend => friend.id === id)[0].image
+    return friends && friends.length > 0 ? friends.filter(friend => friend.id === id)[0].image : '';
 }
 
 export const findUser = (arr, id) => {

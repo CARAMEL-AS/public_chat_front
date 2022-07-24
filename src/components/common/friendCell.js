@@ -5,7 +5,7 @@ const FriendCell = (props) => {
 
     const { friend, index } = props;
     const dispatch = useDispatch();
-    const selectedFriend = useSelector(state => state.selectFriend);
+    const user = useSelector(state => state.user);
     const [friendOpacity, setFriendOpacity] = useState(0);
     const [friendNameSize, setFriendNameSize] = useState(14);
     const [dimentions, setDimensions] = useState({
@@ -14,6 +14,10 @@ const FriendCell = (props) => {
     });
 
     const clickHandler = async () => {
+        if(friend.id === user.id) {
+            await dispatch({type: 'ERROR', payload: 'Just talk to youself!'});
+            return;
+        }
         await dispatch({type: 'SELECT_FRIEND', payload: friend.id});
     }
 
@@ -49,7 +53,7 @@ const FriendCell = (props) => {
     // fontSize: friendNameSize
 
     return (
-        <li onClick={clickHandler} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", cursor: 'pointer', border: selectedFriend === friend.id  ?'1px solid #f7797d' : ''}}>
+        <li onClick={clickHandler} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", cursor: 'pointer'}}>
             <div style={{flexDirection: 'row', display: 'flex', height: '100%'}}>
                 <div style={{width: '100%', height: '100%', flexDirection: 'row', display: 'flex', alignItems: 'center'}}>
                     <div style={{marginLeft: '2%'}}>
