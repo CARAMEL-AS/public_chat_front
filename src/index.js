@@ -13,11 +13,12 @@ import chatId from './reducers/chat_id';
 import selectTab from './reducers/select_tab';
 import hoverTab from './reducers/hover_tab';
 import newChat from './reducers/new_chat';
+import imagePicker from './reducers/image_picker';
 import error from './reducers/error';
 
 const store = configureStore({
   reducer: combineReducers({
-    api, user, friends, chat, chatId, selectTab, hoverTab, newChat, error
+    api, user, friends, chat, chatId, selectTab, hoverTab, newChat, imagePicker, error
   })
 })
 

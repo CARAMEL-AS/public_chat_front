@@ -8,6 +8,7 @@ import Verify from '../common/verify';
 import { handleUsersList } from '../../helper/dataHandler';
 import Punishment from '../common/punishment';
 import AddChat from '../common/addChat';
+import ImagePicker from '../common/imagePicker';
 
 const Home = () => {
 
@@ -15,6 +16,7 @@ const Home = () => {
     const api = useSelector(state => state.api);
     const user = useSelector(state => state.user);
     const newChat = useSelector(state => state.newChat);
+    const imagePicker = useSelector(state => state.imagePicker)
     const [displayAuth, setDisplayAuth] = useState(true);
     const [displayVerify, setDisplayVerify] = useState(false);
     const [punishment, setPunishment] = useState({
@@ -48,8 +50,11 @@ const Home = () => {
     }
 
     const userLogoutAttempt = async () => {
-        fbLogout()
-        await uSignout(user.id, api)
+        if(user) {
+            fbLogout()
+            await uSignout(user.id, api)
+            await dispatch({type: 'USER_SIGN_OUT'})
+        }
     }
 
     const fbLogin = async () => {
@@ -58,6 +63,7 @@ const Home = () => {
             const db = getDatabase();
             uLogin[`/users/${user.id}/`] = { ...user, online: true };
             await update(ref(db), uLogin);
+            await dispatch({type: 'ERROR', payload: `Welcome ${user.username}`});
         } catch (err) {
             await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
         }
@@ -69,8 +75,9 @@ const Home = () => {
             const db = getDatabase();
             uLogout[`/users/${user.id}/`] = { ...user, online: false };
             await update(ref(db), uLogout);
+            await dispatch({type: 'ERROR', payload: `Bye ${user.username}! See Ya soon`});
         } catch (err) {
-            await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
+            //await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
         }
     }
 
@@ -141,6 +148,7 @@ const Home = () => {
             {displayVerify && <Verify ulogout={userLogoutAttempt}/>}
             {user && punishment.visible && punishment.count > 0 && <Punishment uId={user.id} count={punishment.count} close={setPunishment} />}
             {newChat && <AddChat />}
+            {imagePicker && <ImagePicker />}
         </div>
     )
 }

@@ -68,7 +68,7 @@ export const sendMessage = async (user_id, message, group_id, api) => {
 }
 
 export const updateUserName = async (user_id, username, api) => {
-    return await fetch(`${api}/user/${user_id}`, {
+    return await fetch(`${api}user/${user_id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -76,6 +76,24 @@ export const updateUserName = async (user_id, username, api) => {
         body: JSON.stringify({
             user_id,
             username
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
+export const updateImage = async (user_id, image, api) => {
+    return await fetch(`${api}user/${user_id}/update/profilePic`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id,
+            image
         })
     })
     .then(res => { return res.json() })
