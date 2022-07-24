@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { updateUserName, deleteAccount } from '../../helper/api';
 import { getDatabase, ref, update } from "firebase/database";
 import { getFbId } from '../../helper/dataHandler';
 
 const Settings = (props) => {
 
-    const { user, logout, allUsers } = props;
+    const { logout } = props;
+    const dispatch = useDispatch();
+    const user = useSelector(state => state.user);
+    const allUsers = useSelector(state => state.friends);
     const [userNameInput, setUserNameInput] = useState(user?.username ? user.username : 'Jatt Coder')
 
     const updateNameHandler = async () => {
@@ -22,6 +26,10 @@ const Settings = (props) => {
         const db = getDatabase();
         deleteAcc['/users/' + getFbId(user.id, allUsers)] = {...user, email: 'deleted', online: false};
         await update(ref(db), deleteAcc);
+    }
+
+    const logoutHandler = async () => {
+        await dispatch({type: 'USER_SIGN_OUT' })
     }
 
     return (

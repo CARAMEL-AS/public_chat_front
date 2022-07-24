@@ -1,5 +1,3 @@
-import { USER_ERROR } from '../actions/user';
-
 const initialData = ''
 
 const reducer = (state = initialData, action) => {

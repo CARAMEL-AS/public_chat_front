@@ -1,4 +1,3 @@
-
 const initialData = []
 
 const reducer = (state = initialData, action) => {
