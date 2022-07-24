@@ -176,3 +176,23 @@ export const verifyAcc = async (user_id, code, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
+export const translate = async (q, target) => {
+    return await fetch(`https://translation.googleapis.com/language/translate/v2?key=AIzaSyARp9Hcyuzq_8--JlG7mg21DbnGCuivfy0`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            q,
+            source: "en",
+            target,
+            format: 'text'
+          })
+    })
+    .then(res => { return res.json() })
+    .then(resp => {
+        return resp.data.translations[0].translatedText
+    })
+    .catch(err => console.log('Error: ',err))
+}
+

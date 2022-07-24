@@ -10,6 +10,7 @@ import Punishment from '../common/punishment';
 import AddChat from '../common/addChat';
 import ImagePicker from '../common/imagePicker';
 import Language  from '../common/language';
+import { translate } from '../../helper/api';
 
 const Home = () => {
 
@@ -118,7 +119,14 @@ const Home = () => {
         });
     },[])
 
+    const testTranslate = async () => {
+        console.log('Testing in Home, index.js')
+        const resp = await translate('Hello World', 'hi')
+        console.log('translated: ',resp)
+    }
+
     useEffect(() => {
+        testTranslate();
         getUsers();
     },[])
 
