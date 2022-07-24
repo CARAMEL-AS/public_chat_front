@@ -174,7 +174,6 @@ const Chat = (props) => {
             <div style={{height: dimensions.height, width: dimensions.width/1.28, backgroundColor: 'rgba(0,0,0,0)'}}>
                 <ul>
                     <div style={{position: 'absolute', bottom: '13%', backgroundColor: 'rgba(0,0,0,0)', height: dimensions.height/1.2, width: dimensions.width/1.285, justifyContent: 'flex-end', overflowY: 'scroll',}}>
-                        <p>{}</p>
                         {sortMessages(selectedChat.messages).map((msg, index) => {
                             return <div key={index} style={{width: '80%', display: 'flex', justifyContent: msg.user_id === user?.id ? 'flex-end' : 'flex-start'}}>
                                 {renderMessage(msg, index, msg.user_id === user?.id)}

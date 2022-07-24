@@ -15,20 +15,22 @@ const AlertDialog = () => {
     const hideAlertBox = async () => {
         setTimeout(() => {
             clearError();
-        },3000);
+        },500);
         setRaiseLevel(-100)
     }
 
     const displayAlertBox = (val) => {
         setTimeout(() => {
             hideAlertBox();
-        },5000)
+        },3000)
         setRaiseLevel(30);
     }
 
     useEffect(() => {
         if(error.length > 0) {
-            displayAlertBox()
+            setTimeout(() => {
+                displayAlertBox()
+            },300)
         }
     },[error])
 

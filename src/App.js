@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { initializeApp, getApps } from "firebase/app";
 import Home from './components/home';
 import { selectApi } from './actions/api';
@@ -8,6 +8,7 @@ import AlertDialog from './components/common/alertDialog';
 const App = () => {
 
   const dispatch = useDispatch();
+  const error = useSelector(state => state.error);
   const [loading, setLoading] = useState(true);
 
   const initializeFirebase = () => {
@@ -37,8 +38,8 @@ const App = () => {
 
   return (
     <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))", display: 'flex', justifyContent: 'center'}}>
-      { !loading && <Home />}
-      <AlertDialog />
+      { !loading && <Home /> }
+      { error && <AlertDialog /> }
     </div>
   )
 }
