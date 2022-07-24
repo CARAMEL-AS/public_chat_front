@@ -11,7 +11,6 @@ const reducer = (state = initialData, action) => {
         case USER_VERIFIED:
             return action.payload;
         case USER_SIGN_OUT:
-            console.log('Logging out')
             return initialData;
         case USER_DELETE:
             return initialData;

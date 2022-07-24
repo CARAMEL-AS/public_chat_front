@@ -6,6 +6,8 @@ const reducer = (state = initialData, action) => {
             return action.payload
         case 'CLOSE_NEW_FORM':
             return initialData;
+        case 'USER_SIGN_OUT':
+            return initialData;
         default:
             return state
     }

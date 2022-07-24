@@ -126,10 +126,12 @@ const Home = () => {
             getChat();
             fbLogin();
             checkIfUserHasPunishment();
-        } else setTimeout(() => {
-            
-            setDisplayAuth(true)
-        }, 600)
+        } else {
+            userLogoutAttempt();
+            setTimeout(() => {
+                setDisplayAuth(true)
+            }, 600)
+        }
     },[user])
 
     return (

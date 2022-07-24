@@ -9,6 +9,8 @@ const reducer = (state = initialData, action) => {
                 tempState = action.payload;
             }
             return tempState;
+        case 'USER_SIGN_OUT':
+            return initialData;
         default:
             return state
     }
