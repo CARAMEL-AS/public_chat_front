@@ -1,12 +1,10 @@
-import { USER_ERROR } from '../actions/user';
-
-const initialData = ''
+const initialData = false;
 
 const reducer = (state = initialData, action) => {
     switch (action.type) {
-        case 'ERROR':
-            return action.payload;
-        case 'CLEAR_ERROR':
+        case 'OPEN_NEW_FORM':
+            return action.payload
+        case 'CLOSE_NEW_FORM':
             return initialData;
         default:
             return state

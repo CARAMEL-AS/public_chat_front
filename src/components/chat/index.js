@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Sidetab from '../common/sidetab';
 import ChatIcon from '../../assets/chat.png'
 import FriendIcon from '../../assets/friends.png';
@@ -8,12 +7,13 @@ import HistoryIcon from '../../assets/history.png';
 import SettingsIcon from '../../assets/settings.png';
 import { dateToTime } from '../../helper/dateHandler';
 import { findUser, getUserImage } from '../../helper/dataHandler';
-import { sendMessage } from '../../helper/api';
+import { sendMessage, createGroup } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
-import { sortMessages } from '../../helper/dataHandler';
+import { sortMessages, checkIfChatExists } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
+import newIcon from '../../assets/add.png';
 import Groups from "../common/groups";
 import {
     BrowserRouter as Router,
@@ -36,7 +36,7 @@ const Chat = (props) => {
         title: '',
         messages: null
     })
-    const [tabSelected, setTabSelected] = useState('Friends');
+    const tabSelected = useSelector(state => state.selectTab);
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
     const [dimensions, setDimensions] = useState({
@@ -44,9 +44,14 @@ const Chat = (props) => {
         width: window.innerWidth
     });
 
+    const newChatHandler = async () => {
+        await dispatch({type: 'OPEN_NEW_FORM', payload: true})
+    }
+
     const defaultChat = async () => {
         await dispatch({type: 'SELECT_CHAT', payload: chat[0].id})
     }
+
     const refreshChat = () => {
         const item = chat.filter(item => item.id === selChat)[0]
         setSelectedChat({
@@ -56,14 +61,14 @@ const Chat = (props) => {
         })
     }
 
-    const updateTypingFB = (e) => {
+    const updateTypingFB = async (e) => {
         try {
             let newMessage = {};
             const db = getDatabase();
             newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e.length > 0 ? true : false };
             update(ref(db), newMessage);
         } catch (e) {
-            // HANDLE ERROR
+            await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
         }
     }
 
@@ -73,12 +78,27 @@ const Chat = (props) => {
     }
 
     const messageSendAttempt = async () => {
-        const resp = await sendMessage(user.id, message, selectedChat.id, api);
-        if(resp?.error || resp?.errors) {
-            inAppropriate(resp.warningCount)
+        if(selectedChat.id) {
+            try {
+                const resp = await sendMessage(user.id, message, selectedChat.id, api);
+                if(resp?.errors) {
+                    await dispatch({type: 'ERROR', payload: resp?.errors[0]});
+                } else if(resp?.error) {
+                    inAppropriate(resp.warningCount)
+                }
+                setMessage('')
+                updateTypingFB('');
+            } catch (err) {
+                await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
+            }
+        } else {
+            setSelectedChat({
+                id: chat[0].id,
+                title: chat[0]?.name ? chat[0].name : 'New Chat',
+                messages: chat[0].messages
+            });
+            await dispatch({type: 'ERROR', payload: 'Opps! Please try again.'});
         }
-        setMessage('')
-        updateTypingFB('');
     }
 
     const renderMessage = (content, index, myMessage) => {
@@ -109,13 +129,7 @@ const Chat = (props) => {
                 width: window.innerWidth
             })
         })
-    },[allUsers])
-
-    useEffect(() => {
-        if(!user) {
-            setTabSelected('Friends')
-        }
-    },[user])
+    },[])
 
     useEffect(() => {
         if(selChat) {
@@ -133,7 +147,12 @@ const Chat = (props) => {
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>
             <div style={{height: dimensions.height, width: dimensions.width/4.6, backgroundColor: 'rgba(0,0,0,0.5)'}}>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <p style={{fontWeight: 'bold', fontSize: 20, color: 'white'}}>{tabSelected}</p>
+                    <div style={{width: '75%'}}>
+                        <p style={{fontWeight: 'bold', fontSize: 20, color: 'white', marginLeft: '8%'}}>{tabSelected}</p>
+                    </div>
+                    <div style={{width: '15%'}}>
+                        {tabSelected === 'Chats' && <img onClick={newChatHandler} style={{height: 30, width: 30, cursor: 'pointer'}} src={newIcon} />}
+                    </div>
                 </div>
                 <div style={{width: dimensions.width/4.6, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                     <div style={{position: 'absolute', top: '8%', width: dimensions.width/5, height: dimensions.height/1.25, borderRadius: 8, border: '1px solid rgba(255,255,255,0.6)', alignSelf: 'center'}}>
@@ -176,16 +195,16 @@ const Chat = (props) => {
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>
                     <Link to={'/friends'}>
-                        <Sidetab title='Friends' icon={FriendIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='Friends' icon={FriendIcon} />
                     </Link>
                     <Link to={'/chats'}>
-                        <Sidetab title='Chats' icon={ChatIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='Chats' icon={ChatIcon} />
                     </Link>
                     <Link to={'/history'}>
-                        <Sidetab title='History' icon={HistoryIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='History' icon={HistoryIcon} />
                     </Link>
                     <Link to={'/settings'}>
-                        <Sidetab title='Settings' icon={SettingsIcon} selection={setTabSelected} tab={tabSelected} />
+                        <Sidetab title='Settings' icon={SettingsIcon} />
                     </Link>
                 </Router>
             </div>

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { initializeApp, getApps } from "firebase/app";
 import Home from './components/home';
 import { selectApi } from './actions/api';
+import AlertDialog from './components/common/alertDialog';
 
 const App = () => {
 
@@ -35,8 +36,9 @@ const App = () => {
   },[getApps()])
 
   return (
-    <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))"}}>
+    <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))", display: 'flex', justifyContent: 'center'}}>
       { !loading && <Home />}
+      <AlertDialog />
     </div>
   )
 }

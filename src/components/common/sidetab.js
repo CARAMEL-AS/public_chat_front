@@ -1,11 +1,25 @@
 import React, { useState, useEffect} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Sidetab = (props) => {
 
-    const { title, icon, selection } = props;
-    const [selected, setSelected] = useState(null);
+    const { title, icon } = props;
+    const dispatch = useDispatch();
+    const hoverTab = useSelector(state => state.hoverTab);
     const [tabWidth, setTabWidth] = useState(50);
     const [titleOpacity, setTitleOpacity] = useState(0);
+
+    const tabPressHandler = async () => {
+        await dispatch({type: 'SELECT_TAB', payload: title});
+    }
+
+    const enterTab = async () => {
+        dispatch({type: 'HOVER_TAB', payload: title});
+    }
+
+    const leaveTab = async () => {
+        dispatch({type: 'HOVER_TAB', payload: ''});
+    }
 
     const closeTab = () => {
         setTimeout(() => {
@@ -22,15 +36,15 @@ const Sidetab = (props) => {
     }
 
     useEffect(() => {
-        if(selected) {
+        if(hoverTab === title) {
             openTab()
         } else {
             closeTab()
         }
-    },[selected])
+    },[hoverTab])
 
     return(
-        <div onClick={() => selection(title)} onMouseEnter={() => setSelected(title)} onMouseLeave={() => setSelected(null)} style={{
+        <div onClick={tabPressHandler} onMouseEnter={enterTab} onMouseLeave={leaveTab} style={{
             width: tabWidth,
             height: '5%',
             flexDirection: 'row',

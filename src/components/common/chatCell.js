@@ -7,7 +7,7 @@ import newAnim from '../../assets/new.json';
 
 const ChatCell = (props) => {
 
-    const { chat, index, select } = props;
+    const { chat, index } = props;
     const dispatch = useDispatch();
     const allFriends = useSelector(state => state.friends);
     const selectedChat = useSelector(state => state.chatId);
@@ -26,16 +26,9 @@ const ChatCell = (props) => {
         return toonavatar.generate_avatar()
     }
 
-    const designGroupName = () => {
-        let name = '';
-        members.forEach((member, index) => {
-            name += `${member.username.split(' ')[0]} ${index < members.length - 1 ? '+ ' : ''}`
-        })
-        return name.trim();
-    }
-
     const onSelectChat = async () => {
-        await dispatch({type: 'SELECT_CHAT', payload: chat.id})
+        await dispatch({type: 'SELECT_CHAT', payload: chat.id});
+        await dispatch({type: 'SELECT_FRIEND', payload: null});
     }
 
     useEffect(() => {
@@ -50,11 +43,10 @@ const ChatCell = (props) => {
     useEffect(() => {
         const getData = () => {
             let membersData = [];
-            const ids = [chat.admin, chat.members];
+            const ids = [chat.admin, ...chat.members];
             ids.forEach(id => {
                 const member = collectMembers(id, allFriends)
                 membersData.push(member.length > 0 && member[0])
-                // HANDLE ERROR
             })
             setMembers(membersData);
         }
@@ -73,7 +65,7 @@ const ChatCell = (props) => {
     return (
         <li key={index} onClick={onSelectChat} style={{height: '10%', width: '95%', display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: 1, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", cursor: 'pointer'}}>
             <div style={{width: '100%', height: '45%', display: 'flex', alignItems: 'center'}}>
-                <p style={{fontSize: 15, fontWeight: 'bold', color: 'rgba(0,0,0,0.9)', paddingLeft: '4%', width: '70%'}}>{chat?.name ? chat?.name : designGroupName()}</p>
+                <p style={{fontSize: 15, fontWeight: 'bold', color: 'rgba(0,0,0,0.9)', paddingLeft: '4%', width: '70%'}}>{chat?.name ? chat?.name : 'New Chat'}</p>
                 {status.lastSeenCount !== status.totalMessages && (
                     <div style={{width: '30%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '3%'}}>
                         <Lottie 

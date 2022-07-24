@@ -29,6 +29,25 @@ export const signup = async (email, password, image, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
+export const createGroup = async (user_id, newForm, api) => {
+    return await fetch(`${api}group/new`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id,
+            name: newForm.name,
+            friends: newForm.friends
+        })
+    })
+    .then(res => { return res.json() })
+    .then(data => {
+        return data
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
 export const sendMessage = async (user_id, message, group_id, api) => {
     return await fetch(`${api}message`, {
         method: 'POST',

@@ -10,10 +10,14 @@ import user from './reducers/user';
 import friends from './reducers/friends';
 import chat from './reducers/chat';
 import chatId from './reducers/chat_id';
+import selectTab from './reducers/select_tab';
+import hoverTab from './reducers/hover_tab';
+import newChat from './reducers/new_chat';
+import error from './reducers/error';
 
 const store = configureStore({
   reducer: combineReducers({
-    api, user, friends, chat, chatId
+    api, user, friends, chat, chatId, selectTab, hoverTab, newChat, error
   })
 })
 

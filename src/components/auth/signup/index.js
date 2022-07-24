@@ -23,13 +23,13 @@ const Signup = () => {
     const signupAttempt = async () => {
         if(inputs.password === inputs.repassword) {
             const userInfo = await signup(inputs.email, inputs.password, toonavatar.generate_avatar(), api)
-            if(!userInfo?.errors || !userInfo?.error) {
+            if(!userInfo?.errors) {
                 await dispatch({type: 'USER_SIGN_UP', payload: userInfo})
             } else {
-                // HANDLE ERROR
+                await dispatch({type: 'ERROR', payload: userInfo?.errors[0]})
             }
         } else {
-            // HANDLE ERROR
+            await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'})
         }
     }
 
