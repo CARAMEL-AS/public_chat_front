@@ -9,6 +9,7 @@ const App = () => {
 
   const dispatch = useDispatch();
   const error = useSelector(state => state.error);
+  const language = useSelector(state => state.locale);
   const [loading, setLoading] = useState(true);
 
   const initializeFirebase = () => {

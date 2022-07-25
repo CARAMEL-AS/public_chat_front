@@ -72,3 +72,14 @@ export const collectMembers = (id, allFriends) => {
 export const checkIfChatExists = (friendId, chats) => {
     return chats.filter(chat => chat.admin === friendId || chat.members === friendId)
 }
+
+export const getLocaleName = (locale, languages) => {
+    let name = '';
+    for(let key in languages) {
+        if(languages[key] === locale) {
+            name = key;
+            break;
+        }
+    }
+    return name;
+}
