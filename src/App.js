@@ -51,7 +51,7 @@ const App = () => {
     <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))", display: 'flex', justifyContent: 'center'}}>
       { !loading && <Home /> }
       { error && <AlertDialog /> }
-      { displayLocaleScreen && <LocaleScreen visible={displayLocaleScreen} />}
+      { displayLocaleScreen && <LocaleScreen visible={displayLocaleScreen} close={setDisplayLocaleScreen} />}
     </div>
   )
 }
