@@ -1,8 +1,8 @@
 import React, { useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import Button from './button';
 import supportedLangs from '../../resources/supportedLangs.json';
 import { updateLang } from '../../helper/api';
+import CloseIcon from '../../assets/close.png';
 
 const Language = () => {
     
@@ -59,11 +59,15 @@ const Language = () => {
     return (
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: "all 0.5s ease", WebkitTransition: "all 0.5s ease", MozTransition: "all 0.5s ease", opacity: pageOpacity}}>
             <div style={{height: dimentions.height/1.5, width: dimentions.width/2, background: "linear-gradient(to right, #D3CCE3, #E9E4F0)", borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                <p style={{fontSize: 16, fontWeight: '500', color: 'rgba(0,0,0,0.6)', marginTop: '5%'}}>Select your <strong style={{color: 'green'}}>preferred</strong> language!</p>
-                <div style={{height: '80%', width: '90%', overflowY: 'scroll', borderRadius: 8, backgroundColor: 'rgba(0,0,0,0.2)'}}>
+                <div onClick={hidePicker} style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} />
+                </div>
+                <p style={{fontSize: 16, fontWeight: '500', color: 'rgba(0,0,0,0.6)', marginTop: '-1%', marginBottom: 0}}>Select your <strong style={{color: 'green'}}>preferred</strong> language!</p>
+                <p style={{fontSize: 12, color: 'rgba(0,0,0,0.4)', marginBottom: '1%', marginTop: 0}}>Only messages will be translated!</p>
+                <div style={{height: '75%', width: '90%', overflowY: 'scroll', borderRadius: 8, backgroundColor: 'rgba(0,0,0,0.2)', padding: '2%', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gridGap: '12px'}}>
                     {Object.keys(supportedLangs).map((key, index) => {
                         return (
-                            <div onClick={() => selectLanguage(key)} key={index} style={{borderRadius: 50, backgroundColor: 'rgba(255,255,255,0.6)', marginLeft: '1%', marginRight: '1%', width: 'auto', cursor: 'pointer'}}>
+                            <div onClick={() => selectLanguage(key)} key={index} style={{borderRadius: 50, backgroundColor: 'rgba(255,255,255,0.6)', marginLeft: '1%', marginRight: '1%', cursor: 'pointer', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                 <p style={{fontSize: 13, fontWeight: '500', color: 'rgba(0,0,0,0.6)', paddingTop: '1%', paddingBottom: '1%', paddingLeft: '1%', paddingRight: '1%'}}>{key}</p>
                             </div>
                         )

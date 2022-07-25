@@ -4,12 +4,16 @@ import { initializeApp, getApps } from "firebase/app";
 import Home from './components/home';
 import { selectApi } from './actions/api';
 import AlertDialog from './components/common/alertDialog';
+import LocaleScreen from './components/common/localeScreen';
+import supportedLanguages from './resources/supportedLangs.json';
 
 const App = () => {
 
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const error = useSelector(state => state.error);
-  const language = useSelector(state => state.locale);
+  const locale = useSelector(state => state.locale);
+  const [displayLocaleScreen, setDisplayLocaleScreen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const initializeFirebase = () => {
@@ -37,10 +41,17 @@ const App = () => {
     }
   },[getApps()])
 
+  useEffect(() => {
+    if(user && supportedLanguages[user.setting.language] !== locale) {
+      setDisplayLocaleScreen(true)
+    }
+  },[locale])
+
   return (
     <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))", display: 'flex', justifyContent: 'center'}}>
       { !loading && <Home /> }
       { error && <AlertDialog /> }
+      { displayLocaleScreen && <LocaleScreen visible={displayLocaleScreen} />}
     </div>
   )
 }

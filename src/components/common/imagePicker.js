@@ -5,6 +5,7 @@ import toonavatar from 'cartoon-avatar';
 import AvatarCell from './avatarCell';
 import { updateImage } from '../../helper/api';
 import { getDatabase, ref, update } from "firebase/database";
+import CloseIcon from '../../assets/close.png';
 
 const ImagePicker = (props) => {
     
@@ -44,6 +45,7 @@ const ImagePicker = (props) => {
             const resp = await updateImage(user.id, testImage, api);
             if(!resp?.error) {
                 await dispatch({type: 'USER_UPDATE_IMAGE', payload: testImage});
+                await dispatch({type: 'ERROR', payload: 'Yaay! Image updated!'});
                 updateFb();
             } else {
                 await dispatch({type: 'ERROR', payload: resp?.error});
@@ -93,14 +95,17 @@ const ImagePicker = (props) => {
     return (
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: "all 0.5s ease", WebkitTransition: "all 0.5s ease", MozTransition: "all 0.5s ease", opacity: pageOpacity}}>
             <div style={{height: dimentions.height/1.2, width: dimentions.width/2, background: "linear-gradient(to right, #D3CCE3, #E9E4F0)", borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                <div style={{height: 145, width: 145, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 100, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '2%'}}>
+                <div onClick={hidePicker} style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} />
+                </div>
+                <div style={{height: 145, width: 145, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 100, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-1%'}}>
                     <img src={testImage} style={{height: 140, width: 140, borderRadius: 100}} />
                 </div>
                 <div style={{width: '50%', height: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginTop: '2%'}} />
-                <div style={{width: '80%', height: '50%', backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 8, marginTop: '1%', marginBottom: '-3%', overflowY: 'scroll', display: 'grid' }}>
+                <div style={{width: '80%', height: '50%', backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 8, marginTop: '1%', marginBottom: '-3%', overflowY: 'scroll', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gridGap: '3px', justifyContent: 'center', alignItems: 'center'}}>
                     {avatars.map((avatar, index) => {
                         return (
-                            <AvatarCell key={index} avatar={avatar} onSelect={onSelect} />
+                            <AvatarCell key={index} avatar={avatar} onSelect={onSelect} selected={testImage.length > 0 ? testImage : user.image} />
                         )
                     })}
                 </div>
