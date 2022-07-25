@@ -10,6 +10,8 @@ const reducer = (state = initialData, action) => {
             return action.payload;
         case 'USER_UPDATE_IMAGE':
             return {...state, image: action.payload};
+        case 'USER_UPDATE_LANGUAGE':
+            return {...state, language: action.payload}
         case 'USER_SIGN_OUT':
             return initialData;
         case 'USER_DELETE':

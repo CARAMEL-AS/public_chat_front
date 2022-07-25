@@ -24,7 +24,7 @@ const Signup = () => {
         if(inputs.password === inputs.repassword) {
             const userInfo = await signup(inputs.email, inputs.password, toonavatar.generate_avatar(), api)
             if(!userInfo?.errors) {
-                await dispatch({type: 'USER_SIGN_UP', payload: userInfo})
+                await dispatch({type: 'USER_SIGN_UP', payload: userInfo});
             } else {
                 await dispatch({type: 'ERROR', payload: userInfo?.errors[0]})
             }

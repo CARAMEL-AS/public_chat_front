@@ -22,6 +22,7 @@ const Verify = (props) => {
             const resp = await verifyAcc(user.id, code, api)
             if (!resp?.error){
                 await dispatch({type: 'USER_VERIFIED', payload: resp})
+                await dispatch({type: 'ERROR', payload: `Welcome ${user.username}`});
             } else {
                 await dispatch({type: 'ERROR', payload: resp?.error})
             }

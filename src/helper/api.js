@@ -176,8 +176,26 @@ export const verifyAcc = async (user_id, code, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
+export const updateLang = async (user_id, language, api) => {
+    return await fetch(`${api}setting/update/${user_id}/lang`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id,
+            language
+          })
+    })
+    .then(res => { return res.json() })
+    .then(resp => {
+        return resp
+    })
+    .catch(err => console.log('Error: ',err))
+}
+
 export const translate = async (q, target) => {
-    return await fetch(`https://translation.googleapis.com/language/translate/v2?key=AIzaSyARp9Hcyuzq_8--JlG7mg21DbnGCuivfy0`, {
+    return await fetch(`${process.env.REACT_APP_translate_URI}key=${process.env.REACT_APP_GOOGLE_API}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

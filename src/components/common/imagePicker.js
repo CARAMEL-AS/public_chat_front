@@ -49,7 +49,6 @@ const ImagePicker = (props) => {
                 await dispatch({type: 'ERROR', payload: resp?.error});
             }
         } catch (err) {
-            console.log('Erro: ',err.message)
             await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
         }
     }

@@ -66,7 +66,6 @@ const Home = () => {
             const db = getDatabase();
             uLogin[`/users/${user.id}/`] = { ...user, online: true };
             await update(ref(db), uLogin);
-            await dispatch({type: 'ERROR', payload: `Welcome ${user.username}`});
         } catch (err) {
             await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
         }
@@ -121,7 +120,7 @@ const Home = () => {
 
     const testTranslate = async () => {
         console.log('Testing in Home, index.js')
-        const resp = await translate('Hello World', 'hi')
+        const resp = await translate('Hello World', 'nl')
         console.log('translated: ',resp)
     }
 
