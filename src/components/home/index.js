@@ -10,13 +10,14 @@ import Punishment from '../common/punishment';
 import AddChat from '../common/addChat';
 import ImagePicker from '../common/imagePicker';
 import Language  from '../common/language';
-import { translate } from '../../helper/api';
+import { translateContent } from '../../helper/dataHandler';
 
 const Home = () => {
 
     const dispatch = useDispatch();
     const api = useSelector(state => state.api);
     const user = useSelector(state => state.user);
+    const locale = useSelector(state => state.locale);
     const newChat = useSelector(state => state.newChat);
     const imagePicker = useSelector(state => state.imagePicker);
     const languagePicker = useSelector(state => state.languagePicker);
@@ -27,6 +28,10 @@ const Home = () => {
         visible: false,
         count: 0
     });
+
+    useSelector(state => {
+        console.log('State: ',state.selectedChat)
+    })
 
     const filterMyChats = (allChats) => {
         let chatList = [];
@@ -93,7 +98,7 @@ const Home = () => {
                     await dispatch({type: 'ALL_CHATS', payload: filterMyChats(snapshot.val())})
                     if(!selectedChat || !selectedChat?.id) {
                         const defaultChat = snapshot.val()[snapshot.val().length - 1];
-                        await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: defaultChat.messages}})
+                        await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: await translateContent(locale, defaultChat.messages)}})
                     }
                 }
             });
@@ -123,14 +128,7 @@ const Home = () => {
         });
     },[])
 
-    const testTranslate = async () => {
-        console.log('Testing in Home, index.js')
-        const resp = await translate('Hello World!', 'nl')
-        console.log('translated: ',resp)
-    }
-
     useEffect(() => {
-        //testTranslate();
         getUsers();
     },[])
 

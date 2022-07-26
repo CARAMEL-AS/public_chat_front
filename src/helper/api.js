@@ -194,7 +194,9 @@ export const updateLang = async (user_id, language, api) => {
     .catch(err => console.log('Error: ',err))
 }
 
-export const translate = async (q, locale) => {
+export const translate = async (locale, q) => {
+    console.log('Message: ',q);
+    console.log('Locale: ',locale)
     return await fetch(`${process.env.REACT_APP_translate_URI}key=${process.env.REACT_APP_GOOGLE_API}`, {
         method: 'POST',
         headers: {

@@ -16,12 +16,11 @@ import imagePicker from './reducers/image_picker';
 import languagePicker from './reducers/language';
 import error from './reducers/error';
 import locale from './reducers/locale';
-import gifs from './reducers/gifs';
 import selectedChat from './reducers/selected_chat';
 
 const store = configureStore({
   reducer: combineReducers({
-    api, user, friends, chat, selectedChat, selectTab, hoverTab, newChat, imagePicker, languagePicker, locale, gifs, error
+    api, user, friends, chat, selectedChat, selectTab, hoverTab, newChat, imagePicker, languagePicker, locale, error
   })
 })
 

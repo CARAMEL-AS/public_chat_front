@@ -14,6 +14,7 @@ import Settings from '../common/settings';
 import { sortMessages, translateMessages } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
 import newIcon from '../../assets/add.png';
+import { GiphyFetch } from '@giphy/js-fetch-api'
 import Groups from "../common/groups";
 import {
     BrowserRouter as Router,
@@ -33,7 +34,7 @@ const Chat = (props) => {
     const locale = useSelector(state => state.locale);
     const selectedChat = useSelector(state => state.selectedChat);
     const tabSelected = useSelector(state => state.selectTab);
-    const gifs = useSelector(state => state.gifs);
+    const gifs = new GiphyFetch(process.env.REACT_APP_GIPHY_API)
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
     const [dimensions, setDimensions] = useState({
@@ -77,21 +78,20 @@ const Chat = (props) => {
         }
     }
 
-    const translateToLocale = (message) => {
-        return translateMessages(locale, message)
-        .then(res => {
-            return res || message
-        })
-    }
-
     const getTrendingGifs = async () => {
         const trending = await gifs.trending({limit: 10 })
-        console.log('Trending Gifs: ',trending.data[0].embed_url);
+        console.log('Trending Gifs: ',trending.data);
     }
 
+    const translateToLocale = async (message) => {
+        return await translateMessages(locale, message) || message;
+    }
+
+    // const translateMessages = async (messages) => {
+    //     translateToLocale
+    // }
+
     const renderMessage = (content, index, myMessage) => {
-        const mes = translateToLocale(content.message);
-        console.log('Message Before Display: ',mes)
         return (
             <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
                 <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%', marginTop: '1%'}}>
@@ -100,7 +100,7 @@ const Chat = (props) => {
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
                 </div>
                 <div style={{width: '100%', minHeight: dimensions.height/15, backgroundColor: myMessage ? '#f7797d' : '#3E629F', borderRadius: 7, display: 'flex', alignItems: 'center', paddingLeft: '3%', paddingRight: '3%'}}>
-                    <p style={{color: 'white', fontWeight: '700', wordBreak: 'break-all'}}>{'Hello'}</p>
+                    <p style={{color: 'white', fontWeight: '700', wordBreak: 'break-all'}}>{content.message}</p>
                 </div>
             </li>
         )

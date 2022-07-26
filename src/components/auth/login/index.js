@@ -22,8 +22,8 @@ const Login = () => {
         try {
             const resp = await getAuth(inputs.email, inputs.password, api);
             if (!resp?.error) {
-                await dispatch({type: 'USER_SIGN_IN', payload: resp});
                 await dispatch({type: 'CHANGE_LANGUAGE', payload: resp.setting.language});
+                await dispatch({type: 'USER_SIGN_IN', payload: resp});
                 await dispatch({type: 'ERROR', payload: `Welcome ${resp.username}`});
             } else {
                 await dispatch({type: 'ERROR', payload: resp?.error})

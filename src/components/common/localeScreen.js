@@ -4,6 +4,7 @@ import supportedLanguages from '../../resources/supportedLangs.json';
 import { getLocaleName } from '../../helper/dataHandler';
 import Lottie from 'react-lottie';
 import backgroundAnim from '../../assets/background.json';
+import { translateContent } from '../../helper/dataHandler';
 
 const MESSAGE_STYLES = {fontSize: 17, fontWeight: '300', color: 'rgba(0,0,0,0.6)', margin: 0, marginBottom: '7%', textAlign: 'center'}
 
@@ -13,6 +14,7 @@ const LocaleScreen = (props) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const locale = useSelector(state => state.locale);
+    const selectedChat = useSelector(state => state.selectedChat);
     const [language, setLanguage] = useState('');
     const [pageOpacity, setPageOpacity] = useState(0);
     const [innerPageBottom, setInnerPageBottom] = useState(-500);
@@ -22,6 +24,12 @@ const LocaleScreen = (props) => {
         height: window.innerHeight,
         width: window.innerWidth,
     })
+
+    const transContent = async () => {
+        const translatedMessages = await translateContent(locale, selectedChat.messages);
+        console.log('Trans: ',translatedMessages);
+        await dispatch({type: 'CHANGE_CHAT', payload: {...selectedChat, messages: translatedMessages}})
+    }
 
     const closePage = () => {
         close(false);
@@ -50,6 +58,7 @@ const LocaleScreen = (props) => {
     const displayPage = () => {
         setTimeout(() => {
             setTimeout(() => {
+                transContent();
                 setTimeout(() => {
                     swapMessage();
                 },5000)

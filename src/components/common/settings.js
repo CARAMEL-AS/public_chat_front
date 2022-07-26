@@ -5,6 +5,7 @@ import { getDatabase, ref, update } from "firebase/database";
 import { getFbId } from '../../helper/dataHandler';
 import { getLocaleName } from '../../helper/dataHandler';
 import supportedLanguages from '../../resources/supportedLangs.json';
+import { translateContent } from '../../helper/dataHandler';
 
 const Settings = (props) => {
 

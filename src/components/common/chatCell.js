@@ -4,11 +4,13 @@ import { collectMembers } from '../../helper/dataHandler';
 import toonavatar from 'cartoon-avatar';
 import Lottie from 'react-lottie';
 import newAnim from '../../assets/new.json';
+import { translateContent } from '../../helper/dataHandler';
 
 const ChatCell = (props) => {
 
     const { chat, index } = props;
     const dispatch = useDispatch();
+    const locale = useSelector(state => state.locale);
     const allFriends = useSelector(state => state.friends);
     const selectedChat = useSelector(state => state.chatId);
     const [members, setMembers] = useState([])
@@ -27,8 +29,9 @@ const ChatCell = (props) => {
     }
 
     const onSelectChat = async () => {
-        await dispatch({type: 'CHANGE_CHAT', payload: {id: chat.id, title: chat.name ? chat.name : 'New Chat!', messages: chat.messages}});
-        await dispatch({type: 'SELECT_FRIEND', payload: null});
+        const translatedMessages = await translateContent(locale, chat.messages);
+        console.log('Chat Change: ',translatedMessages);
+        await dispatch({type: 'CHANGE_CHAT', payload: {id: chat.id, title: chat.name ? chat.name : 'New Chat!', messages: translatedMessages}});
     }
 
     useEffect(() => {

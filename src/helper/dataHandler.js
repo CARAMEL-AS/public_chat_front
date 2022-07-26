@@ -86,7 +86,15 @@ export const getLocaleName = (locale, languages) => {
     return name;
 }
 
-export const translateMessages = async (locale, messages) => {
-    const translated = await translate(messages, locale);
-    return translated;
+export const translateMessages = async (locale, message) => {
+    return await translate(locale, message) || message;
+}
+
+export const translateContent = async (locale, data) => {
+    let translatedMessages = [];
+    for(let key in data) {
+        const info = data[key];
+        translatedMessages.push({...info, message: await translateMessages(locale, info.message)});
+    }
+    return translatedMessages;
 }
