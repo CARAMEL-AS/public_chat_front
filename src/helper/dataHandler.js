@@ -1,3 +1,5 @@
+import { translate } from './api';
+
 export const handleUsersList = (obj) => {
     let newArr = []
     for(let key in obj) {
@@ -82,4 +84,9 @@ export const getLocaleName = (locale, languages) => {
         }
     }
     return name;
+}
+
+export const translateMessages = async (locale, messages) => {
+    const translated = await translate(messages, locale);
+    return translated;
 }

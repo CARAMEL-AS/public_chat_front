@@ -58,7 +58,7 @@ const Settings = (props) => {
             <div style={{width: '75%', height: 0.5, backgroundColor: 'rgba(255,255,255,0.3)', marginTop: '10%'}} />
             <div onClick={openLanguagePicker} style={{width: '70%', height: '8%', backgroundColor: 'white', borderRadius: 8, fontWeight: 'bold', marginTop: '10%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', cursor: 'pointer'}}>
                 <p style={{color: 'rgba(0,0,0,0.3)', fontWeight: '400', fontSize: 12, marginBottom: 0, marginTop: 0}}>Language</p>
-                <p style={{color: 'rgba(0,0,0,0.7)', fontSize: 15, marginBottom: 0, marginTop: '1%'}}>{getLocaleName(locale, supportedLanguages)}</p>
+                <p style={{color: 'rgba(0,0,0,0.7)', fontSize: 15, marginBottom: 0, marginTop: '1%'}}>{getLocaleName(locale.current, supportedLanguages)}</p>
             </div>
             <div style={{position: 'absolute', bottom: '-3%', width: '100%', height: '25%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
                 <div onClick={logout} style={{width: '86%', height: '40%', backgroundColor: 'green', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>

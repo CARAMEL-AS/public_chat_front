@@ -1,10 +1,13 @@
 import supportedLangs from '../resources/supportedLangs.json';
-const initialData = 'en-US'
+const initialData = {
+    prev: 'en-US',
+    current: 'en-US'
+}
 
 const reducer = (state = initialData, action) => {
     switch (action.type) {
         case 'CHANGE_LANGUAGE':
-            return supportedLangs[action.payload]
+            return {prev: state.current, current: supportedLangs[action.payload] }
         default:
             return state
     }

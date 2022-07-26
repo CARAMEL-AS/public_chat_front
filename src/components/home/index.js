@@ -19,7 +19,8 @@ const Home = () => {
     const user = useSelector(state => state.user);
     const newChat = useSelector(state => state.newChat);
     const imagePicker = useSelector(state => state.imagePicker);
-    const languagePicker = useSelector(state => state.languagePicker)
+    const languagePicker = useSelector(state => state.languagePicker);
+    const selectedChat = useSelector(state => state.selectedChat);
     const [displayAuth, setDisplayAuth] = useState(true);
     const [displayVerify, setDisplayVerify] = useState(false);
     const [punishment, setPunishment] = useState({
@@ -88,8 +89,12 @@ const Home = () => {
             const db = getDatabase();
             const starCountRef = ref(db, 'chats/');
             onValue(starCountRef, async (snapshot) => {
-                if(snapshot.val()) {
+                if(snapshot.val() && snapshot.val().length > 0) {
                     await dispatch({type: 'ALL_CHATS', payload: filterMyChats(snapshot.val())})
+                    if(!selectedChat || !selectedChat?.id) {
+                        const defaultChat = snapshot.val()[snapshot.val().length - 1];
+                        await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: defaultChat.messages}})
+                    }
                 }
             });
         } catch (err) {
@@ -120,12 +125,12 @@ const Home = () => {
 
     const testTranslate = async () => {
         console.log('Testing in Home, index.js')
-        const resp = await translate('Hello World', 'nl')
+        const resp = await translate('Hello World!', 'nl')
         console.log('translated: ',resp)
     }
 
     useEffect(() => {
-        testTranslate();
+        //testTranslate();
         getUsers();
     },[])
 

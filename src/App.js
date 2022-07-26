@@ -6,6 +6,7 @@ import { selectApi } from './actions/api';
 import AlertDialog from './components/common/alertDialog';
 import LocaleScreen from './components/common/localeScreen';
 import supportedLanguages from './resources/supportedLangs.json';
+import { GiphyFetch } from '@giphy/js-fetch-api'
 
 const App = () => {
 
@@ -13,8 +14,11 @@ const App = () => {
   const user = useSelector(state => state.user);
   const error = useSelector(state => state.error);
   const locale = useSelector(state => state.locale);
+  const gifs = useSelector(state => state.gifs);
   const [displayLocaleScreen, setDisplayLocaleScreen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  console.log('Gif Initialized: ',gifs)
 
   const initializeFirebase = () => {
     const firebaseConfig = {
@@ -30,9 +34,14 @@ const App = () => {
     initializeApp(firebaseConfig);
   }
 
+  const initializeGiphy = async () => {
+      await dispatch({type: 'INITIALIZE_GIPHY', payload: new GiphyFetch(process.env.REACT_APP_GIPHY_API)})
+  }
+
   useEffect(() => {
     dispatch(selectApi());
     initializeFirebase();
+    initializeGiphy();
   },[])
 
   useEffect(() => {

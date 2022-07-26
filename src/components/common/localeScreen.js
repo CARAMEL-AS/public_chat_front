@@ -23,10 +23,14 @@ const LocaleScreen = (props) => {
         width: window.innerWidth,
     })
 
+    const closePage = () => {
+        close(false);
+    }
+
     const hidePage = () => {
         setTimeout( async () => {
             setMessageOpacity(0);
-            close(false);
+            closePage();
             await dispatch({type: 'ERROR', payload: `Yaay! Messages translated successfully`})
         },1000)
         setPageOpacity(0);
@@ -87,8 +91,10 @@ const LocaleScreen = (props) => {
                 width: window.innerWidth
             })
         })
-        if(visible) {
+        if(visible && locale.prev !== locale.current) {
             displayPage();
+        } else if (locale.prev === locale.current) {
+            closePage();
         }
     },[])
 
@@ -99,7 +105,7 @@ const LocaleScreen = (props) => {
     },[user])
 
     useEffect(() => {
-        setLanguage(getLocaleName(locale, supportedLanguages))
+        setLanguage(getLocaleName(locale.current, supportedLanguages))
     },[])
 
     return(

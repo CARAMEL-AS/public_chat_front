@@ -27,7 +27,7 @@ const ChatCell = (props) => {
     }
 
     const onSelectChat = async () => {
-        await dispatch({type: 'SELECT_CHAT', payload: chat.id});
+        await dispatch({type: 'CHANGE_CHAT', payload: {id: chat.id, title: chat.name ? chat.name : 'New Chat!', messages: chat.messages}});
         await dispatch({type: 'SELECT_FRIEND', payload: null});
     }
 
