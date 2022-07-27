@@ -12,7 +12,7 @@ const ChatCell = (props) => {
     const dispatch = useDispatch();
     const locale = useSelector(state => state.locale);
     const allFriends = useSelector(state => state.friends);
-    const selectedChat = useSelector(state => state.chatId);
+    const selectedChat = useSelector(state => state.selectedChat);
     const [members, setMembers] = useState([])
     const [status, setStatus] = useState({
         lastSeenCount: Object.keys(chat.messages).length,
@@ -56,7 +56,7 @@ const ChatCell = (props) => {
     },[])
 
     useEffect(() => {
-        if(selectedChat === chat.id) {
+        if(selectedChat.id === chat.id) {
             setStatus({lastSeenCount: Object.keys(chat.messages).length, totalMessages: Object.keys(chat.messages).length})
         }
         if(selectedChat !== chat.id && status.lastSeenCount !== Object.keys(chat.messages).length) {
