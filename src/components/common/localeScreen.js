@@ -27,7 +27,6 @@ const LocaleScreen = (props) => {
 
     const transContent = async () => {
         const translatedMessages = await translateContent(locale, selectedChat.messages);
-        console.log('Trans: ',translatedMessages);
         await dispatch({type: 'CHANGE_CHAT', payload: {...selectedChat, messages: translatedMessages}})
     }
 

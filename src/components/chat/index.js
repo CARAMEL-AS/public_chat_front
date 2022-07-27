@@ -31,7 +31,6 @@ const Chat = (props) => {
     const user = useSelector(state => state.user);
     const allUsers = useSelector(state => state.friends);
     const chat = useSelector(state => state.chat)
-    const locale = useSelector(state => state.locale);
     const selectedChat = useSelector(state => state.selectedChat);
     const tabSelected = useSelector(state => state.selectTab);
     const gifs = new GiphyFetch(process.env.REACT_APP_GIPHY_API)
@@ -83,14 +82,6 @@ const Chat = (props) => {
         console.log('Trending Gifs: ',trending.data);
     }
 
-    const translateToLocale = async (message) => {
-        return await translateMessages(locale, message) || message;
-    }
-
-    // const translateMessages = async (messages) => {
-    //     translateToLocale
-    // }
-
     const renderMessage = (content, index, myMessage) => {
         return (
             <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
@@ -121,14 +112,6 @@ const Chat = (props) => {
             })
         })
     },[])
-
-    // useEffect(() => {
-    //     if(user && Object.keys(selectedChat.messages).length > 0 && locale.prev !== locale.current) {
-    //         setTimeout(() => {
-    //             translateToLocale();
-    //         }, 3000)
-    //     }
-    // },[locale, selectedChat.messages])
 
     return (
         <div style={{height: dimensions.height, width: dimensions.width, backgroundColor: 'rgba(0,0,0,0)', display: 'flex', alignItems: 'center'}}>

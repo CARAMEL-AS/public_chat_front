@@ -34,6 +34,7 @@ const Home = () => {
         for(let key in allChats) {
             const chat = allChats[key];
             if(chat.members.includes(user.id) || chat.admin === user.id) {
+                debugger
                 chatList.push(allChats[key]);
             }
         }
@@ -91,11 +92,11 @@ const Home = () => {
             const starCountRef = ref(db, 'chats/');
             onValue(starCountRef, async (snapshot) => {
                 if(snapshot.val() && snapshot.val().length > 0) {
-                    await dispatch({type: 'ALL_CHATS', payload: filterMyChats(snapshot.val())})
-                    if(!selectedChat || !selectedChat?.id) {
-                        const defaultChat = snapshot.val()[snapshot.val().length - 1];
+                    const myChats = filterMyChats(snapshot.val());
+                    await dispatch({type: 'ALL_CHATS', payload: myChats})
+                    if(!selectedChat || !selectedChat?.id && myChats.length > 0) {
+                        const defaultChat = myChats[myChats.length - 1];
                         const translated = await translateContent(locale, defaultChat.messages);
-                        console.log('Translated: ',translated)
                         await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: translated}})
                     }
                 }
@@ -120,7 +121,6 @@ const Home = () => {
     }
 
     useEffect(() => {
-        console.log('API: ',api);
         window.addEventListener("beforeunload", (ev) => {  
             ev.preventDefault();
             return userLogoutAttempt();

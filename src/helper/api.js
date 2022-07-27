@@ -1,13 +1,14 @@
+import toonavatar from 'cartoon-avatar';
 import axios from 'axios';
 
 export const getWelcome = async () => {
     return await axios.get(`${process.env.REACT_APP_API}`)
     .then(data => { return data })
-    .catch(err => console.log('Error: ',err))
+    .catch(err => { return err })
 }
 
-export const singIn = async (email, password, method, api, name = '', photo = '') => {
-    return await axios.get(`${api}user?email=${email}&password_digest=${password}&name=${name}&photo=${photo}&method=${method}`)
+export const singIn = async (email, password, method, api, name = '', photo = toonavatar.generate_avatar()) => {
+    return await axios.get(`${api}user?email=${email}&password_digest=${password}&name=${name}&image=${photo}&method=${method}`)
     .then(data => {
         return data?.data || data.response.data?.error
     })

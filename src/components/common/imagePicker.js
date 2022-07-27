@@ -55,8 +55,6 @@ const ImagePicker = (props) => {
         }
     }
 
-    console.log('User: ',user.image)
-
     const onSelect = (avatar) => {
         setTestImage(avatar)
     }

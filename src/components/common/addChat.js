@@ -51,7 +51,6 @@ const AddChat = () => {
     const buttonClickHandler = async () => {
         try {
             const resp = await createGroup(user.id, newFormData, api)
-            console.log('Resp: ',resp)
             if(!resp?.error) {
                 hideForm();
             } else {

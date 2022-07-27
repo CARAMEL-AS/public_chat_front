@@ -38,9 +38,16 @@ const Auth = () => {
         }
     }
 
-    const socialAccountLogin = async (name, email, photo, verified, method) => {
+    const socialAccountLogin = async (name, email, photo, method) => {
         try {
             const resp = await singIn(email, process.env.REACT_APP_SOCIAL_PASS, method, api, name, photo);
+            if(!resp?.error) {
+                await dispatch({type: 'CHANGE_LANGUAGE', payload: resp.setting.language});
+                await dispatch({type: 'USER_SIGN_IN', payload: resp});
+                await dispatch({type: 'ERROR', payload: `Welcome ${resp.username}`});
+            } else {
+                await dispatch({type: 'ERROR', payload: !resp?.error})
+            }
         } catch (e) {
 
         }
@@ -52,14 +59,13 @@ const Auth = () => {
         signInWithPopup(auth, googleAuthProvider)
         .then( async (result) => {
             const user = result.user;
-            if(user.emailVerified) {
-                socialAccountLogin(user.displayName, user.email, user.photoURL, user.emailVerified, 'Google');
+            if(!user.emailVerified) {
+                socialAccountLogin(user.displayName, user.email, user.photoURL, 'Google');
             } else {
                 await dispatch({type: 'ERROR', payload: 'Your email is not verified by Google.'});
             }
         }).catch(async (error) => {
             await dispatch({type: 'ERROR', payload: 'Google Error!'});
-            console.log('Error: ',error)
         });
     }
 
@@ -68,14 +74,13 @@ const Auth = () => {
         signInWithPopup(auth, facebookAuthProvider)
         .then( async (result) => {
             const user = result.user;
-            if(user.emailVerified) {
+            if(!user.emailVerified) {
                 socialAccountLogin(user.displayName, user.email, user.photoURL, user.emailVerified, 'Facebook');
             } else {
-                await dispatch({type: 'ERROR', payload: 'Your account is not verified by Google.'});
+                await dispatch({type: 'ERROR', payload: 'Your email is not verified by Facebook.'});
             }
         }).catch( async (error) => {
             await dispatch({type: 'ERROR', payload: 'Facebook Error!'});
-            console.log('Error: ',error)
         });
     }
 
