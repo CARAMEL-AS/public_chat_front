@@ -120,6 +120,7 @@ const Home = () => {
     }
 
     useEffect(() => {
+        console.log('API: ',api);
         window.addEventListener("beforeunload", (ev) => {  
             ev.preventDefault();
             return userLogoutAttempt();
