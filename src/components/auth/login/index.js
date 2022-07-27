@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import InputField from '../../common/inputField';
 import Button from '../../common/button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuth } from '../../../helper/api';
+import { singIn } from '../../../helper/api';
 
 const Login = () => {
 
@@ -20,7 +20,7 @@ const Login = () => {
 
     const loginAttempt = async () => {
         try {
-            const resp = await getAuth(inputs.email, inputs.password, api);
+            const resp = await singIn(inputs.email, inputs.password, 'Password', api);
             if (!resp?.error) {
                 await dispatch({type: 'CHANGE_LANGUAGE', payload: resp.setting.language});
                 await dispatch({type: 'USER_SIGN_IN', payload: resp});

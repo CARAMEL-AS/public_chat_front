@@ -94,7 +94,7 @@ export const translateContent = async (locale, data) => {
     let translatedMessages = [];
     for(let key in data) {
         const info = data[key];
-        translatedMessages.push({...info, message: await translateMessages(locale, info.message)});
+        translatedMessages.push({...info, message: locale.prev === locale.current ? info.message : await translateMessages(locale, info.message)});
     }
     return translatedMessages;
 }

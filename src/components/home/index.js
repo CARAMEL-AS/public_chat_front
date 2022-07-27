@@ -29,10 +29,6 @@ const Home = () => {
         count: 0
     });
 
-    useSelector(state => {
-        console.log('State: ',state.selectedChat)
-    })
-
     const filterMyChats = (allChats) => {
         let chatList = [];
         for(let key in allChats) {
@@ -98,7 +94,9 @@ const Home = () => {
                     await dispatch({type: 'ALL_CHATS', payload: filterMyChats(snapshot.val())})
                     if(!selectedChat || !selectedChat?.id) {
                         const defaultChat = snapshot.val()[snapshot.val().length - 1];
-                        await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: await translateContent(locale, defaultChat.messages)}})
+                        const translated = await translateContent(locale, defaultChat.messages);
+                        console.log('Translated: ',translated)
+                        await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: translated}})
                     }
                 }
             });

@@ -1,7 +1,5 @@
 import React, { useState, useEffect} from 'react';
 import { myMessages } from '../../helper/dataHandler';
-import Lottie from 'react-lottie';
-import typeAnim from '../../assets/type.json';
 
 const History = (props) => {
 

@@ -18,8 +18,8 @@ const InputField = (props) => {
     },[])
 
     return (
-        <div style={{height: dimensions.height/15, width: dimensions.width/5, marginTop: '4%', border: '1px solid rgba(0,0,0,0.2)', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center', outline: 'none'}}>
-            <input type={type} style={{height: '85%', width: '99%', fontSize: dimensions.width/100, fontWeight: 'bold', outline: 'none', borderRadius: 8, border: '2px solid #28C3D2'}} placeholder={placeholder} onChange={(e) => onChangeText(e.target.value)}/>
+        <div style={{height: dimensions.height/15, width: dimensions.width/5, marginTop: '4%', borderRadius: '5px', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <input type={type} style={{height: '75%', width: '85%', fontSize: dimensions.width/120, fontWeight: '800', outline: 'none', borderRadius: 8, paddingLeft: '3%'}} placeholder={placeholder} onChange={(e) => onChangeText(e.target.value)}/>
         </div>
     )
 }
