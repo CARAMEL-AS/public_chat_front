@@ -154,7 +154,6 @@ export const translate = async (locale, q) => {
         format: 'text'
     })
     .then(data => {
-        console.log('Translate: ',data.data.data.translations[0].translatedText)
         return data?.data.data.translations[0].translatedText || data.response.data.error
     })
     .catch(err => {
