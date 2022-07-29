@@ -90,9 +90,9 @@ const ChatCell = (props) => {
                 <div style={{width: '67%'}}>
                     {members.map((member, index) => {
                         if(member.image.length > 0) {
-                            return <img key={index} style={{borderRadius: 50, height: 20, width: 20, border: '1px solid white', marginLeft: index !== 0 ? '-3%' : '2%'}} src={member.image} />
+                            return <img key={index} style={{borderRadius: 50, height: 20, width: 20, border: '1px solid white', marginLeft: index !== 0 ? '-3%' : '2%'}} src={member.image} alt={'Friend Image'} />
                         } else {
-                            return <img key={index} style={{borderRadius: 50, height: 20, width: 20, border: '1px solid white', marginLeft: index !== 0 ? '-3%' : '2%'}} src={getRandomImage()} />
+                            return <img key={index} style={{borderRadius: 50, height: 20, width: 20, border: '1px solid white', marginLeft: index !== 0 ? '-3%' : '2%'}} src={getRandomImage()} alt={'Friend Image'} />
                         }
                     })}
                 </div>

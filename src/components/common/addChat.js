@@ -79,7 +79,7 @@ const AddChat = () => {
         <div style={{height: dimentions.height, width: dimentions.width, opacity: pageOpacity, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease",}}>
             <div style={{height: dimentions.height/1.2, width: dimentions.width/2, background: "linear-gradient(to right, #D3CCE3, #E9E4F0)", borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <div onClick={hideForm} style={{width: '100%', height: '4%', display: 'flex', justifyContent: 'flex-end'}}>
-                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} />
+                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} atl={'Close Button'}/>
                 </div>
                 <p style={{marginTop: '1%', marginBottom: '-1%', color: 'rgba(0,0,0,0.6)', fontSize: 18, fontWeight: 'bold'}}>New Group Form</p>
                 <InputField type='text' placeholder='Name' onChangeText={textChangeHandler} />

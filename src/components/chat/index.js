@@ -14,7 +14,8 @@ import Settings from '../common/settings';
 import { sortMessages, translateMessages } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
 import newIcon from '../../assets/add.png';
-import { GiphyFetch } from '@giphy/js-fetch-api'
+import { GiphyFetch } from '@giphy/js-fetch-api';
+import MessageBox from '../common/messageBox';
 import Groups from "../common/groups";
 import {
     BrowserRouter as Router,
@@ -86,7 +87,7 @@ const Chat = (props) => {
         return (
             <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
                 <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%', marginTop: '1%'}}>
-                    <img style={{height: 32, width: 32, borderRadius: 50, marginRight: '1.8%'}} src={getUserImage(allUsers, content.user_id)} />
+                    <img style={{height: 32, width: 32, borderRadius: 50, marginRight: '1.8%'}} src={getUserImage(allUsers, content.user_id)} alt={'Friend Image'}/>
                     <p style={{fontWeight: '400', color: 'white', fontSize: 15}}>{findUser(allUsers, content.user_id)}</p>
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
                 </div>
@@ -152,14 +153,7 @@ const Chat = (props) => {
                         <div ref={scrollRef} />
                     </div>
                 </ul>
-                <div style={{height: dimensions.height/10, width: dimensions.width/1.5, backgroundColor: 'rgba(0,0,0,0.3)', position: 'absolute', bottom: '1%', marginLeft: '1%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 7}}>
-                    <div style={{height: '76%', width: '80%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <input value={message} onChange={typingMessageHandler} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 7, paddingLeft: '2%', fontSize: 18, backgroundColor: '#434343', color: 'white'}} placeholder={'Message'}/>
-                    </div>
-                    <div onClick={messageSendAttempt} style={{height: '73%', width: '10%', backgroundColor: '#32cd32', marginLeft: '2%', borderRadius: 7, display: 'flex', justifyContent: 'center', alignItems: 'center', cursor: 'pointer'}}>
-                        <p style={{fontSize: 15, fontWeight: 'bold', color: 'white'}}>Send</p>
-                    </div>
-                </div>
+                <MessageBox messageSend={messageSendAttempt} typing={typingMessageHandler} message={message} />
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>

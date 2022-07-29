@@ -64,7 +64,7 @@ const Sidetab = (props) => {
                 width: 30,
                 marginRight: '3.5%',
                 marginLeft: '4%',
-            }} src={icon}  alt='IMG'/>
+            }} src={icon}  alt='Icon'/>
             <p style={{
                 fontSize: 15,
                 fontWeight: 'bold',

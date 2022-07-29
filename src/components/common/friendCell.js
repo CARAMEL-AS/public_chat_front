@@ -56,10 +56,10 @@ const FriendCell = (props) => {
         <li onClick={clickHandler} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} key={index} style={{height: '10%', width: '95%', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: friendOpacity, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", cursor: 'pointer'}}>
             <div style={{flexDirection: 'row', display: 'flex', height: '100%'}}>
                 <div style={{width: '100%', height: '100%', flexDirection: 'row', display: 'flex', alignItems: 'center'}}>
-                    <div style={{marginLeft: '2%'}}>
-                        <img style={{height: 40, width: 40, borderRadius: 50}} src={friend.image} />
+                    <div style={{marginLeft: '2%', backgroundColor: 'rgba(0,0,0,0)'}}>
+                        <img style={{height: 40, width: 40, borderRadius: 50}} src={friend.image} alt={'Friend Image'} />
                     </div>
-                    <div style={{width: '100%', height: '100%', marginLeft: '2%', overflowX: 'hidden'}}>
+                    <div style={{width: '100%', height: '100%', marginLeft: '2%', overflowX: 'hidden', backgroundColor: 'rgba(0,0,0,0)'}}>
                         <p style={{ width: '100%', fontSize: 14, fontWeight: '700', color: 'rgba(255,255,255,0.8)', marginTop: '4%'}}>{friend.username}</p>
                         <p style={{ width: '95%', fontSize: 12, fontWeight: '400', color: 'rgba(255,255,255,0.5)', marginTop: '-6%'}}>{friend.email}</p>
                     </div>

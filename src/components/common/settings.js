@@ -47,7 +47,7 @@ const Settings = (props) => {
             <div style={{ width: '100%', height: '43%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <div style={{marginTop: '10%', backgroundColor: 'white', borderRadius: 50}}>
                     <div onClick={openImagePicker} style={{height: 95, width: 95, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <img src={user.image} style={{height: 93, width: 93, borderRadius: 50, cursor: 'pointer'}} />
+                        <img src={user.image} style={{height: 93, width: 93, borderRadius: 50, cursor: 'pointer'}} alt={'My Image'} />
                     </div>
                 </div>
                 <p style={{color: 'rgba(255,255,255,0.4)', fontWeight: '800'}}>User Name</p>

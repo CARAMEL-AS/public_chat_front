@@ -38,7 +38,7 @@ const AlertDialog = () => {
         <div style={{position: 'absolute', bottom: raiseLevel, backgroundColor: '#d1001c', height: '8%', width: '55%', borderRadius: 5, transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <p style={{marginLeft: '5%', fontWeight: 'bold', fontSize: 17, color: 'white', width: '89%'}}>{error}</p>
             <div onClick={hideAlertBox} style={{cursor: 'pointer'}}>
-                <img style={{height: 20, width: 20}} src={CloseIcon} />
+                <img style={{height: 20, width: 20}} src={CloseIcon} alt={'Close Icon'} />
             </div>
         </div>
     )

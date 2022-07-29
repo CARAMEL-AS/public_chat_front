@@ -94,9 +94,9 @@ const ImagePicker = (props) => {
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: "all 0.5s ease", WebkitTransition: "all 0.5s ease", MozTransition: "all 0.5s ease", opacity: pageOpacity}}>
             <div style={{height: dimentions.height/1.2, width: dimentions.width/2, background: "linear-gradient(to right, #D3CCE3, #E9E4F0)", borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <div onClick={hidePicker} style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} />
+                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} alt={'New Image'} />
                 </div>
-                <div style={{height: 145, width: 145, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 100, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-1%'}}>
+                <div style={{height: 145, width: 145, backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 100, display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-1%'}} alt={'New Image'}>
                     <img src={testImage} style={{height: 140, width: 140, borderRadius: 100}} />
                 </div>
                 <div style={{width: '50%', height: 1, backgroundColor: 'rgba(0,0,0,0.1)', marginTop: '2%'}} />

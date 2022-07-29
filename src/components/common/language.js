@@ -60,7 +60,7 @@ const Language = () => {
         <div style={{height: dimentions.height, width: dimentions.width, backgroundColor: 'rgba(0,0,0,0.6)', position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: "all 0.5s ease", WebkitTransition: "all 0.5s ease", MozTransition: "all 0.5s ease", opacity: pageOpacity}}>
             <div style={{height: dimentions.height/1.5, width: dimentions.width/2, background: "linear-gradient(to right, #D3CCE3, #E9E4F0)", borderRadius: '5px', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <div onClick={hidePicker} style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} />
+                    <img src={CloseIcon} style={{cursor: 'pointer', height: 20, width: 20, marginRight: '3%', marginTop: '2%'}} alt={'Language Image'} />
                 </div>
                 <p style={{fontSize: 16, fontWeight: '500', color: 'rgba(0,0,0,0.6)', marginTop: '-1%', marginBottom: 0}}>Select your <strong style={{color: 'green'}}>preferred</strong> language!</p>
                 <p style={{fontSize: 12, color: 'rgba(0,0,0,0.4)', marginBottom: '1%', marginTop: 0}}>Only messages will be translated!</p>

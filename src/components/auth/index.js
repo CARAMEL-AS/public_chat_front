@@ -59,7 +59,7 @@ const Auth = () => {
         signInWithPopup(auth, googleAuthProvider)
         .then( async (result) => {
             const user = result.user;
-            if(!user.emailVerified) {
+            if(user.emailVerified) {
                 socialAccountLogin(user.displayName, user.email, user.photoURL, 'Google');
             } else {
                 await dispatch({type: 'ERROR', payload: 'Your email is not verified by Google.'});
@@ -74,7 +74,7 @@ const Auth = () => {
         signInWithPopup(auth, facebookAuthProvider)
         .then( async (result) => {
             const user = result.user;
-            if(!user.emailVerified) {
+            if(user.emailVerified) {
                 socialAccountLogin(user.displayName, user.email, user.photoURL, user.emailVerified, 'Facebook');
             } else {
                 await dispatch({type: 'ERROR', payload: 'Your email is not verified by Facebook.'});
