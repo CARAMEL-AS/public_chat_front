@@ -34,7 +34,6 @@ const Home = () => {
         for(let key in allChats) {
             const chat = allChats[key];
             if(chat.members.includes(user.id) || chat.admin === user.id) {
-                debugger
                 chatList.push(allChats[key]);
             }
         }

@@ -76,7 +76,26 @@ const Chat = (props) => {
         }
     }
 
+    const gifSendAttempt = async (gif) => {
+        try {
+            const resp = await sendMessage(user.id, `GIF: ${gif}`, selectedChat.id, api);
+            if(!resp?.errors) {
+                await dispatch({type: 'ERROR', payload: resp?.errors[0]});
+            } else if(resp?.error) {
+                await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
+                inAppropriate(resp.warningCount)
+            }
+            setMessage('')
+            updateTypingFB('');
+        } catch (err) {
+            await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
+        }
+    }
+
     const renderMessage = (content, index, myMessage) => {
+        if(content.message.includes('GIF: ')) {
+            console.log(content.message.split(' ')[1])
+        }
         return (
             <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
                 <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%', marginTop: '1%'}}>
@@ -85,7 +104,11 @@ const Chat = (props) => {
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
                 </div>
                 <div style={{width: '100%', minHeight: dimensions.height/15, backgroundColor: myMessage ? '#f7797d' : '#3E629F', borderRadius: 7, display: 'flex', alignItems: 'center', paddingLeft: '3%', paddingRight: '3%'}}>
-                    <p style={{color: 'white', fontWeight: '700', wordBreak: 'break-all'}}>{content.message}</p>
+                    {content.message.includes('GIF: ') ? (
+                        <img src={content.message.split(' ')[1]} style={{height: '20%', width: '60%', paddingTop: '3%', paddingBottom: '3%', borderRadius: 10}} />
+                    ) : (
+                        <p style={{color: 'white', fontWeight: '700', wordBreak: 'break-all'}}>{content.message}</p>
+                    )}
                 </div>
             </li>
         )
@@ -145,7 +168,7 @@ const Chat = (props) => {
                         <div ref={scrollRef} />
                     </div>
                 </ul>
-                <MessageBox messageSend={messageSendAttempt} typing={typingMessageHandler} message={message} />
+                <MessageBox messageSend={messageSendAttempt} gifSend={gifSendAttempt} typing={typingMessageHandler} message={message} />
             </div>
             <div style={{height: dimensions.height, position: 'absolute', right: 0, paddingTop: '10%'}}>
                 <Router>

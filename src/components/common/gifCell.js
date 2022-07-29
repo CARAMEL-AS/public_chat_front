@@ -3,7 +3,7 @@ import sendIcon from '../../assets/sendIcon.png';
 
 const GifCell = (props) => {
 
-    const { gif }  = props;
+    const { gif, onSelect }  = props;
     const [displaySend, setDisplaySend] = useState(0);
 
     const mouseEnter = () => {
@@ -17,7 +17,7 @@ const GifCell = (props) => {
     useEffect(() => {},[])
 
     return (
-        <img onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} style={{height: '95%', width: '100%', marginTop: '0.4%', marginRight: '1%', borderRadius: 8, cursor: 'pointer'}} src={gif.images.original.url} />
+        <img onClick={() => onSelect(gif.images.original.url)} onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} style={{height: '95%', width: '100%', marginTop: '0.4%', marginRight: '1%', borderRadius: 8, cursor: 'pointer'}} src={gif.images.original.url} />
     )
 
 }

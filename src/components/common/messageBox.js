@@ -4,7 +4,7 @@ import GifCell from './gifCell';
 
 const MessageBox = (props) => {
 
-    const { messageSend, typing, message } = props;
+    const { messageSend, gifSend, typing, message } = props;
     const [displayMessageBox, setDisplayMessageBox] = useState(true);
     const [changeInProcess, setChangeInProcess] = useState(false);
     const [messageBoxMarginBottom ,setMessageBoxMarginBottom] = useState(0);
@@ -15,6 +15,10 @@ const MessageBox = (props) => {
         height: window.innerHeight,
         width: window.innerWidth,
     })
+
+    const onGifSelection = (gifUrl) => {
+        gifSend(gifUrl);
+    }
 
     const showMessageBox = () => {
         setTimeout(() => {
@@ -92,7 +96,7 @@ const MessageBox = (props) => {
                     <div style={{height: '95%', width: '100%', display: 'flex', flexDirection: 'row', margin: 0, marginBottom: '0.1%', backgroundColor: 'rgba(58,58,58,0.7)', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', overflowX: 'scroll'}}>
                         {currentGifs.data.map((gif, index) => {
                             return (
-                                <GifCell key={index} gif={gif} />
+                                <GifCell key={index} gif={gif} onSelect={onGifSelection} />
                             )
                         })}
                     </div>
