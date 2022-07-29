@@ -87,7 +87,7 @@ export const getLocaleName = (locale, languages) => {
 }
 
 export const translateMessages = async (locale, message) => {
-    return await translate(locale, message) || message;
+    return !message.includes('GIF: ') ? await translate(locale, message) || message : message;
 }
 
 export const translateContent = async (locale, data) => {
