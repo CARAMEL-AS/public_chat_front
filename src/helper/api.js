@@ -149,7 +149,7 @@ export const updateLang = async (user_id, language, api) => {
 
 export const translate = async (locale, q) => {
     return await axios.post(`${process.env.REACT_APP_translate_URI}key=${process.env.REACT_APP_GOOGLE_API}`, {
-        q,
+        q: q.includes('GIF: ') ? '' : q,
         source: locale.prev,
         target: locale.current,
         format: 'text'
