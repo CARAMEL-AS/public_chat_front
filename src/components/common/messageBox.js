@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GiphyFetch } from '@giphy/js-fetch-api';
+import GifCell from './gifCell';
 
 const MessageBox = (props) => {
 
@@ -52,8 +53,6 @@ const MessageBox = (props) => {
         getGifs();
     },[currentGifSearch])
 
-    console.log('Current Gifs: ',currentGifs)
-
     useEffect(() => {
         window.addEventListener('resize', () => {
             setDimensions({
@@ -87,7 +86,7 @@ const MessageBox = (props) => {
                     <div style={{height: '95%', width: '100%', display: 'flex', flexDirection: 'row', margin: 0, marginBottom: '0.1%', backgroundColor: 'rgba(58,58,58,0.7)', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', overflowX: 'scroll'}}>
                         {currentGifs.data.map(gif => {
                             return (
-                                <img style={{height: 70, width: 70, marginLeft: '3%', marginLeft: '3%', borderRadius: 8}} src={gif.embed_url} />
+                                <GifCell gif={gif} />
                             )
                         })}
                     </div>
