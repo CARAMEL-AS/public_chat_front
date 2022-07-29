@@ -11,10 +11,9 @@ import { sendMessage } from '../../helper/api';
 import Friends from '../common/friends';
 import History from '../common/history';
 import Settings from '../common/settings';
-import { sortMessages, translateMessages } from '../../helper/dataHandler';
+import { sortMessages } from '../../helper/dataHandler';
 import { getDatabase, ref, update } from "firebase/database";
 import newIcon from '../../assets/add.png';
-import { GiphyFetch } from '@giphy/js-fetch-api';
 import MessageBox from '../common/messageBox';
 import Groups from "../common/groups";
 import {
@@ -34,7 +33,6 @@ const Chat = (props) => {
     const chat = useSelector(state => state.chat)
     const selectedChat = useSelector(state => state.selectedChat);
     const tabSelected = useSelector(state => state.selectTab);
-    const gifs = new GiphyFetch(process.env.REACT_APP_GIPHY_API)
     const [message, setMessage] = useState('');
     const scrollRef = useRef(null);
     const [dimensions, setDimensions] = useState({
@@ -78,11 +76,6 @@ const Chat = (props) => {
         }
     }
 
-    const getTrendingGifs = async () => {
-        const trending = await gifs.trending({limit: 10 })
-        console.log('Trending Gifs: ',trending.data);
-    }
-
     const renderMessage = (content, index, myMessage) => {
         return (
             <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
@@ -105,7 +98,6 @@ const Chat = (props) => {
     },[selectedChat])
 
     useEffect(() => {
-        getTrendingGifs();
         window.addEventListener('resize', () => {
             setDimensions({
                 height: window.innerHeight,
