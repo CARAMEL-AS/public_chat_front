@@ -9,7 +9,7 @@ const Friends = (props) => {
 
     return (
         <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', overflowY: 'scroll', flexDirection: 'column'}}>
-            {all.map((friend, index) => {
+            {all.filter(friend => !friend.deleted).map((friend, index) => {
                 return <FriendCell key={index} friend={friend} index={index} user={user} />
             })}
         </div>

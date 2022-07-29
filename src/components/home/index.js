@@ -66,7 +66,7 @@ const Home = () => {
         try {
             let uLogin = {};
             const db = getDatabase();
-            uLogin[`/users/${user.id}/`] = { ...user, online: true };
+            uLogin[`/users/${user.id}/`] = { ...user, online: true, deleted: false };
             await update(ref(db), uLogin);
         } catch (err) {
             await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
@@ -77,7 +77,7 @@ const Home = () => {
         try {
             let uLogout = {};
             const db = getDatabase();
-            uLogout[`/users/${user.id}/`] = { ...user, online: false };
+            uLogout[`/users/${user.id}/`] = { ...user, online: false, deleted: false };
             await update(ref(db), uLogout);
             await dispatch({type: 'ERROR', payload: `Bye ${user.username}! See Ya soon`});
         } catch (err) {

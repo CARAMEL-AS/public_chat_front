@@ -5,7 +5,6 @@ import { getDatabase, ref, update } from "firebase/database";
 import { getFbId } from '../../helper/dataHandler';
 import { getLocaleName } from '../../helper/dataHandler';
 import supportedLanguages from '../../resources/supportedLangs.json';
-import { translateContent } from '../../helper/dataHandler';
 
 const Settings = (props) => {
 
@@ -25,35 +24,46 @@ const Settings = (props) => {
     }
 
     const updateNameHandler = async () => {
-        await updateUserName(user.id, userNameInput);
-        let userName = {};
-        const db = getDatabase();
-        userName['/users/' + getFbId(user.id, allUsers)] = { ...user, username: userNameInput };
-        await update(ref(db), userName);
+        try {
+            await updateUserName(user.id, userNameInput);
+            let userName = {};
+            const db = getDatabase();
+            userName[`/users/${user.id}`] = { ...user, username: userNameInput, deleted: false, online: true };
+            await update(ref(db), userName);
+            await dispatch({type: 'USER_UPDATE_NAME', payload: userNameInput})
+        } catch (e) {
+            console.log('Error: ',e)
+        }
     }
 
     const deleteAccountHandler = async () => {
-        await deleteAccount(user.id)
-        let deleteAcc = {};
-        const db = getDatabase();
-        deleteAcc['/users/' + getFbId(user.id, allUsers)] = {...user, email: 'deleted', online: false};
-        await update(ref(db), deleteAcc);
+        try {
+            const resp = await deleteAccount(user.id)
+            console.log('Delete Resp: ',resp);
+            let deleteAcc = {};
+            const db = getDatabase();
+            deleteAcc[`/users/${user.id}`]  = {...user, deleted: true, online: false};
+            await update(ref(db), deleteAcc);
+            logout();
+        } catch (e) {
+            console.log('Error: ',e)
+        }
     }
 
     useEffect(() => {},[user])
 
     return (
         <div style={{height: '100%', width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-            <div style={{ width: '100%', height: '43%', display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+            <div style={{ width: '100%', height: '43%', display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: 0}}>
                 <div style={{marginTop: '10%', backgroundColor: 'white', borderRadius: 50}}>
                     <div onClick={openImagePicker} style={{height: 95, width: 95, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <img src={user.image} style={{height: 93, width: 93, borderRadius: 50, cursor: 'pointer'}} alt={'My Image'} />
                     </div>
                 </div>
                 <p style={{color: 'rgba(255,255,255,0.4)', fontWeight: '800'}}>User Name</p>
-                <input value={userNameInput} onChange={(e) => setUserNameInput(e.target.value)} style={{width: '70%', height: '30%', borderRadius: 8, textAlign: 'center', fontWeight: 'bold', marginTop: '-2%'}} />
+                <input value={userNameInput} onChange={(e) => setUserNameInput(e.target.value)} style={{width: '70%', height: '15%', borderRadius: 8, textAlign: 'center', fontWeight: 'bold', marginTop: '-2%'}} />
             </div>
-            <div onClick={updateNameHandler} disabled={user?.username !== userNameInput && userNameInput.length > 0} style={{width: '86%', height: '10%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: user?.username !== userNameInput && userNameInput.length > 0 ? '#3E629F' : 'rgba(0,0,0,0.2)', borderRadius: 8, marginTop: '5%', cursor: 'pointer'}}>
+            <div onClick={updateNameHandler} disabled={user?.username !== userNameInput && userNameInput.length > 0} style={{width: '86%', height: '10%', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: user?.username !== userNameInput && userNameInput.length > 0 ? '#3E629F' : 'rgba(0,0,0,0.2)', borderRadius: 8, cursor: 'pointer'}}>
                 <p style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>UPDATE</p>
             </div>
             <div style={{width: '75%', height: 0.5, backgroundColor: 'rgba(255,255,255,0.3)', marginTop: '10%'}} />

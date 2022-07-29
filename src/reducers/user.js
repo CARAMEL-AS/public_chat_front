@@ -8,6 +8,8 @@ const reducer = (state = initialData, action) => {
             return action.payload;
         case 'USER_VERIFIED':
             return action.payload;
+        case 'USER_UPDATE_NAME':
+            return {...state, username: action.payload};
         case 'USER_UPDATE_IMAGE':
             return {...state, image: action.payload};
         case 'USER_UPDATE_LANGUAGE':

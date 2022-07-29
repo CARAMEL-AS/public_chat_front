@@ -63,32 +63,32 @@ const Chat = (props) => {
     const messageSendAttempt = async () => {
         try {
             const resp = await sendMessage(user.id, message, selectedChat.id, api);
+            setMessage('')
+            updateTypingFB('');
             if(!resp?.errors) {
                 await dispatch({type: 'ERROR', payload: resp?.errors[0]});
             } else if(resp?.error) {
                 await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
                 inAppropriate(resp.warningCount)
             }
-            setMessage('')
-            updateTypingFB('');
         } catch (err) {
-            await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
+            //await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
         }
     }
 
     const gifSendAttempt = async (gif) => {
         try {
             const resp = await sendMessage(user.id, `GIF: ${gif}`, selectedChat.id, api);
+            setMessage('')
+            updateTypingFB('');
             if(!resp?.errors) {
                 await dispatch({type: 'ERROR', payload: resp?.errors[0]});
             } else if(resp?.error) {
                 await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
                 inAppropriate(resp.warningCount)
             }
-            setMessage('')
-            updateTypingFB('');
         } catch (err) {
-            await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
+            //await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
         }
     }
 
@@ -178,9 +178,9 @@ const Chat = (props) => {
                     <Link to={'/chats'}>
                         <Sidetab title='Chats' icon={ChatIcon} />
                     </Link>
-                    <Link to={'/history'}>
+                    {/* <Link to={'/history'}>
                         <Sidetab title='History' icon={HistoryIcon} />
-                    </Link>
+                    </Link> */}
                     <Link to={'/settings'}>
                         <Sidetab title='Settings' icon={SettingsIcon} />
                     </Link>

@@ -109,9 +109,9 @@ export const uSignout = async (user_id, api) => {
     })
 }
 
-export const deleteAccount = async (user_id, api) => {
-    return await axios.post(`${api}user/${user_id}`, {
-        id: user_id
+export const deleteAccount = async (id, api) => {
+    return await axios.delete(`${api}user/${id}`, {
+        id
     })
     .then(data => {
         return data?.data || data.response.data?.error
