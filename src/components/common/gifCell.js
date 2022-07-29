@@ -17,7 +17,7 @@ const GifCell = (props) => {
     useEffect(() => {},[])
 
     return (
-        <img onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} style={{height: '95%', width: '100%', marginTop: '0.4%', marginLeft: '1%', marginRight: '1%', borderRadius: 8}} src={gif.embed_url} />
+        <img onMouseEnter={mouseEnter} onMouseLeave={mouseLeave} style={{height: '95%', width: '100%', marginTop: '0.4%', marginRight: '1%', borderRadius: 8, cursor: 'pointer'}} src={gif.images.original.url} />
     )
 
 }

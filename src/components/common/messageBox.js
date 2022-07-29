@@ -37,9 +37,9 @@ const MessageBox = (props) => {
 
     const getGifs = async () => {
         if(currentGifSearch.length > 0) {
-            setCurrentGifs(await gifs.trending({limit: 10}))
+            setCurrentGifs(await gifs.search(currentGifSearch, {limit: 20}))
         } else {
-            setCurrentGifs(await gifs.trending({limit: 10}))
+            setCurrentGifs(await gifs.trending({limit: 20}))
         }
     }
 
@@ -80,13 +80,19 @@ const MessageBox = (props) => {
                 </div>
             ) : (
                 <div style={{height: '150%', width: '100%', display: 'flex', justifyContent: 'center', flexDirection: 'column', marginBottom: '4%'}}>
-                    <div onClick={changeAction} style={{margin: 0, marginLeft: '7%', height: '30%', width: '13%', backgroundColor: 'rgba(0,0,0,0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8, borderTopLeftRadius: 8, marginBottom: '-0.4%', cursor: 'pointer'}}>
-                        <p style={{fontSize: 15, fontWeight: '800', color: 'white'}}>MESSAGE</p>
+                    <div style={{height: '30%', width: '100%', display: 'flex', flexDirection: 'row'}}>
+                        <div onClick={changeAction} style={{margin: 0, marginLeft: '3%', height: '100%', width: '13%', backgroundColor: 'rgba(0,0,0,0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8, borderTopLeftRadius: 8, marginBottom: '-0.4%', cursor: 'pointer'}}>
+                            <p style={{fontSize: 15, fontWeight: '800', color: 'white'}}>MESSAGE</p>
+                        </div>
+                        <div style={{margin: 0, marginLeft: '3%', height: '100%', width: '70%', backgroundColor: 'rgba(0,0,0,0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8, borderTopLeftRadius: 8, marginBottom: '-0.4%', cursor: 'pointer'}}>
+                            <p style={{fontSize: 15, fontWeight: '800', color: 'white', marginRight: '1.5%'}}>SEARCH</p>
+                            <input onChange={(e) => setCurrentGifSearch(e.target.value)} style={{width: '75%', height: '70%', borderRadius: 8, backgroundColor: 'rgba(0,0,0,0.2)', paddingLeft: '1%', paddingRight: '1%', color: 'white', fontWeight: '700', outline: 'none'}} />
+                        </div>
                     </div>
                     <div style={{height: '95%', width: '100%', display: 'flex', flexDirection: 'row', margin: 0, marginBottom: '0.1%', backgroundColor: 'rgba(58,58,58,0.7)', borderRadius: 8, display: 'flex', justifyContent: 'center', alignItems: 'center', overflowX: 'scroll'}}>
-                        {currentGifs.data.map(gif => {
+                        {currentGifs.data.map((gif, index) => {
                             return (
-                                <GifCell gif={gif} />
+                                <GifCell key={index} gif={gif} />
                             )
                         })}
                     </div>
