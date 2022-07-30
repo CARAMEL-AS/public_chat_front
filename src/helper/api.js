@@ -21,7 +21,8 @@ export const signup = async (email, password, image, api) => {
     return await axios.post(`${api}user`,{
         email,
         password_digest: password,
-        image
+        image,
+        method: 'Password'
     })
     .then(data => {
         return data?.data || data.response.data?.error
