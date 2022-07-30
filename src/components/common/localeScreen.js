@@ -56,22 +56,17 @@ const LocaleScreen = (props) => {
 
     const displayPage = () => {
         setTimeout(() => {
+            transContent();
             setTimeout(() => {
-                transContent();
-                setTimeout(() => {
-                    swapMessage();
-                },5000)
-                setTimeout(() => {
-                    hidePage();
-                },10000)
-                setInnerPageBottom(0);
-                setPageOpacity(1);
-                setMessageOpacity(1);
-            },1000)
-            setInnerPageBottom(-400);
-        },1000)
-        setPageOpacity(0.4);
-        setInnerPageBottom(-300);
+                swapMessage();
+            },5000)
+            setTimeout(() => {
+                hidePage();
+            },10000)
+        },4000)
+        setMessageOpacity(1);
+        setPageOpacity(1);
+        setInnerPageBottom(0);
     }
 
     const message1 = () => {
