@@ -48,54 +48,59 @@ const Chat = (props) => {
         try {
             let newMessage = {};
             const db = getDatabase();
-            newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e.length > 0 ? true : false };
+            newMessage[`/users/${user.id}/`] = { ...user, online: true, typing: e?.length > 0 ? true : false };
             update(ref(db), newMessage);
         } catch (e) {
-            await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
+            //await dispatch({type: 'ERROR', payload: 'Opps! Server Error, continue using Chat-App'});
         }
     }
 
     const typingMessageHandler = (e) => {
         setMessage(e.target.value);
-        updateTypingFB(e.target.value)
+        updateTypingFB(e.target.value);
     }
 
     const messageSendAttempt = async () => {
-        try {
-            const resp = await sendMessage(user.id, message, selectedChat.id, api);
-            setMessage('')
-            updateTypingFB('');
-            if(!resp?.errors) {
-                await dispatch({type: 'ERROR', payload: resp?.errors[0]});
-            } else if(resp?.error) {
-                await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
-                inAppropriate(resp.warningCount)
+        if(selectedChat.id) {
+            try {
+                const resp = await sendMessage(user.id, message, selectedChat.id, api);
+                setMessage('')
+                updateTypingFB('');
+                if(!resp?.errors) {
+                    await dispatch({type: 'ERROR', payload: resp?.errors[0]});
+                } else if(resp?.error) {
+                    await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
+                    inAppropriate(resp.warningCount)
+                }
+            } catch (err) {
+                //await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
             }
-        } catch (err) {
-            //await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
+        } else {
+            await dispatch({type: 'ERROR', payload: 'Opps! Please, create a chat first!'});
         }
     }
 
     const gifSendAttempt = async (gif) => {
-        try {
-            const resp = await sendMessage(user.id, `GIF: ${gif}`, selectedChat.id, api);
-            setMessage('')
-            updateTypingFB('');
-            if(!resp?.errors) {
-                await dispatch({type: 'ERROR', payload: resp?.errors[0]});
-            } else if(resp?.error) {
-                await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
-                inAppropriate(resp.warningCount)
+        if(selectedChat.id) {
+            try {
+                const resp = await sendMessage(user.id, `GIF: ${gif}`, selectedChat.id, api);
+                setMessage('')
+                updateTypingFB('');
+                if(!resp?.errors) {
+                    await dispatch({type: 'ERROR', payload: resp?.errors[0]});
+                } else if(resp?.error) {
+                    await dispatch({type: 'ERROR', payload: 'Not allowed to send inappropriate messages!'});
+                    inAppropriate(resp.warningCount)
+                }
+            } catch (err) {
+                //await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
             }
-        } catch (err) {
-            //await dispatch({type: 'ERROR', payload: 'Opps! Failed to connect to server.'});
+        }  else {
+            await dispatch({type: 'ERROR', payload: 'Opps! Please, create a chat first!'});
         }
     }
 
     const renderMessage = (content, index, myMessage) => {
-        if(content.message.includes('GIF: ')) {
-            console.log(content.message.split(' ')[1])
-        }
         return (
             <li key={index} style={{width: dimensions.width/4, height: 'auto', marginBottom: '1%', listStyleType: 'none'}}>
                 <div style={{width: '100%', height: dimensions.height/25, display: 'flex', alignItems: 'center', paddingLeft: '2%', marginTop: '1%'}}>
@@ -103,7 +108,7 @@ const Chat = (props) => {
                     <p style={{fontWeight: '400', color: 'white', fontSize: 15}}>{findUser(allUsers, content.user_id)}</p>
                     <p style={{marginLeft: '1%', color: 'white', fontWeight: '400', fontSize: 13}}> - {dateToTime(content.created_at)}</p>
                 </div>
-                <div style={{width: '100%', minHeight: dimensions.height/15, backgroundColor: myMessage ? '#f7797d' : '#3E629F', borderRadius: 7, display: 'flex', alignItems: 'center', paddingLeft: '3%', paddingRight: '3%'}}>
+                <div style={{width: '100%', minHeight: dimensions.height/15, backgroundColor: myMessage ? 'rgba(247,121,125,0.4)' : 'rgba(62,98,159,0.4)', borderRadius: 7, display: 'flex', alignItems: 'center', paddingLeft: '3%', paddingRight: '3%'}}>
                     {content.message.includes('GIF: ') ? (
                         <img src={content.message.split(' ')[1]} style={{height: '20%', width: '60%', paddingTop: '3%', paddingBottom: '3%', borderRadius: 10}} />
                     ) : (
@@ -178,9 +183,6 @@ const Chat = (props) => {
                     <Link to={'/chats'}>
                         <Sidetab title='Chats' icon={ChatIcon} />
                     </Link>
-                    {/* <Link to={'/history'}>
-                        <Sidetab title='History' icon={HistoryIcon} />
-                    </Link> */}
                     <Link to={'/settings'}>
                         <Sidetab title='Settings' icon={SettingsIcon} />
                     </Link>

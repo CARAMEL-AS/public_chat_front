@@ -11,6 +11,8 @@ import AddChat from '../common/addChat';
 import ImagePicker from '../common/imagePicker';
 import Language  from '../common/language';
 import { translateContent } from '../../helper/dataHandler';
+import { colors } from '../../resources/colors';
+import './style.css';
 
 const Home = () => {
 
@@ -22,12 +24,22 @@ const Home = () => {
     const imagePicker = useSelector(state => state.imagePicker);
     const languagePicker = useSelector(state => state.languagePicker);
     const selectedChat = useSelector(state => state.selectedChat);
+    const [backgroundColors, setBackgroundColors] = useState(colors)
     const [displayAuth, setDisplayAuth] = useState(true);
     const [displayVerify, setDisplayVerify] = useState(false);
     const [punishment, setPunishment] = useState({
         visible: false,
         count: 0
     });
+
+    const animateColors = () => {
+        setInterval(() => {
+            const tempColors = backgroundColors;
+            tempColors.splice(0, 0, backgroundColors[backgroundColors.length - 1]);
+            tempColors.splice(backgroundColors.length - 1, 1)
+            setBackgroundColors(tempColors)
+        },200)
+    }
 
     const filterMyChats = (allChats) => {
         let chatList = [];
@@ -120,6 +132,7 @@ const Home = () => {
     }
 
     useEffect(() => {
+        animateColors();
         window.addEventListener("beforeunload", (ev) => {  
             ev.preventDefault();
             return userLogoutAttempt();
@@ -152,7 +165,7 @@ const Home = () => {
     },[user])
 
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', background: "linear-gradient(to right, #355C7D, #6C5B7B, #C06C84)"}}>
+        <div className='backgroundColors' style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed'}}>
             <Chat logout={userLogoutAttempt} inAppropriate={inAppropriateMessage} />
             {displayAuth && <Auth />}
             {displayVerify && <Verify ulogout={userLogoutAttempt}/>}

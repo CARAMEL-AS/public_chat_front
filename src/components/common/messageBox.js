@@ -73,7 +73,7 @@ const MessageBox = (props) => {
                     <div onClick={changeAction} style={{margin: 0, marginLeft: '7%', height: '40%', width: '7%', backgroundColor: 'rgba(0,0,0,0.3)', display: 'flex', justifyContent: 'center', alignItems: 'center', borderTopRightRadius: 8, borderTopLeftRadius: 8, marginBottom: '-0.4%', cursor: 'pointer'}}>
                         <p style={{fontSize: 15, fontWeight: '800', color: 'white'}}>GIF</p>
                     </div>
-                    <div style={{height: '90%', width: '100%', display: 'flex', flexDirection: 'row', margin: 0, marginBottom: '0.5%'}}>
+                    <div style={{height: '90%', width: '100%', display: 'flex', flexDirection: 'row', margin: 0, marginBottom: '0.5%', justifyContent: 'center', alignItems: 'center'}}>
                         <div style={{height: '97%', width: '80%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <input value={message} onChange={typing} style={{height: '80%', width: '100%', outline: 'none', borderRadius: 15, paddingLeft: '2%', fontSize: 15, fontWeight: '700', backgroundColor: 'rgba(58,58,58,1)', color: '#d3d3d3', opacity: 1}} placeholder={'Message'}/>
                         </div>

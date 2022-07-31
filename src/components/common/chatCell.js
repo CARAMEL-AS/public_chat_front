@@ -58,11 +58,10 @@ const ChatCell = (props) => {
     useEffect(() => {
         if(selectedChat.id === chat.id) {
             setStatus({lastSeenCount: Object.keys(chat.messages).length, totalMessages: Object.keys(chat.messages).length})
-        }
-        if(selectedChat !== chat.id && status.lastSeenCount !== Object.keys(chat.messages).length) {
+        } else if(selectedChat.id !== chat.id && status.lastSeenCount !== Object.keys(chat.messages).length) {
             setStatus({...status, totalMessages: Object.keys(chat.messages).length})
         }
-    },[chat])
+    },[chat, selectedChat])
 
     return (
         <li key={index} onClick={onSelectChat} style={{height: '10%', width: '95%', display: 'flex', alignItems: 'center', flexDirection: 'column', backgroundColor: 'rgba(255,255,255,0.3)', listStyleType: 'none', borderRadius: 8, opacity: 1, marginTop: '3%', transition: "all 0.3s ease", WebkitTransition: "all 0.3s ease", MozTransition: "all 0.3s ease", cursor: 'pointer'}}>

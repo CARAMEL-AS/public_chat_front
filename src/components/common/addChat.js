@@ -65,7 +65,8 @@ const AddChat = () => {
         window.addEventListener('resize', () => {
             setDimentions({
                 height: window.innerHeight,
-                width: window.innerWidth});
+                width: window.innerWidth
+            });
         })
     },[])
 

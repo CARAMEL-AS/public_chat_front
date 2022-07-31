@@ -6,7 +6,6 @@ import { selectApi } from './actions/api';
 import AlertDialog from './components/common/alertDialog';
 import LocaleScreen from './components/common/localeScreen';
 import supportedLanguages from './resources/supportedLangs.json';
-import { GiphyFetch } from '@giphy/js-fetch-api'
 
 const App = () => {
 
@@ -49,7 +48,7 @@ const App = () => {
   },[locale])
 
   return (
-    <div style={{background: "linear-gradient(to right, rgba(0,0,0,0), rgba(211,211,211, 0.09), rgba(0,0,0,0))", display: 'flex', justifyContent: 'center'}}>
+    <div style={{display: 'flex', justifyContent: 'center'}}>
       { !loading && <Home /> }
       { error && <AlertDialog /> }
       { displayLocaleScreen && <LocaleScreen visible={displayLocaleScreen} close={setDisplayLocaleScreen} />}

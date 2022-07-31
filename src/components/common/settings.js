@@ -32,21 +32,20 @@ const Settings = (props) => {
             await update(ref(db), userName);
             await dispatch({type: 'USER_UPDATE_NAME', payload: userNameInput})
         } catch (e) {
-            console.log('Error: ',e)
+            // ignore error
         }
     }
 
     const deleteAccountHandler = async () => {
         try {
             const resp = await deleteAccount(user.id)
-            console.log('Delete Resp: ',resp);
             let deleteAcc = {};
             const db = getDatabase();
             deleteAcc[`/users/${user.id}`]  = {...user, deleted: true, online: false};
             await update(ref(db), deleteAcc);
             logout();
         } catch (e) {
-            console.log('Error: ',e)
+            // ignore error
         }
     }
 
