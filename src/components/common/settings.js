@@ -10,6 +10,7 @@ const Settings = (props) => {
 
     const { logout } = props;
     const dispatch = useDispatch();
+    const api = useSelector(state => state.api);
     const user = useSelector(state => state.user);
     const allUsers = useSelector(state => state.friends);
     const locale = useSelector(state => state.locale)
@@ -25,7 +26,7 @@ const Settings = (props) => {
 
     const updateNameHandler = async () => {
         try {
-            await updateUserName(user.id, userNameInput);
+            await updateUserName(user.id, userNameInput, api);
             let userName = {};
             const db = getDatabase();
             userName[`/users/${user.id}`] = { ...user, username: userNameInput, deleted: false, online: true };
@@ -38,13 +39,14 @@ const Settings = (props) => {
 
     const deleteAccountHandler = async () => {
         try {
-            const resp = await deleteAccount(user.id)
+            await logout();
+            const resp = await deleteAccount(user.id, api);
             let deleteAcc = {};
             const db = getDatabase();
             deleteAcc[`/users/${user.id}`]  = {...user, deleted: true, online: false};
             await update(ref(db), deleteAcc);
-            logout();
         } catch (e) {
+            console.log('Delete Error: ',e)
             // ignore error
         }
     }

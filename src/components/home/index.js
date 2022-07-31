@@ -105,7 +105,7 @@ const Home = () => {
                 if(snapshot.val() && snapshot.val().length > 0) {
                     const myChats = filterMyChats(snapshot.val());
                     await dispatch({type: 'ALL_CHATS', payload: myChats})
-                    if(!selectedChat || !selectedChat?.id && myChats.length > 0) {
+                    if(!selectedChat?.id && myChats.length > 0) {
                         const defaultChat = myChats[myChats.length - 1];
                         const translated = await translateContent(locale, defaultChat.messages);
                         await dispatch({type: 'DEFAULT_CHAT', payload: {id: defaultChat.id, title: defaultChat.name, messages: translated}})
